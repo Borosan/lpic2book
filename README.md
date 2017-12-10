@@ -6,3 +6,5 @@ You can see the overview of LPIC2 Certification [here ](http://www.lpi.org/our-c
 
 Okey, Lets keep it simple and start ... :-\)
 
+contact me: p.borosan \[at\] gmail.com
+
