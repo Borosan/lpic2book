@@ -405,5 +405,5 @@ Keep this information in your mind for lpic 3 course.
 
 that's all folks!
 
-Goodluck
+## Congratulation we have done lpic2-202 !!! do not forget to give a [start](https://github.com/Borosan) and [donate](https://payping.ir/@borosan) :-\)
 
