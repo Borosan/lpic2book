@@ -8,7 +8,8 @@ Okey, Lets keep it simple and start ... :-\)
 
 By Payam Borosan
 
-* Site: www.linuxcert.ir
+* Site: [www.linuxcert.ir](http://linuxcert.ir/)
+* GitBook: [https://borosan.gitbook.io/lpic2-exam-guide/](https://borosan.gitbook.io/lpic2-exam-guide/)
 * e-mail: p.borosan \[at\] gmail.com
 
 Donation :
