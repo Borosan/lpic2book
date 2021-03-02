@@ -54,7 +54,7 @@ How tables and chain are related so ? All three tree tables \(FILTER, NAT, MANGL
 ![](.gitbook/assets/route-iptables-tchains.jpg)
 
 * **PREROUTING \(** _**NAT**_ **,** MANGLE**\)**
-* INPUT \(**FILTER** , MANGLE \)
+* INPUT \(**FILTER**  ,  _**NAT**_ , MANGLE \)
 * FORWARD \(**FILTER** , MANGLE \)
 * OUTPUT \(**FILTER**  ,  _**NAT**_ , MANGLE\)
 * **POSTROUTING \(**_**NAT**_ **,** MANGLE**\)**
