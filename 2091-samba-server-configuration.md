@@ -792,7 +792,7 @@ The first step for securing Samba File share is making a union between passwords
 
 Normally, Windows store passwords on single computer systems usnig SAM . The Security Accounts Manager \(SAM\) is a registry file in Windows NT and later versions until the most recent Windows 10. It stores users' passwords in a hashed format \(in LM hash and NTLM hash\).
 
-In Linux distributions login passwords are commonly hashed and stored in the /etc/shadow file using the MD5 algorithm. The security of the MD5 hash function has been severely compromised by collision vulnerabilities. This does not mean MD5 is insecure for password hashing but in some distrobutions SHA algorithems are used \(as NSA has benn recommended\)which are more secure and dosen't have known weaknesses .\(we can change it using pam\_unit module, will be describe in PAM course\).
+In Linux distributions login passwords are commonly hashed and stored in the /etc/shadow file using the MD5 algorithm. The security of the MD5 hash function has been severely compromised by collision vulnerabilities. This does not mean MD5 is insecure for password hashing but in some distrobutions SHA algorithems are used \(as NSA has been recommended\)which are more secure and dosen't have known weaknesses .\(we can change it using pam\_unit module, will be describe in PAM course\).
 
 Offf, so it seems impossible to come to a conclusion. The solution is using a seperate mechanisem to hash and store passwords and use it for smb shares authentication.
 
@@ -985,7 +985,7 @@ Till now we have seen that Samba provides file and print services for various Mi
 
 Samba configuration is straightforward.Although the default smb.conf file is well documented, it does not address complex topics such as LDAP, Active Directory, and the numerous domain controller implementations.
 
-### 3- webbindd
+### 3- winbindd
 
 The winbind service resolves user and group information on a server running Windows NT 2000 or Windows Server 2003. This makes Windows user / group information understandable by UNIX platforms. This is achieved by using Microsoft RPC calls, Pluggable Authentication Modules \(PAM\), and the Name Service Switch \(NSS\). This allows Windows NT domain users to appear and operate as UNIX users on a UNIX machine. Though bundled with the Samba distribution, the winbind service is controlled separately from the smb service.
 
