@@ -1,6 +1,6 @@
 # 210.4. Configuring an OpenLDAP server
 
-**Weight:** 4
+**Weight: **4
 
 **Description:** Candidates should be able to configure a basic OpenLDAP server including knowledge of LDIF format and essential access controls.
 
@@ -30,17 +30,17 @@ We begin this course by talking about basics of LDAP. What is LDAP? Where it is 
 
 ### LDAP
 
-LDAP is not a program, that is a protocol. LDAP stands for  **Lightweight Directory Access Protocol**  and consists in a set of protocols that allows a client to access centrally stored information \(over a network\). It can be used in numerous ways such as for authentication, shared directory \(for mail clients\), address book, etc. As LDAP different usages, it can store any kind of information.
+LDAP is not a program, that is a protocol. LDAP stands for ** Lightweight Directory Access Protocol ** and consists in a set of protocols that allows a client to access centrally stored information (over a network). It can be used in numerous ways such as for authentication, shared directory (for mail clients), address book, etc. As LDAP different usages, it can store any kind of information.
 
 The standard TCP ports for LDAP are 389 for unencrypted communication and 636 for LDAP over a TLS-encrypted channel, although it’s not uncommon for LDAP servers to listen on alternate ports for a variety of reasons.
 
 #### LDAP Directory tree structure
 
-An LDAP directory has a tree structure. All entries \(called objects\) of the directory have a defined position within this hierarchy. This hierarchy is called the directory information tree \(DIT\).
+An LDAP directory has a tree structure. All entries (called objects) of the directory have a defined position within this hierarchy. This hierarchy is called the directory information tree (DIT).
 
 ![](.gitbook/assets/ldapserver-dit.jpg)
 
-Entries at the higher level of hierarchy, represent larger groupings or organizations. Entries under the larger organizations represent smaller organizations that make up the larger ones. The leaf nodes \(or entries\) of the tree structure represent the individuals or resources.
+Entries at the higher level of hierarchy, represent larger groupings or organizations. Entries under the larger organizations represent smaller organizations that make up the larger ones. The leaf nodes (or entries) of the tree structure represent the individuals or resources.
 
 #### Namig Model
 
@@ -52,29 +52,29 @@ There are some defination which we are expected to know about before start worki
 
 **Object:** Sometimes reffered to as a record or an entry, reperesnt a single item in the direstory. This object provides a description based on the structure of the schema.
 
-**Schema:** This is the structure that is built to define the characteristics \(or attributes\) of an object. It also defines what can be stored in each attributes.
+**Schema:** This is the structure that is built to define the characteristics (or attributes) of an object. It also defines what can be stored in each attributes.
 
-**Attribute:** This is a part of an object. One or more attributes make up an object, as defined by schema.
+**Attribute: **This is a part of an object. One or more attributes make up an object, as defined by schema.
 
 **LDIF:** Stands for LDAP Interchange Format. It is used to create objects within the LDAP directory. These values are placed into a file and can be loaded into a directory with the slapadd command.
 
-**DC:** Stands for **Domain Component**. And that is one of the domain that is reflected in hierarchy.
+**DC: **Stands for **Domain Component**. And that is one of the domain that is reflected in hierarchy.
 
-**OU:** Stands for **Organizational Unit**.
+**OU:** Stands for** Organizational Unit**.
 
-**CN:** Stands for **Common Name** and is the name of object\(often a username, but not always\)
+**CN:** Stands for **Common Name** and is the name of object(often a username, but not always)
 
-**DN:** Stands for **Distinguished Name**. Each object in our directory has to have a unique name in order to provide structure. It is build with a CN and one or more DC \(example: cn=user,dc=abc,dc=com\)
+**DN:** Stands for** Distinguished Name**. Each object in our directory has to have a unique name in order to provide structure. It is build with a CN and one or more DC (example: cn=user,dc=abc,dc=com)
 
 #### SSSD
 
-Stands for System Security Service Daemon. This provides authentication of user accounts for a LDAP Server\(if we want we can use a different solutions\)
+Stands for System Security Service Daemon. This provides authentication of user accounts for a LDAP Server(if we want we can use a different solutions)
 
 Note: Configuration of this item is NOT an eaxm objective, Only that we know what it is.
 
 ### OpenLDAP
 
-OpenLDAP is a free, open source implementation of the Lightweight Directory Access Protocol \(LDAP\) developed by the OpenLDAP Project. It is released under its own BSD-style license called the OpenLDAP Public License.
+OpenLDAP is a free, open source implementation of the Lightweight Directory Access Protocol (LDAP) developed by the OpenLDAP Project. It is released under its own BSD-style license called the OpenLDAP Public License.
 
 OpenLDAP provides a distributed directory service. It stores information associated with users that can be used to authenticate them for login and can provide other information about those users.
 
@@ -90,13 +90,13 @@ For demonstaration Lets install OpenLDAP server on a centOS system, we install b
 * openldap-clients – This contains all required LDAP client utilities
 * openldap – This packages contains the LDAP support libraries
 
-```text
+```
 [root@centos7-1 ~]# yum install openldap openldap-servers openldap-clients.x86_64
 ```
 
-Next try to start slapd service\(do not forget to disable selinux with `setenforce 0` command\):
+Next try to start slapd service(do not forget to disable selinux with `setenforce 0` command):
 
-```text
+```
 [root@centos7-1 ~]# systemctl status slapd.service
 ● slapd.service - OpenLDAP Server Daemon
    Loaded: loaded (/usr/lib/systemd/system/slapd.service; disabled; vendor preset: disabled)
@@ -137,7 +137,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
 
 and check whether it is listening or not:
 
-```text
+```
 [root@centos7-1 ~]# netstat -tulpen | grep -i 389
 tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      0          33468      2981/slapd          
 tcp6       0      0 :::389                  :::*                    LISTEN      0          33469      2981/slapd
@@ -147,7 +147,7 @@ tcp6       0      0 :::389                  :::*                    LISTEN      
 
 There are number of diffrent things:
 
-```text
+```
 [root@centos7-1 ~]# cd /etc/openldap/
 [root@centos7-1 openldap]# ll
 total 12
@@ -160,9 +160,9 @@ drwxr-x---. 3 ldap ldap   45 Aug 25 01:01 slapd.d
 
 #### ldap.conf
 
-Used to set system-wide defaults to be applied when running LDAP client tools\( like`ldapsearch`and`ldapadd`\).
+Used to set system-wide defaults to be applied when running LDAP client tools( like`ldapsearch`and`ldapadd`).
 
-```text
+```
 [root@centos7-1 openldap]# cat ldap.conf 
 #
 # LDAP Defaults
@@ -186,16 +186,16 @@ SASL_NOCANON    on
 
 Where
 
-* SIZELIMIT &lt;integer&gt; : Specifies a size limit \(number of entries\)  to  use  when performing searches.  
-* TIMELIMIT &lt;integer&gt; : Specifies   a   time  limit  \(in  seconds\)  to  use  when performing searches.  
+* SIZELIMIT \<integer> : Specifies a size limit (number of entries)  to  use  when performing searches.  
+* TIMELIMIT \<integer> : Specifies   a   time  limit  (in  seconds)  to  use  when performing searches.  
 
 By default ldap.conf is world readable and there are no special setting to edit and it is not a part of exam objective.
 
 #### /etc/openldap/schema/\*
 
-Directory that contains a set of default schema specifications which describe the different object classes that are available by default with the OpenLDAP Software. Each set is defined in a file \(i.e. core.schema\) suitable for inclusion using the include directive in the global definitions portion of the slapd.conf file. It is helpful to browse the contents of these files to determine the required and available attributes for a particular object class.
+Directory that contains a set of default schema specifications which describe the different object classes that are available by default with the OpenLDAP Software. Each set is defined in a file (i.e. core.schema) suitable for inclusion using the include directive in the global definitions portion of the slapd.conf file. It is helpful to browse the contents of these files to determine the required and available attributes for a particular object class.
 
-```text
+```
 [root@centos7-1 openldap]# ls  schema
 collective.ldif    cosine.schema         java.ldif      openldap.schema
 collective.schema  duaconf.ldif          java.schema    pmi.ldif
@@ -208,7 +208,7 @@ cosine.ldif        inetorgperson.schema  openldap.ldif
 
 Try to cat some of core.ldif files and see how they look like.This a part of that:
 
-```text
+```
 [root@centos7-1 schema]# cat core.ldif 
 # OpenLDAP Core schema
 # $OpenLDAP$
@@ -357,7 +357,7 @@ olcAttributeTypes: ( 2.5.4.12 NAME 'title'
 
 Main server configuration file that contains information needed by the slapd LDAP server. Lets take a look at it:
 
-```text
+```
 [root@centos7-1 ~]# cd /etc/openldap/
 [root@centos7-1 openldap]# ll
 total 12
@@ -370,7 +370,7 @@ drwxr-x---. 3 ldap ldap   45 Aug 25 01:01 slapd.d
 
 Where is it?
 
-```text
+```
 [root@centos7-1 openldap]# updatedb 
 
 [root@centos7-1 openldap]# locate slapd.conf
@@ -386,13 +386,13 @@ Historically OpenLDAP has been statically configured, that is, to make a change 
 
 #### slapd.conf or  dynamic runtime configuration engine
 
-Significant changes to slapd were introduced with version 2.3 and 2.4. The most significant change is that, while slapd.conf is still supported \(as of 2.4\), increasingly OpenLDAP is moving toward On-Line Configuration \(OLC\) - frequently also known as cn=config or slapd.d configuration. This method enables most configuration changes to be made without starting and stopping the LDAP server.
+Significant changes to slapd were introduced with version 2.3 and 2.4. The most significant change is that, while slapd.conf is still supported (as of 2.4), increasingly OpenLDAP is moving toward On-Line Configuration (OLC) - frequently also known as cn=config or slapd.d configuration. This method enables most configuration changes to be made without starting and stopping the LDAP server.
 
 If you have got confused, in a simple world, it is like having a configuration data base for configuring a database and no more single configuration file slapd.conf.
 
-Unfortunately LPIC2 exam objective is about Old OpenLDAP versions \(perior v2.3 \) but here what we have is OpenLDAP v2.4:
+Unfortunately LPIC2 exam objective is about Old OpenLDAP versions (perior v2.3 ) but here what we have is OpenLDAP v2.4:
 
-```text
+```
 [root@centos7-1 openldap]# slapd -V
 @(#) $OpenLDAP: slapd 2.4.44 (May 16 2018 09:55:53) $
     mockbuild@c1bm.rdu2.centos.org:/builddir/build/BUILD/openldap-2.4.44/openldap-2.4.44/servers/slapd
@@ -412,7 +412,7 @@ drwxr-x---. 3 ldap ldap   45 Aug 25 01:01 slapd.d
 
 So lets stick to our modern OpenLDAP how ever we need to cover exam objectives .So i have prepared another system, with CentOS5 and OpenLDAP 2.3.x on it to show differences:
 
-```text
+```
 [root@centos5-1 ~]# slapd -V
 @(#) $OpenLDAP: slapd 2.3.43 (Sep 29 2015 06:22:05) $
         mockbuild@builder17.centos.org:/builddir/build/BUILD/openldap-2.3.43/openldap-2.3.43/build-servers/servers/slapd
@@ -560,7 +560,7 @@ index nisMapName,nisMapEntry            eq,pres,sub
 
 OpenLDAP v2.4 servers configuration files are found in /etc/openldap/slapd.d/
 
-```text
+```
 [root@centos7-1 openldap]# cd slapd.d/
 
 [root@centos7-1 slapd.d]# ls -l
@@ -582,22 +582,22 @@ drwxr-x---. 3 ldap ldap 182 Aug 25 01:01 cn=config
 2 directories, 7 files
 ```
 
-**Note** : Although the slapd-config system stores its configuration as \(text-based\) LDIF files, you should never edit any of the LDIF files directly. Configuration changes should be performed via LDAP operations, e.g. ldapadd, ldapdelete, or ldapmodify.
+**Note** : Although the slapd-config system stores its configuration as (text-based) LDIF files, you should never edit any of the LDIF files directly. Configuration changes should be performed via LDAP operations, e.g. ldapadd, ldapdelete, or ldapmodify.
 
 ### slapcat
 
-Slapcat is used to generate an LDAP Directory Interchange Format \(LDIF\) output based upon the contents of a slapd database. It opens the given database determined by the database number or suffix and writes the corresponding LDIF to standard output or the specified file.
+Slapcat is used to generate an LDAP Directory Interchange Format (LDIF) output based upon the contents of a slapd database. It opens the given database determined by the database number or suffix and writes the corresponding LDIF to standard output or the specified file.
 
-```text
+```
 [root@centos7-1 ~]# slapcat 
 5b82165c The first database does not allow slapcat; using the first available one (2)
 5b82165c hdb_db_open: warning - no DB_CONFIG file found in directory /var/lib/ldap: (2).
 Expect poor performance for suffix "dc=my-domain,dc=com".
 ```
 
-By default slapcat in version 2.3 \(and prior versions\) shows default database .but here in version 2.4.x \(and above\) it shows nothing , so we define where configuration database is placed in slapd data base and it shows default configurations:
+By default slapcat in version 2.3 (and prior versions) shows default database .but here in version 2.4.x (and above) it shows nothing , so we define where configuration database is placed in slapd data base and it shows default configurations:
 
-```text
+```
 [root@centos7-1 ~]# slapcat -b cn=config
 dn: cn=config
 objectClass: olcGlobal
@@ -738,7 +738,7 @@ modifyTimestamp: 20180825050137Z
 To start with the configuration of LDAP, we would need to update the variables “olcSuffix” and “olcRootDN“.
 
 * olcSuffix – Database Suffix, it is the domain name for which the LDAP server provides the information. In simple words, it should be changed to your domainname.
-* olcRootDN – Root Distinguished Name \(DN\) entry for the user who has the unrestricted access to perform all administration activities on LDAP, like a root user.
+* olcRootDN – Root Distinguished Name (DN) entry for the user who has the unrestricted access to perform all administration activities on LDAP, like a root user.
 * olcRootPW – LDAP admin password for the above RootDN.
 
 The above entries need to be updated in /etc/openldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif file. Manually edit of LDAP configuration is not recommended as we will lose changes whenever you run ldapmodify command.
@@ -747,9 +747,9 @@ First lets generate an admin password:
 
 ### slappasswd
 
-OpenLDAP password utility, Slappasswd is used to generate an userPassword value suitable for use with ldapmodify, slapd.conf\(5\) rootpw configuration directive or the slapd-config olcRootPW configuration directive.
+OpenLDAP password utility, Slappasswd is used to generate an userPassword value suitable for use with ldapmodify, slapd.conf(5) rootpw configuration directive or the slapd-config olcRootPW configuration directive.
 
-```text
+```
 [root@centos7-1 ~]# slappasswd 
 New password: 
 Re-enter new password: 
@@ -758,9 +758,9 @@ Re-enter new password:
 
 To add something to the LDAP directory, we need to first create a LDIF file.The ldif file should contain definitions for all attributes that are required for the entries that you want to create, modify or change.
 
-Now lets create a ldif file define requiered changes inside that \(include generated password for ldap admin user"ldapadm"\):
+Now lets create a ldif file define requiered changes inside that (include generated password for ldap admin user"ldapadm"):
 
-```text
+```
 root@centos7-1 ~]# vim mydb.ldif
 [root@centos7-1 ~]# cat mydb.ldif
 dn: olcDatabase={2}hdb,cn=config
@@ -785,7 +785,7 @@ Now send the configuration to the LDAP server:
 
 ldapmodify opens a connection to an LDAP server, binds, and modifies or adds entries. The entry information is read from standard input or from file through the use of the -f option.
 
-```text
+```
 [root@centos7-1 ~]# ldapmodify -Y EXTERNAL -H ldapi:/// -f mydb.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
@@ -801,16 +801,16 @@ by default ldapmodify chekh our ldif file for syntax errors before inserting int
 
 ### slaptest
 
-slaptest - Check the suitability of the OpenLDAP slapd.conf file. Although there is no slapd.conf in 2.4 version but it still works . We use -u switch to enable dry-run mode \(i.e. don't fail if databases cannot be opened, but config is fine\) and -v for verbrosity:
+slaptest - Check the suitability of the OpenLDAP slapd.conf file. Although there is no slapd.conf in 2.4 version but it still works . We use -u switch to enable dry-run mode (i.e. don't fail if databases cannot be opened, but config is fine) and -v for verbrosity:
 
-```text
+```
 [root@centos7-1 ~]# slaptest -u -v
 config file testing succeeded
 ```
 
 and finally lets see what we have added:
 
-```text
+```
 [root@centos7-1 ~]# slapcat -b "cn=config" | tail -n 18
 dn: olcDatabase={2}hdb,cn=config
 objectClass: olcDatabaseConfig
@@ -831,11 +831,11 @@ modifiersName: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 modifyTimestamp: 20180826091327Z
 ```
 
-### Configuring OpenLDAP v2.3.X \(and perior\) :
+### Configuring OpenLDAP v2.3.X (and perior) :
 
 Configuting OpenLDAP v2.3.x is much easier. We need to configure Database-Specific Directives in slapd.conf:
 
-```text
+```
 database        bdb
 suffix          "dc=my-domain,dc=com"
 rootdn          "cn=Manager,dc=my-domain,dc=com"
@@ -852,13 +852,13 @@ directory       /var/lib/ldap
 
 * **database:** The type of database, a Berkeley database in this case, is determined in the first line of this section.
 * **suffix:** The suffix line names the domain for which the LDAP server provides information and should be changed.
-* **rootdn:**The rootdn entry is the Distinguished Name \(DN\) for a user who is unrestricted by access controls or administrative limit parameters set for operations on the LDAP directory. The rootdn user can be thought of as the root user for the LDAP directory. In the configuration file, change the rootdn line from its default value.
+* **rootdn:**The rootdn entry is the Distinguished Name (DN) for a user who is unrestricted by access controls or administrative limit parameters set for operations on the LDAP directory. The rootdn user can be thought of as the root user for the LDAP directory. In the configuration file, change the rootdn line from its default value.
 * **rootpw :** The administrator password is set with rootpw. Instead of using secret here, it is possible to enter the hash of the administrator password created by slappasswd.
-* **directory** : The directory directive indicates the directory \(in the file system\) where the database directories are stored on the server. There is no need to change it.
+* **directory** : The directory directive indicates the directory (in the file system) where the database directories are stored on the server. There is no need to change it.
 
 and the slapd.conf file would be like this after doing changes:
 
-```text
+```
 database        bdb
 suffix          "dc=example,dc=com"
 rootdn          "cn=ldapadm,dc=example,dc=com"
@@ -873,16 +873,16 @@ rootdn          "cn=ldapadm,dc=example,dc=com"
 directory       /var/lib/ldap
 ```
 
-test configuration \(we are using OpenLDAP server version before 2.3\):
+test configuration (we are using OpenLDAP server version before 2.3):
 
-```text
+```
 [root@centos5-1 openldap]# slaptest -u -v -f slapd.conf
 config file testing succeeded
 ```
 
 and done:
 
-```text
+```
 [root@localhost log]# service ldap stop
 Stopping slapd:                                            [  OK  ]
 [root@localhost log]# service ldap start
@@ -891,9 +891,9 @@ Starting slapd:                                            [  OK  ]
 
 ## /var/lib/ldap
 
-Contains all files that make up the LDAP directory database\( LDAP Background Data Bases and log files\). None of the files contained in this directory should be manually edited. The LDAP directory database type and location will be defined in the`/etc/openldap/slapd.conf`
+Contains all files that make up the LDAP directory database( LDAP Background Data Bases and log files). None of the files contained in this directory should be manually edited. The LDAP directory database type and location will be defined in the`/etc/openldap/slapd.conf`
 
-```text
+```
 [root@centos7-1 ~]# ls -l /var/lib/ | grep ldap
 drwx------  2 ldap           ldap            126 Aug 26 08:11 ldap
 [root@centos7-1 ~]# ls -la /var/lib/ldap/
@@ -911,11 +911,11 @@ drwxr-xr-x. 58 root root     4096 Aug 26 04:48 ..
 
 These files are reponsible for serving the context of our directory server once we start the service .
 
-**Note:**slapd runs as ldap user by default, if you attempted to start it \(or loaded ldif etc..\) as root user, it'd create files with incorrect permission. Try chown -R ldap.ldap /var/lib/ldap to fix the permissions and start the service.
+**Note:**slapd runs as ldap user by default, if you attempted to start it (or loaded ldif etc..) as root user, it'd create files with incorrect permission. Try chown -R ldap.ldap /var/lib/ldap to fix the permissions and start the service.
 
 OpenLDAP v2.4:
 
-```text
+```
 [root@centos7-1 ~]# chown -R ldap:ldap /var/lib/ldap
 [root@centos7-1 ~]# ls -la /var/lib/ldap/
 total 380
@@ -932,9 +932,9 @@ drwxr-xr-x. 58 root root     4096 Aug 26 04:48 ..
 
 But the way Where is the configuration data base in Version 2.4.X and higher?
 
-#### /etc/openldad/slapd.d \(Ver 2.4.X and above\)
+#### /etc/openldad/slapd.d (Ver 2.4.X and above)
 
-```text
+```
 [root@centos7-1 ~]# tree /etc/openldap/slapd.d/
 /etc/openldap/slapd.d/
 ├── cn=config
@@ -952,7 +952,7 @@ But the way Where is the configuration data base in Version 2.4.X and higher?
 
 OpenLDAP v2.3.x:
 
-```text
+```
 [root@centos5-1 openldap]# ls -l /var/lib/ldap/
 total 956
 -rw-r--r-- 1 root root     4096 Aug 27 02:25 alock
@@ -973,14 +973,14 @@ and restart the Open LDAP service to check:
 
 OpenLDAP v2.4:
 
-```text
+```
 [root@centos7-1 ~]# systemctl stop slapd.service 
 [root@centos7-1 ~]# systemctl startp slapd.service
 ```
 
 OpenLDAP v2.3.x:
 
-```text
+```
 [root@localhost log]# service ldap stop
 Stopping slapd:                                            [  OK  ]
 [root@localhost log]# service ldap start
@@ -995,7 +995,7 @@ ldapsearch opens a connection to an LDAP server, binds, and performs a search us
 
 OpenLDPA v2.4 :
 
-```text
+```
 [root@centos7-1 ~]# ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
 # extended LDIF
 #
@@ -1017,31 +1017,31 @@ result: 0 Success
 # numEntries: 1
 ```
 
-`-x` means use simple authentication ,`-b` for defining search base that we want to run search on \(which is blank in our example because we want to search for every thing\), `-s` indicates the base we want to use \(we defined just our base with all object classes in our directory server\) and finally we want all of the names \(namingContext\).
+`-x` means use simple authentication ,`-b` for defining search base that we want to run search on (which is blank in our example because we want to search for every thing), `-s` indicates the base we want to use (we defined just our base with all object classes in our directory server) and finally we want all of the names (namingContext).
 
 OpenLDAP v2.3.x:
 
-```text
+```
 [root@centos5-1 ~]# ldapsearch -x -b 'dc=example,dc=com'
 ```
 
 #### Quick look at OpenLDAP Back-end Database:
 
-The bdb backend to slapd uses the Oracle Berkeley DB \(BDB\) package to store data. It makes extensive use of indexing and caching to speed data access.
+The bdb backend to slapd uses the Oracle Berkeley DB (BDB) package to store data. It makes extensive use of indexing and caching to speed data access.
 
 Note that BDB is deprecated and support will be dropped in future OpenLDAP releases. Installations should use the mdb backend instead.
 
 hdb is a variant of the bdb backend that uses a hierarchical database layout which supports subtree renames. It is both more space-efficient and more execution-efficient than the bdb backend. It is otherwise identical to the bdb behavior, and all the same configuration options apply.
 
-Please notice that these options are intended to complement Berkeley DB configuration options set in the environment's DB\_CONFIG file. See Berkeley DB documentation for details on DB\_CONFIG configuration options. Where there is overlap, settings in DB\_CONFIG take precedence.
+Please notice that these options are intended to complement Berkeley DB configuration options set in the environment's DB_CONFIG file. See Berkeley DB documentation for details on DB_CONFIG configuration options. Where there is overlap, settings in DB_CONFIG take precedence.
 
 ### slapindex
 
 slapindex - Reindex entries in a SLAPD database. It makes extensive use of indexing and caching to speed data access.
 
-Unfortunately there are no usefull documentation for slapindex in OpenLDAP2.4 and its still show information for previous OpenLDAP versions and needs slapd.conf file!\(try man slapindex on CentOS7 to see \).So lets try it using OpenLDAP v2.3.X:
+Unfortunately there are no usefull documentation for slapindex in OpenLDAP2.4 and its still show information for previous OpenLDAP versions and needs slapd.conf file!(try man slapindex on CentOS7 to see ).So lets try it using OpenLDAP v2.3.X:
 
-```text
+```
 [root@centos5-1 openldap]# slapindex -f /etc/openldap/slapd.conf -b "dc=example,dc=com"
 bdb_db_open: database already in use
 backend_startup_one: bi_db_open failed! (-1)
@@ -1055,9 +1055,9 @@ bdb_db_open: Warning - No DB_CONFIG file found in directory /var/lib/ldap: (2)
 Expect poor performance for suffix dc=example,dc=com.
 ```
 
-As you can see it nags about not founding DB\_CONFIG file. Fortunately there is Example DB\_CONFIG file for use in conjunction with slapd databases.We can simply copy this file to your LDAP directory's base directory.
+As you can see it nags about not founding DB_CONFIG file. Fortunately there is Example DB_CONFIG file for use in conjunction with slapd databases.We can simply copy this file to your LDAP directory's base directory.
 
-```text
+```
 [root@centos5-1 openldap]# locate DB_CONFIG
 /etc/openldap/DB_CONFIG.example
 [root@centos5-1 openldap]# cp /etc/openldap/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
@@ -1080,7 +1080,7 @@ total 9888
 
 and take look at it:
 
-```text
+```
 [root@centos5-1 openldap]# cat /var/lib/ldap/DB_CONFIG 
 # $OpenLDAP: pkg/ldap/servers/slapd/DB_CONFIG,v 1.1.2.4 2007/12/18 11:51:46 ghenry Exp $
 # Example DB_CONFIG file for use with slapd(8) BDB/HDB databases.
@@ -1114,7 +1114,7 @@ set_lg_bsize 2097152
 
 and check again:
 
-```text
+```
 [root@centos5-1 openldap]# slapindex -f /etc/openldap/slapd.conf -b "dc=example,dc=com"
 bdb_db_open: DB_CONFIG for suffix dc=example,dc=com has changed.
 Performing database recovery to activate new settings.
@@ -1124,13 +1124,13 @@ Performing database recovery to activate new settings.
 
 Although not included by default in the configuration file, logging can be setup using the loglevel directive. This directive specifies the level at which debugging statements and operation statistics should be logged. Log levels may be specified as integers or by keyword; however, most people stick to using loglevel integers.
 
-```text
+```
 loglevel number
 ```
 
 Log levels may be specified as integers or by keyword.
 
-```text
+```
 Level    Keyword        Description
 -1        any            enable all debugging
 0                     no debugging
@@ -1152,14 +1152,14 @@ Level    Keyword        Description
 
 Multiple log levels may be used and the levels are additive.
 
-```text
+```
 #  (1 + 8 + 128 + 256)=393
 loglevel 393
 ```
 
 Another setting related to logging that is not included by default is the`logfile`directive. By default, log entries for LDAP are sent to syslog. While this has its benefits, I find it more convenient to direct log entries to a file using the`logfile`directive:
 
-```text
+```
 # Logging
 #  - trace function calls (1)
 #  - connection management (8)
@@ -1173,13 +1173,13 @@ logfile   /var/log/ldap.log
 
 When specifying the`logfile`directive, we need to make certain that the log file exists prior to starting the LDAP server.
 
-```text
+```
 touch /var/log/ldap.log
 ```
 
 ### LDAP implementations
 
-Once upon a time OpenLDAP was the only game in the Open Source LDAP town. It is still regarded as the LDAP reference implementation and remains an excellent system with many production implementations, is actively developed and extremly complex to implement for other than trivial applications. It is, however, no longer the only game in town. There is now the 389 Directory Server \(ex-Fedora Directory Server\), another University of Michigan derivative, OpenDJ \(a fork of OpenDS a Sun-led Java-based LDAP implementation which now appears inactive\), and the ApacheDS \(Apache Directory\) project. All appear excellent projects and together with OpenLDAP provide an embarrassment of riches in the Open Source LDAP space - driving forward capabilities and functionality.
+Once upon a time OpenLDAP was the only game in the Open Source LDAP town. It is still regarded as the LDAP reference implementation and remains an excellent system with many production implementations, is actively developed and extremly complex to implement for other than trivial applications. It is, however, no longer the only game in town. There is now the 389 Directory Server (ex-Fedora Directory Server), another University of Michigan derivative, OpenDJ (a fork of OpenDS a Sun-led Java-based LDAP implementation which now appears inactive), and the ApacheDS (Apache Directory) project. All appear excellent projects and together with OpenLDAP provide an embarrassment of riches in the Open Source LDAP space - driving forward capabilities and functionality.
 
 Now that we have our OpenLDAP up and running it is time to create some OU and Users inside it.
 
@@ -1191,7 +1191,7 @@ Now that we have our OpenLDAP up and running it is time to create some OU and Us
 
 Now we have created our inital LDAP server, we have to create DN an the associated top levels DCs that we can add entries into.To get the best results and covering LPIC2 exam objectives, we have used OpenLDAP v2.3.x on CentOS 5 in this section. First we need to create LDIF file:
 
-```text
+```
 [root@centos5-1 openldap]# vi mydc.ldif
 [root@centos5-1 openldap]# cat mydc.ldif 
 dn: dc=example,dc=com
@@ -1204,7 +1204,7 @@ o: example,organization.
 
 **Flash back:** How it can realize dcObject consept or organization concept? From schema files! Try `ls -l schema/` and `cat schema/core.ldif | grep dcObject` or `grep for organization`.
 
-```text
+```
 [root@centos5-1 openldap]# cat schema/core.ldif | grep -i dcobject
 #       RFC 2247 (dc/dcObject)
 olcObjectClasses: ( 1.3.6.1.4.1.1466.344 NAME 'dcObject'
@@ -1212,7 +1212,7 @@ olcObjectClasses: ( 1.3.6.1.4.1.1466.344 NAME 'dcObject'
 
 slapadd command writes directly into Ldap data base, so obviously it is not possible if the service is running :
 
-```text
+```
 [root@centos5-1 openldap]# slapadd -l mydc.ldif 
 bdb_db_open: database already in use
 backend_startup_one: bi_db_open failed! (-1)
@@ -1226,7 +1226,7 @@ Stopping slapd:                                            [  OK  ]
 
 and lets check the result:
 
-```text
+```
 [root@centos5-1 openldap]# slapcat
 dn: dc=example,dc=com
 dc: example
@@ -1245,7 +1245,7 @@ entryCSN: 20180828083023Z#000000#00#000000
 
 yes we actually modified ldap data base:
 
-```text
+```
 [root@centos5-1 openldap]# ls /var/lib/ldap/
 alock     __db.003  __db.006   id2entry.bdb     openldap-severs-update.log
 __db.001  __db.004  DB_CONFIG  log.0000000001
@@ -1254,7 +1254,6 @@ __db.002  __db.005  dn2id.bdb  objectClass.bdb
 
 as slapadd and slapdelete access directly to the data base it is not possible to use them from a remote computer. In the next lesson we will learn how to use ldapadd and ldapdelete tools inorder to configure our Open LDAP server from a remote host.
 
-### Please go back to 210.3 course for  more details. :-\)
+### Please go back to 210.3 course for  more details. :-)
 
 Any problem in install OpenLDAP 2.3.x on CentOS5? Look at[ here](https://unix.stackexchange.com/questions/359902/yum-update-error-on-centos-5-6) and [here](https://developer.ibm.com/answers/questions/2629/error-missing-dependency-libltdl-so-3-is-needed-by-package-graphviz/) .
-

@@ -2,7 +2,7 @@
 
 ## **207.2 Create and maintain DNS zones**
 
-**Weight:** 3
+**Weight: **3
 
 **Description:** Candidates should be able to create a zone file for a forward or reverse zone and hints for root level servers. This objective includes setting appropriate values for records, adding hosts in zones and adding zones to the DNS. A candidate should also be able to delegate zones to another DNS server.
 
@@ -34,9 +34,9 @@ As we said We have two different types of DNS queries , forward queries and recu
 * forward zone
 * reverse zone
 
-A forward lookup zone will, when supplied with a domain name \(for example google.com\), return the IP address for the supplied domain. When we access Google, a DNS server is looking in its forward lookup zone for the IP address\(es\) of the site, and then returning them to us. This type of record is an A record, and is the most common. A forward lookup zone can contain other records, such as MX, C-Name etc. An Example of forward lookup zone:
+A forward lookup zone will, when supplied with a domain name (for example google.com), return the IP address for the supplied domain. When we access Google, a DNS server is looking in its forward lookup zone for the IP address(es) of the site, and then returning them to us. This type of record is an A record, and is the most common. A forward lookup zone can contain other records, such as MX, C-Name etc. An Example of forward lookup zone:
 
-```text
+```
 $ORIGIN example.com. 
 $TTL 86400 
 @    IN    SOA    dns1.example.com.    hostmaster.example.com. (
@@ -75,7 +75,7 @@ www    IN    CNAME    server1
 
 A reverse lookup zone is used to lookup the domain name when supplied with an IP address. We normally supply the IP address backwards and append .in-addr.arpa .The reverse lookup zone contains PTR resource records. A PTR record allows doing a reverse lookup by pointing the IP address to a host/domain name. When doing reverse lookups, these PTR records are used to point to A resource records. An example of Reverse Zone file:
 
-```text
+```
 $ORIGIN 1.0.10.in-addr.arpa. 
 $TTL 86400 
 @    IN    SOA    dns1.example.com.    hostmaster.example.com. (
@@ -100,21 +100,21 @@ $TTL 86400
 
 Some syntax explanation:
 
-One important thing to understand here is the $ORIGIN entry, which is used to make all other entires in the zone file a FQDN. FQDN stands for Fully Qualified Domain Name, and it always ends with a dot \(.\). FQDN stands for Fully Qualified Domain Name, and it always ends with a dot \(.\)
+One important thing to understand here is the $ORIGIN entry, which is used to make all other entires in the zone file a FQDN. FQDN stands for Fully Qualified Domain Name, and it always ends with a dot (.). FQDN stands for Fully Qualified Domain Name, and it always ends with a dot (.)
 
-**@** shown in the above line is the NAME value for this SOA record. Using @ at this place will replace it with example.com \(as we have mentioned it in **$ORIGIN** \).
+**@** shown in the above line is the NAME value for this SOA record. Using @ at this place will replace it with example.com (as we have mentioned it in **$ORIGIN **).
 
 The ‘;’ character in the example above indicates that the rest of the line is a comment that should be ignored by the nameserver.
 
-Also note the trailing dot \(‘.’\) after each record referring to a hostname. Without the dot, the nameserver appends the current zone after the record. For example, srv1.example.com would be interpreted as srv1.example.com.in-addr.arpa.
+Also note the trailing dot (‘.’) after each record referring to a hostname. Without the dot, the nameserver appends the current zone after the record. For example, srv1.example.com would be interpreted as srv1.example.com.in-addr.arpa.
 
 In previous lesson we had a short over view over different types of DNS records, lets explain more and see how syntax look like:
 
-## Start of Authority \(SOA\) record
+## Start of Authority (SOA) record
 
-Start Of Authority \(SOA\) Record: is the first record in a properly configured zone. It contains information about the zone in a string of fields. An SOA record tells the server to be authoritative for the zone. The SOA record takes the format:
+Start Of Authority (SOA) Record: is the first record in a properly configured zone. It contains information about the zone in a string of fields. An SOA record tells the server to be authoritative for the zone. The SOA record takes the format:
 
-```text
+```
 <domain.name.> IN SOA <hostname.domain.name.>     <mailbox.domain.name>
                                 <serial-number>
                                 <refresh>
@@ -133,11 +133,11 @@ Where:
 * refresh : This tells a secondary server how often to poll the primary server and check for changes in the serial number field. Measured in seconds.
 * retry: If a refresh attempt fails, a secondary server will retry after the interval specified in the retry field. Measured in seconds.
 * expire: If the refresh and retry attempts fail, the secondary server will stop serving the zone after the period specified in the expire field. Measured in seconds.
-* minimum-ttl: The default TTL \(Time To Live\) for every record in the zone. The default is only used when a particular resource record does not have its own specified TTL value. When changes are being made to a zone, the default is often set at ten minutes or less.
+*   minimum-ttl: The default TTL (Time To Live) for every record in the zone. The default is only used when a particular resource record does not have its own specified TTL value. When changes are being made to a zone, the default is often set at ten minutes or less.
 
-  Example:
+    Example:
 
-```text
+```
 example.com.    IN    SOA   srv1.example.com. hostmaster.example.com. (
                               2003080800 ; sn = serial number
                               172800     ; ref = refresh = 2d
@@ -149,7 +149,7 @@ example.com.    IN    SOA   srv1.example.com. hostmaster.example.com. (
 
 Another Example for SOA record in reverse Zone:
 
-```text
+```
        28.12.202.in-addr.arpa. IN SOA srv1.example.com.    dns-admin.example.com. ( 
                                    1999040701 ;Serial number 
                                    10800 ;Refresh 
@@ -158,11 +158,11 @@ Another Example for SOA record in reverse Zone:
                                    86400) ;Minimum TTL
 ```
 
-## Address Type \(A\) records
+## Address Type (A) records
 
 Defines a direct ' name to address' translation
 
-```text
+```
 <hostname or FQDN> IN A <IP-Address>
 ```
 
@@ -170,27 +170,27 @@ Example:
 
 `server1 IN A 192.168.10.111`
 
-or it can be given relative to the current domin \( i.e: just 'server1'\)
+or it can be given relative to the current domin ( i.e: just 'server1')
 
 `server1 IN A 192.168.10.111`
 
-## Canonical Name \(CN\) records
+## Canonical Name (CN) records
 
-Allows us to define a host with more than one name \(or role\) in our doman
+Allows us to define a host with more than one name (or role) in our doman
 
 `<alias-name> IN CNAME <real-name>`
 
 Example:
 
-```text
+```
 dns IN CNAME server1.example.com.
 ```
 
-## Nameserver \(NS\) records
+## Nameserver (NS) records
 
-Every domain can have one \(or more\) name servers.They are defined as a NS \(name server\) record. The NS record takes the format:
+Every domain can have one (or more) name servers.They are defined as a NS (name server) record. The NS record takes the format:
 
-```text
+```
 <domain.name.> IN NS <hostname.domain.name.>
 ```
 
@@ -199,39 +199,39 @@ and the fileds are:
 * domain. name :The name of the domain to which the NS belongs. Instead of writing out the full domain, we can also use ‘@’ in the file to let the nameserver fill this out automatically. 
 * IN : The class of the DNS record. ‘IN’ is an abbreviated form of ‘Internet’.
 * NS: The type of DNS record, which in this case is ‘Name Server’.
-* hostname.domain.name: The hostname of an authoritative server.
+*   hostname.domain.name: The hostname of an authoritative server.
 
-  Although the master name server is also defined in the SOA record, that server must have a full entry in the NS record definition
+    Although the master name server is also defined in the SOA record, that server must have a full entry in the NS record definition
 
 Example:
 
-```text
+```
 @     IN   NS    server1.example.com.
 ```
 
-## Mail Exchange \(MX\) records
+## Mail Exchange (MX) records
 
-Sending E-Mail services \(MTA- mail Transfer Agents\) have to be able to figure out which host handles emails for the zone/domain, we do this by creating one or more MX records:
+Sending E-Mail services (MTA- mail Transfer Agents) have to be able to figure out which host handles emails for the zone/domain, we do this by creating one or more MX records:
 
-```text
+```
 <domain.name.> IN MX <priority> <hostname.domain.name.>
 ```
 
 Example:
 
-```text
+```
 @    IN MX 10 mailserver1.example.com.
 
 @    IN MX 20 mailserver2.example.com.
 ```
 
-The two records define two mail servers, the number indicates the priority \(order\) they should be tried for mail delivery. They can be different numeric priorities for primary and backups OR they can be the same if intended to be used in a loas balanced configuration.
+The two records define two mail servers, the number indicates the priority (order) they should be tried for mail delivery. They can be different numeric priorities for primary and backups OR they can be the same if intended to be used in a loas balanced configuration.
 
-## Pointer \(PTR\) records
+## Pointer (PTR) records
 
 This record type is used in reverse lookup zone files, so that the IP address can be translated to the name.Note not all records have to have or will have a reverse lookup PTR record necessarily. The following illustrates the layout of a PTR record:
 
-```text
+```
 <last-IP-digit>    IN    PTR    <FQDN-of-system>
 ```
 
@@ -251,13 +251,13 @@ Once we have created all the Zones and reverse Zones and relevant PTR records fo
 
 ## /var/named
 
-Zone files contain information about a namespace and by default they are stored in the named working directory \(/var/named/\)
+Zone files contain information about a namespace and by default they are stored in the named working directory (/var/named/)
 
 But it can be different based on our distro or configuration.
 
 We use ubuntu and fresh BIND installation so Lets go back to /etc/bind to see zone files which were installed during BIND installation:
 
-```text
+```
 root@server1:/etc/bind# ls
 bind.keys  db.empty    named.conf.default-zones  zones.rfc1918
 db.0       db.local    named.conf.local
@@ -279,7 +279,7 @@ how ever these files and their names might be differentin different distroes, Bu
 
 in named.conf.options file we can define system wide options:
 
-```text
+```
 root@server1:/etc/bind# cat named.conf.options 
 options {
     directory "/var/cache/bind";
@@ -315,18 +315,19 @@ There are many options which can be defined here some of them are:
 * blackhole :Specifies which hosts are not allowed to query the server.
 * directory: Specifies the named working directory if different from the default value, /var/named/.
 * forwarders: Specifies a list of valid IP addresses for nameservers where requests should be forwarded for resolution.
-* forward: Specifies the forwarding behavior of a forwarders directive. The following options are accepted:
+* forward: Specifies the forwarding behavior of a forwarders directive.\
+  The following options are accepted:
 * first — Specifies that the nameservers listed in the forwarders directive be queried before named attempts to resolve the name itself.
 * only — Specifies that named does not attempt name resolution itself in the event that queries to nameservers specified in the forwarders directive fail.
 * listen-on :Specifies the network interface on which named listens for queries. By default, all interfaces are used.Using this directive on a DNS server which also acts a gateway, BIND can be configured to only answer queries that originate from one of the networks.The following is an example of a listen-on directive:
 
-```text
+```
 options {    
     listen-on { 10.0.1.1; }; 
 };
 ```
 
-So , only requests that arrive from the network interface serving the private network \(10.0.1.1\) are accepted.
+So , only requests that arrive from the network interface serving the private network (10.0.1.1) are accepted.
 
 * notify :Controls whether named notifies the slave servers when a zone is updated. It accepts the following options:
 * yes — Notifies slave servers.
@@ -339,7 +340,7 @@ and many many more sophisticated options.
 
 usually zone ifnormation are defined in named.conf.local file, lets vim named.conf.local :
 
-```text
+```
 //
 // Do any local configuration here
 //
@@ -368,19 +369,19 @@ usually zone ifnormation are defined in named.conf.local file, lets vim named.co
 
 As it says we need to define our local zones here, but unfortunately there is no predefined configuration! How is the syntax?
 
-A zone statement defines the characteristics of a zone, such as the location of its configuration file and zone-specific options. This statement can be used to override the global options statements.  
+A zone statement defines the characteristics of a zone, such as the location of its configuration file and zone-specific options. This statement can be used to override the global options statements.\
 A zone statement takes the following form:
 
-```text
+```
 zone <zone-name> <zone-class> {      
     <zone-options>;      
     [<zone-options>; ...] 
 };
 ```
 
-In this statement, &lt;zone-name&gt; is the name of the zone, &lt;zone-class&gt; is the optional class of the zone, and &lt;zone-options&gt; is a list of options characterizing the zone.
+In this statement, \<zone-name> is the name of the zone, \<zone-class> is the optional class of the zone, and \<zone-options> is a list of options characterizing the zone.
 
-The &lt;zone-name&gt; attribute for the zone statement is particularly important. It is the default value assigned for the $ORIGIN . The named daemon appends the name of the zone to any non-fully qualified domain name listed in the zone file.
+The \<zone-name> attribute for the zone statement is particularly important. It is the default value assigned for the $ORIGIN . The named daemon appends the name of the zone to any non-fully qualified domain name listed in the zone file.
 
 #### The most common zone statement options include the following:
 
@@ -408,13 +409,13 @@ It's also possible to create updates manually with the command-line program nsup
 * hint — A special type of zone used to point to the root nameservers which resolve queries when a zone is not otherwise known. No configuration beyond the default is necessary with a hint zone.
 * master — Designates the nameserver as authoritative for this zone. A zone should be set as the master if the zone's configuration files reside on the system.
 * slave — Designates the nameserver as a slave server for this zone. Also specifies the IP address of the master nameserver for the zone.
-* zone-statistics :Configures named to keep statistics concerning this zone, writing them to either the default location \(/var/named/named.stats\) or the file listed in the statistics-file option in the server statement
+* zone-statistics :Configures named to keep statistics concerning this zone, writing them to either the default location (/var/named/named.stats) or the file listed in the statistics-file option in the server statement
 
 ## Implementing Basic BIND DNS Server
 
 With that, Lets create forward and reverse zones for imaginary zone, named "myzone":
 
-```text
+```
 //
 // Do any local configuration here
 //
@@ -437,7 +438,7 @@ zone "10.168.192.in-addr.arpa" {
 
 as you see we also declared where BIND daemon can find zone db files.To create zone db files we use existing samples:
 
-```text
+```
 root@server1:/etc/bind# mkdir zonedbfiles
 
 root@server1:/etc/bind# cp db.local zonedbfiles/db.myzone
@@ -477,7 +478,7 @@ $TTL    604800
 
 and now we need to edit these two useful samples, lets start with db.myzone:
 
-```text
+```
 root@server1:/etc/bind# cat zonedbfiles/db.myzone 
 ;
 ; BIND data file for local loopback interface
@@ -497,7 +498,7 @@ host2    IN    A    192.168.10.151
 
 to verify zone file:
 
-```text
+```
 root@server1:/etc/bind/zonedbfiles# named-checkzone myzone. db.myzone 
 zone myzone/IN: loaded serial 4
 OK
@@ -505,7 +506,7 @@ OK
 
 and next db.10.168.192 .Please note that there is not a one by one relationship between Forward Lookup zone and Reverse Lookup zone, so usually CNAME records are not defined in reverse zone:
 
-```text
+```
 root@server1:/etc/bind# cat zonedbfiles/db.10.168.192 
 ;
 ; BIND reverse data file for local loopback interface
@@ -524,7 +525,7 @@ $TTL    604800
 
 to check the reverse zone:
 
-```text
+```
 root@server1:/etc/bind/zonedbfiles# named-checkzone 10.168.192.in-addr.arpa db.10.168.192
 zone 10.168.192.in-addr.arpa/IN: loaded serial 8
 OK
@@ -532,21 +533,21 @@ OK
 
 also we cloud have used `named-checkconf` to check the configurations:
 
-```text
+```
 root@server1:/etc/bind# named-checkconf
 root@server1:/etc/bind#
 ```
 
 and finally we use rndc to reload configurations without losing cache:
 
-```text
+```
 root@server1:/etc/bind# rndc reload
 server reload successful
 ```
 
 Finally to check the results:
 
-```text
+```
 root@server1:/etc/bind# dig @localhost myzone
 
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> @localhost myzone
@@ -575,7 +576,7 @@ myzone.            604800    IN    NS    myzone.
 
 and
 
-```text
+```
 root@server1:/etc/bind# dig @localhost host2.myzone
 
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> @localhost host2.myzone
@@ -607,7 +608,7 @@ myzone.            604800    IN    A    192.168.10.129
 
 and to check reverse lookup:
 
-```text
+```
 root@server1:/etc/bind/zonedbfiles# dig  @localhost -x 192.168.10.151
 
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> @localhost -x 192.168.10.151
@@ -638,9 +639,9 @@ root@server1:/etc/bind/zonedbfiles# dig  @localhost -x 192.168.10.151
 
 In previous Lesson we talked about master / slave DNS server and zone transfer, Let implement that with two ubuntu servers.
 
-We have server1\(192.168.10.129\) as a master DNS server and server2\(192.168.10.151\) as a slave
+We have server1(192.168.10.129) as a master DNS server and server2(192.168.10.151) as a slave
 
-```text
+```
 root@server1:~# hostname
 server1
 root@server1:~# ip a s
@@ -660,7 +661,7 @@ root@server1:~# ip a s
 
 Lets start modifying name.conf.local to allow zone transfer in master server by adding `allow-transfer` :
 
-```text
+```
 root@server1:/etc/bind# cat named.conf.local 
 //
 // Do any local configuration here
@@ -684,13 +685,13 @@ zone "10.168.192.in-addr.arpa" {
 
 To check bind configuration for errors:
 
-```text
+```
 root@server1:/etc/bind# named-checkconf named.conf.local
 ```
 
 also we need to define both Name servers in Zone cofiguration file:
 
-```text
+```
 root@server1:/etc/bind# cd zonedbfiles/
 root@server1:/etc/bind/zonedbfiles# cat db.myzone 
 ;
@@ -714,7 +715,7 @@ ns2    IN    A    192.168.10.151
 
 Okey lets go to the slave side:
 
-```text
+```
 root@server2:~# apt install bind9
 root@server2:~# cd /etc/bind
 root@server2:/etc/bind# ls
@@ -742,7 +743,7 @@ zone "myzone" {
 
 and check for bind service if its not running :
 
-```text
+```
 root@server2:/etc/bind# systemctl start bind9.service 
 root@server2:/etc/bind# systemctl status bind9.service 
 ● bind9.service - BIND Domain Name Server
@@ -760,14 +761,14 @@ But hey stop! bind can tranfer zones just if required ports are opened in the fi
 
 ## BIND9 Ports
 
-UDP 53 and TCP 53 ports need to be open for the Domain Name Service \(DNS BIND server\) to function properly:
+UDP 53 and TCP 53 ports need to be open for the Domain Name Service (DNS BIND server) to function properly:
 
 * UDP port 53 – This is primarily used by clients to make dns queries which are less than or equal to 512 byes. If the DNS server response data exceeds 512 bytes, the UDP query will fail and client will retry using TCP port 53.
 * TCP port 53 – This is used to get when response data exceeds 512 bytes. The zone trasfer between master and slave is also done using TCP port 53.
 
 to open tcp and udp port 53 on both side:
 
-```text
+```
 root@server1:/etc/bind/zonedbfiles# iptables -I INPUT -p udp --dport 53 -m state --state NEW -j ACCEPT
 root@server1:/etc/bind/zonedbfiles# iptables -I INPUT -p tcp --dport 53 -m state --state NEW -j ACCEPT
 root@server1:/etc/bind/zonedbfiles# systemctl restart ufw.service
@@ -775,7 +776,7 @@ root@server1:/etc/bind/zonedbfiles# systemctl restart ufw.service
 
 and on slave server:
 
-```text
+```
 root@server2:/etc/bind# iptables -I INPUT -p tcp --dport 53 -m state --state NEW -j ACCEPT
 root@server2:/etc/bind# iptables -I INPUT -p udp --dport 53 -m state --state NEW -j ACCEPT
 root@server2:/etc/bind# systemctl restart ufw.service
@@ -783,7 +784,7 @@ root@server2:/etc/bind# systemctl restart ufw.service
 
 to check weather port 53 is open and ready, telnet each side from other side:
 
-```text
+```
 root@server1:/etc/bind/zonedbfiles# telnet 192.168.10.151 53
 Trying 192.168.10.151...
 Connected to 192.168.10.151.
@@ -792,7 +793,7 @@ Escape character is '^]'.
 
 and the other side:
 
-```text
+```
 root@server2:/etc/bind# telnet 192.168.10.129 53
 Trying 192.168.10.129...
 Connected to 192.168.10.129.
@@ -801,7 +802,7 @@ Escape character is '^]'.
 
 let cat /var/log/syslog to see what has happened:
 
-```text
+```
 Mar  7 00:52:28 server2 named[5793]: client 192.168.10.129#50324: received notify for zone 'myzone'
 Mar  7 00:52:28 server2 named[5793]: zone myzone/IN: notify from 192.168.10.129#50324: serial 48
 Mar  7 00:52:28 server2 named[5793]: zone myzone/IN: Transfer started.
@@ -817,7 +818,7 @@ Mar  7 00:52:34 server2 named[5793]: reading built-in trusted keys from file '/e
 
 To verify if our slave is working properly or not:
 
-```text
+```
 root@server2:/var/log# dig @localhost host2.myzone
 
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> @localhost host2.myzone
@@ -851,13 +852,13 @@ ns2.myzone.        604800    IN    A    192.168.10.151
 
 and we are done. Now we can dig slave server even if the master goes off.
 
-```text
+```
 root@server1:/etc/bind# systemctl stop bind9.service
 ```
 
 we still can query slave server:
 
-```text
+```
 root@server2:/etc/bind# dig @localhost host2.myzone
 
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> @localhost host2.myzone
@@ -891,7 +892,7 @@ ns2.myzone.        604800    IN    A    192.168.10.151
 
 lets see where slave server has made our zone file:
 
-```text
+```
 root@server2:/# updatedb
 root@server2:/# locate db.myzone
 /var/cache/bind/db.myzone
@@ -899,7 +900,7 @@ root@server2:/# locate db.myzone
 
 As we said slave server information is some how read only, let check if we can edit zone file or not:
 
-```text
+```
 root@server2:/# cat /var/cache/bind/db.myzone
 Z��LG    :�myzone)myzonerootmyzone0    :�Q�$�    :�"    :�myzone��
 �8    :�myzone
@@ -911,9 +912,9 @@ root@server2:/# cat /var/cache/bind/db.myzone
            ns2myzone��
 ```
 
-Well. That is impossibel, the slave zone files are now saved in a default raw binary format. This was done to improve performance, but at the sacrifice of being able to easily view the contents of the files. it can make debugging more difficult. In order to view the raw binary content, it must be converted to text first.There is command `named-compilezone` which help us to convert raw bind zone data to text and visa versa.\(Its useful if we have challenge between different BIND servers versions also \) :
+Well. That is impossibel, the slave zone files are now saved in a default raw binary format. This was done to improve performance, but at the sacrifice of being able to easily view the contents of the files. it can make debugging more difficult. In order to view the raw binary content, it must be converted to text first.There is command `named-compilezone` which help us to convert raw bind zone data to text and visa versa.(Its useful if we have challenge between different BIND servers versions also ) :
 
-```text
+```
 root@server2:/var/cache/bind# ls
 db.myzone  managed-keys.bind  managed-keys.bind.jnl
 root@server2:/var/cache/bind# named-compilezone -f raw -F text -o myzone.text myzone db.myzone
@@ -935,7 +936,7 @@ ns2.myzone.                      604800 IN    A    192.168.10.151
 
 Saving salve zone files in default raw binary format is an added layer of complexity, but if we need the microscopic performance boost, that’s the way to go. If we want BIND to use the text file format, we simply update the named.conf files for ourslave zones to include the line `masterfile-format text;` and done! for example:
 
-```text
+```
 zone "mydomain.com" in {
                 type slave;
                 notify no;
@@ -947,7 +948,7 @@ zone "mydomain.com" in {
 
 okey go back and forget these tricks, lets start master server and let them work:
 
-```text
+```
 root@server1:/etc/bind# systemctl start bind9.service
 root@server1:/etc/bind# systemctl status bind9.service
 ● bind9.service - BIND Domain Name Server
@@ -974,9 +975,9 @@ Mar 07 02:22:29 server1 named[4022]: client 192.168.10.151#34407: received notif
 lines 1-21/21 (END)
 ```
 
-now we can edit zone file in master and consequently slave server will be updated, but do not forget to increase serial number. \(We have edited host2 to host3 with ip address 153\) :
+now we can edit zone file in master and consequently slave server will be updated, but do not forget to increase serial number. (We have edited host2 to host3 with ip address 153) :
 
-```text
+```
 root@server1:/etc/bind/zonedbfiles# cat db.myzone 
 ;
 ; BIND data file for local loopback interface
@@ -1001,7 +1002,7 @@ root@server1:/etc/bind/zonedbfiles# systemctl restart bind9.service
 
 and dig slave for changes:
 
-```text
+```
 root@server2:/# dig @localhost host3.myzone
 
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> @localhost host3.myzone
@@ -1034,4 +1035,3 @@ ns2.myzone.        604800    IN    A    192.168.10.151
 ```
 
 also we can use dig AXFR @masterdnsserver yourdomain.com to complete zone transfer if its allowed . That is all we are done!
-

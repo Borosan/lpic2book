@@ -11,7 +11,7 @@
 * BIND 9 configuration files
 * Configuring BIND to run in a chroot jail
 * Split configuration of BIND using the forwarders statement
-* Configuring and using transaction signatures \(TSIG\)
+* Configuring and using transaction signatures (TSIG)
 * Awareness of DNSSEC and basic tools
 * Awareness of DANE and related records
 
@@ -23,13 +23,13 @@
 * dnssec-keygen
 * dnssec-signzone
 
-When DNS was first implemented, it did not include any security, and soon after being put into use, several vulnerabilities were discovered. As a result, some security solutions was developed in the form of extensions that could be added to existing DNS protocols. This solutions were later tested, modified and approved as a standard by the Internet Engineering Task Force \(IETF\).
+When DNS was first implemented, it did not include any security, and soon after being put into use, several vulnerabilities were discovered. As a result, some security solutions was developed in the form of extensions that could be added to existing DNS protocols. This solutions were later tested, modified and approved as a standard by the Internet Engineering Task Force (IETF).
 
-### Domain Name Security Extentions \(DNSSEC\)
+### Domain Name Security Extentions (DNSSEC)
 
 The original purpose of DNSSEC was to protect Internet clients from fake DNS data by verifying digital signatures embedded in the data. If the digital signatures in the data match those that are stored in the master DNS servers, then the data is allowed to continue to the client computer making the request.
 
-![](.gitbook/assets/dns-sec.jpg)
+![](.gitbook/assets/DNS-SEC.jpg)
 
 DNSSEC uses a system of public keys and digital signatures to verify data. These public keys can also be used by security systems that encrypt data as it is sent through the Internet and then decrypt it when it is received by the intended recipient. However, DNSSEC cannot protect the privacy or confidentiality of data because it does not include encryption algorithms. It only carries the keys required to authenticate DNS data as genuine or genuinely not available.
 
@@ -37,9 +37,9 @@ DNSSEC uses a system of public keys and digital signatures to verify data. These
 
 For explaining how DNSSEC works first we should know about some items. what are RRsets ? ZSK ? RRSIG ? DSKEY?KSK ?
 
-### Resource Records sets \(RRsets\)
+### Resource Records sets (RRsets)
 
-The first step towards securing a zone with DNSSEC is to group all the records with the same type into a resource record set \(RRset\). For example, if you have three AAAA records in your zone on the same label \(i.e. label.example.com\), they would all be bundled into a single AAAA RRset. Here we omit that as we don't ahve lots of records.
+The first step towards securing a zone with DNSSEC is to group all the records with the same type into a resource record set (RRset). For example, if you have three AAAA records in your zone on the same label (i.e. label.example.com), they would all be bundled into a single AAAA RRset. Here we omit that as we don't ahve lots of records.
 
 ![](.gitbook/assets/dnssec-rrset.jpg)
 
@@ -47,7 +47,7 @@ DNSSEC uses two pairs of keys ZSK and KSK.
 
 ### Zone Signing Keys
 
-Each zone in DNSSEC has a zone-signing key pair \(ZSK\). the private portion of the key digitally signs each RRset in the zone, while the public portion verifies the signature.
+Each zone in DNSSEC has a zone-signing key pair (ZSK). the private portion of the key digitally signs each RRset in the zone, while the public portion verifies the signature.
 
 ![](.gitbook/assets/dnssec-zsk-rrsig.jpg)
 
@@ -55,7 +55,7 @@ Each zone in DNSSEC has a zone-signing key pair \(ZSK\). the private portion of 
 
 To enable DNSSEC, a zone operator creates digital signatures for each RRset using the private ZSK and stores them in their name server as RRSIG records. This is like saying, “These are my DNS records, they come from my server, and they should look like this.”
 
-When a DNSSEC resolver requests a particular record type \(e.g., AAAA\), the name server also returns the corresponding RRSIG. The resolver can then pull the DNSKEY record containing the public ZSK from the name server. Together, the RRset, RRSIG, and public ZSK can validate the response.
+When a DNSSEC resolver requests a particular record type (e.g., AAAA), the name server also returns the corresponding RRSIG. The resolver can then pull the DNSKEY record containing the public ZSK from the name server. Together, the RRset, RRSIG, and public ZSK can validate the response.
 
 ![](.gitbook/assets/dnssec-zsk.jpg)
 
@@ -63,7 +63,7 @@ If we trust the zone-signing key in the DNSKEY record, we can trust all the reco
 
 ### Key Signing Keys
 
-In addition to a zone-signing key, DNSSEC name servers also have a key-signing key \(KSK\). The KSK validates the DNSKEY record in exactly the same way as our ZSK secured the rest of our RRsets in the previous section: It signs the public ZSK \(which is stored in a DNSKEY record\), creating an RRSIG for the DNSKEY.
+In addition to a zone-signing key, DNSSEC name servers also have a key-signing key (KSK). The KSK validates the DNSKEY record in exactly the same way as our ZSK secured the rest of our RRsets in the previous section: It signs the public ZSK (which is stored in a DNSKEY record), creating an RRSIG for the DNSKEY.
 
 ![](.gitbook/assets/dnssec-ksk.jpg)
 
@@ -82,13 +82,13 @@ Validation for resolvers now looks like this:
 
 ### Implementing DNSSEC
 
-For now we partially demonstrate DNSSEC.To start we need two pairs of keys , first KSK \(Key Signing Key \) for DNSKEY record it self and another a of ZSK \(Zone Signing Key\) to sign the zone and zone validation.
+For now we partially demonstrate DNSSEC.To start we need two pairs of keys , first KSK (Key Signing Key ) for DNSKEY record it self and another a of ZSK (Zone Signing Key) to sign the zone and zone validation.
 
 ### dnssec-keygen
 
-dnssec-keygen generates keys for DNSSEC \(Secure DNS\), first lets generate KSK keys, that is easy:
+dnssec-keygen generates keys for DNSSEC (Secure DNS), first lets generate KSK keys, that is easy:
 
-```text
+```
 root@server1:/etc/bind# mkdir dnsseckeys
 root@server1:/etc/bind# cd dnsseckeys/
 root@server1:/etc/bind/dnsseckeys# dnssec-keygen -a RSASHA256 -b 512 -n ZONE -f KSK myzone.
@@ -124,16 +124,16 @@ Activate: 20180409072341
 
 Whereas
 
-| dnssec-keygen switches |  |
-| :--- | :--- |
-| -a | Defines algorithm |
-| -b | keysize |
-| -n | nametype,can be weather ZONE for DNSSEC or HOST for TSIG |
-| -f | Set the specified flag in the flag field of the KEY/DNSKEY record.The only recognized flags are KSK \(Key Signing Key\) and REVOKE. |
+| dnssec-keygen switches |                                                                                                                                   |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| -a                     | Defines algorithm                                                                                                                 |
+| -b                     | keysize                                                                                                                           |
+| -n                     | nametype,can be weather ZONE for DNSSEC or HOST for TSIG                                                                          |
+| -f                     | Set the specified flag in the flag field of the KEY/DNSKEY record.The only recognized flags are KSK (Key Signing Key) and REVOKE. |
 
 dnssec also need a pair of ZSK keys to sign the zone with them:
 
-```text
+```
 root@server1:/etc/bind/dnsseckeys# dnssec-keygen -a RSASHA256 -b 512 -n ZONE myzone.
 Generating key pair....++++++++++++ ..............++++++++++++ 
 Kmyzone.+008+63075
@@ -150,7 +150,7 @@ total 20
 
 Obviously dnssec-signzone signs a zone and produces a signed version of the zone.
 
-```text
+```
 root@server1:/etc/bind/dnsseckeys# cp ../zonedbfiles/db.myzone .
 
 root@server1:/etc/bind/dnsseckeys# dnssec-signzone -o myzone. -S db.myzoneFetching ZSK 63075/RSASHA256 from key repository.
@@ -164,7 +164,7 @@ db.myzone.signed
 
 Lets take a look at inside:
 
-```text
+```
 root@server1:/etc/bind/dnsseckeys# cat db.myzone.signed 
 ; File written on Mon Apr  9 01:45:42 2018
 ; dnssec_signzone version 9.10.3-P4-Ubuntu
@@ -269,9 +269,9 @@ ns2.myzone.        604800    IN A    192.168.10.151
                     1Htsc4dURyxltg== )
 ```
 
-It generates additional required NSEC and RRSIG records :\) also. its required to add
+It generates additional required NSEC and RRSIG records :) also. its required to add
 
-```text
+```
  dnssec-enable yes; 
  dnssec-validation yes; 
  dns-seclookaside auto;
@@ -283,9 +283,9 @@ include the key files in `/etc/bind/named.conf` and finally use signed file `db.
 
 that is enough for lpic 2 exam.
 
-### transaction signatures \(TSIG\)
+### transaction signatures (TSIG)
 
-Transaction aasignatures \(TSIG\) is a mechanism used to secure DNS messages and to provide secure server-to-server communication \(usually between master and slave server, but it can be extended for dynamic updates as well\). TSIG can protect the following type of transactions between two DNS servers:
+Transaction aasignatures (TSIG) is a mechanism used to secure DNS messages and to provide secure server-to-server communication (usually between master and slave server, but it can be extended for dynamic updates as well). TSIG can protect the following type of transactions between two DNS servers:
 
 * Zone transfer
 * Notify
@@ -296,7 +296,7 @@ TSIG is available for BIND v8.2 and above.
 
 #### How TSIG works ?
 
-![](.gitbook/assets/tsigexample.jpg)
+![](.gitbook/assets/TSIGexample.jpg)
 
 In a simplest way we use tsig to secure zone transfer between Master and slave dns server. TSIG uses shared secrets and a one-way hash function to authenticate DNS messages. TSIG is easy and lightweight for resolvers and named.
 
@@ -306,13 +306,13 @@ Configuring TSIG between Master and Slave DNS servers is no that much hard, We j
 
 For generating a shared-key we use dnssec-keygen tool.
 
-As we mentioned dnssec-keygen generates keys for DNSSEC \(Secure DNS\). It can also generate keys for use with TSIG \(Transaction Signatures\) or TKEY \(Transaction Key\).
+As we mentioned dnssec-keygen generates keys for DNSSEC (Secure DNS). It can also generate keys for use with TSIG (Transaction Signatures) or TKEY (Transaction Key).
 
 The name of the key is specified on the command line. For DNSSEC keys, this must match the name of the zone for which the key is being generated.
 
 On master server:
 
-```text
+```
 root@server1:~# cd /etc/bind
 root@server1:/etc/bind# mkdir mykeys
 root@server1:/etc/bind# cd mykeys/
@@ -339,7 +339,7 @@ For implementing DNS-SEC use `-n ZONE` but here for TSIG we have used `-n HOST`.
 
 As we said TSIG use a shared-key so we just need 1 key. We use `Key: b5aPd9u//WDzXeZIfF7vQw==` item from `Kmykey.+157+08981.private` for both servers. Lets create our desired key file :
 
-```text
+```
 root@server1:/etc/bind# vim named.conf.tsig
 root@server1:/etc/bind# cat named.conf.tsig 
 key "mykey" {
@@ -350,7 +350,7 @@ key "mykey" {
 
 now we need to include the key file that we have alredy made inside named.conf :
 
-```text
+```
 root@server1:/etc/bind# vim named.conf
 root@server1:/etc/bind# cat named.conf
 // This is the primary configuration file for the BIND DNS server named.
@@ -372,7 +372,7 @@ Okey it is time to change zone file configuration and allow zone transfer with w
 
 `allow-transfer {192.168.10.151;};` to `allow-transfer { key "mykey" ; };` like this:
 
-```text
+```
 root@server1:/etc/bind# cat named.conf.local 
 //
 // Do any local configuration here
@@ -396,7 +396,7 @@ zone "10.168.192.in-addr.arpa" {
 
 okey lets check it
 
-```text
+```
 root@server1:/etc/bind# rndc reload
 rndc: 'reload' failed: failure
 
@@ -410,14 +410,14 @@ root@server1:/etc/bind# vim named.conf.tsig
 
 opps we have forgot tiny miny ; in named.local.tsig .add it and then check again:
 
-```text
+```
 root@server1:/etc/bind# rndc reload
 server reload successful
 ```
 
 Now in Slave side, we should have some problems with zone tarnsfer as we haven't inserted shared-key . To test, increase the serial number of db.myzone file on master :
 
-```text
+```
 root@server1:/etc/bind/zonedbfiles# cat db.myzone 
 ;
 ; BIND data file for local loopback interface
@@ -440,7 +440,7 @@ ns2    IN    A    192.168.10.151
 
 and see logs on slave:
 
-```text
+```
 root@server2:/var/cache/bind# cat /var/log/syslog
 Mar 12 05:34:12 server2 named[49966]: all zones loaded
 Mar 12 05:34:12 server2 named[49966]: running
@@ -467,7 +467,7 @@ Mar 12 05:35:42 server2 named[49966]: transfer of 'myzone/IN' from 192.168.10.12
 
 To solve the problem lets add our shared-key to the Slave Server too:
 
-```text
+```
 root@server2:/etc/bind# cat named.conf.tsig 
 key "mykey" {
     algorithm HMAC-MD5;
@@ -483,7 +483,7 @@ We defined using the key for zone transfer from the master.
 
 and finally include the key file on named.conf :
 
-```text
+```
 root@server2:/etc/bind# cat named.conf
 // This is the primary configuration file for the BIND DNS server named.
 //
@@ -505,7 +505,7 @@ server reload successful
 
 and check the zone transfer:
 
-```text
+```
 root@server2:/etc/bind# cat /var/log/syslog
 
 Mar 12 06:23:15 server2 named[51324]: all zones loaded
@@ -520,21 +520,21 @@ Mar 12 06:25:28 server2 named[51324]: transfer of 'myzone/IN' from 192.168.10.12
 Mar 12 06:25:28 server2 named[51324]: transfer of 'myzone/IN' from 192.168.10.129#53: Transfer completed: 1 messages, 9 records, 303 bytes, 0.002 secs (151500 bytes/sec)
 ```
 
-### DNS-based Authentication of Named Entities \(DANE\)
+### DNS-based Authentication of Named Entities (DANE)
 
-TLS/SSL encryption is currently based on certificates issued by certificate authorities \(CAs\). Within the last few years, a number of CA providers suffered serious security breaches. Like allowing the issuance of certificates for well-known domains to those who don't own those domains!
+TLS/SSL encryption is currently based on certificates issued by certificate authorities (CAs). Within the last few years, a number of CA providers suffered serious security breaches. Like allowing the issuance of certificates for well-known domains to those who don't own those domains!
 
 ![](.gitbook/assets/dane-dns-x509.jpg)
 
-Trusting a large number of CAs might be a problem because any breached CA could issue a certificate for any domain name. DANE enables the administrator of a domain name to certify the keys used in that domain's TLS clients or servers by storing them in the Domain Name System \(DNS\). DANE needs the DNS records to be signed with DNSSEC for its security model to work.
+Trusting a large number of CAs might be a problem because any breached CA could issue a certificate for any domain name. DANE enables the administrator of a domain name to certify the keys used in that domain's TLS clients or servers by storing them in the Domain Name System (DNS). DANE needs the DNS records to be signed with DNSSEC for its security model to work.
 
 Additionally DANE allows a domain owner to specify which CA is allowed to issue certificates for a particular resource, which solves the problem of any CA being able to issue certificates for any domain.
 
-#### **TLSA** Resource **Record**
+#### **TLSA **Resource **Record**
 
-The TLSA DNS resource record \(RR\) is used to associate a TLS server certificate or public key with the domain name where the record is found, thus forming a "TLSA certificate association". In conjunction with DNSSEC signatures, this will permit better and more secure ways for applications to authenticate certificates. Here's an example for the HTTPS service \(port 443, TCP\) at www.example.com:
+The TLSA DNS resource record (RR) is used to associate a TLS server certificate or public key with the domain name where the record is found, thus forming a "TLSA certificate association". In conjunction with DNSSEC signatures, this will permit better and more secure ways for applications to authenticate certificates. Here's an example for the HTTPS service (port 443, TCP) at www.example.com:
 
-```text
+```
  _443._tcp.www.example.com. IN TLSA ( 0 0 1 
                                 d2abde240d7cd3ee6b4b28c54df034b9
                                 7983a1d16e8a410e4561cb106618e971 )
@@ -542,7 +542,7 @@ The TLSA DNS resource record \(RR\) is used to associate a TLS server certificat
 
 ### split DNS Server
 
-Split Domain Name System \(Split DNS\) is an implementation in which separate DNS servers are provided for internal and external networks as a means of security and privacy management. But why we should use split dns servers? Lets see what happens when we use an external dns server for accessing our web server:
+Split Domain Name System (Split DNS) is an implementation in which separate DNS servers are provided for internal and external networks as a means of security and privacy management. But why we should use split dns servers? Lets see what happens when we use an external dns server for accessing our web server:
 
 ![](.gitbook/assets/split-dns1.jpg)
 
@@ -550,7 +550,7 @@ Using single external dns having security issues, consume bandwidth, and has dep
 
 ![](.gitbook/assets/split-dns-2.jpg)
 
-An external DNS contains only small zone files for a domain with information like file transfer protocol \(FTP\), Web addresses and other server addresses that can be publicly published. An internal DNS server holds DNS records for an internal network.
+An external DNS contains only small zone files for a domain with information like file transfer protocol (FTP), Web addresses and other server addresses that can be publicly published. An internal DNS server holds DNS records for an internal network.
 
 When internal network users look up host names, the internal DNS answers and externally forwards this information as needed.
 
@@ -562,7 +562,7 @@ Also we can configure our Internal DNS server to return external IP address of h
 
 Implementing split DNS servers is so easy, no matter our internal DNS server is Forwarding requests or it is a Caching only DNS server, its just enough to make a master zone file for desired host name:
 
-```text
+```
 root@server1:/etc/bind# ls
 bind.keys  db.empty  named.conf                named.conf.tsig
 db.0       db.local  named.conf.default-zones  rndc.key
@@ -599,7 +599,7 @@ zone "10.168.192.in-addr.arpa" {
 
 Now lets use one of our previous zone db files to configure zone file for mycompany.com hostname:
 
-```text
+```
 root@server1:/etc/bind# cd zonedbfiles/
 root@server1:/etc/bind/zonedbfiles# ls
 db.10.168.192  db.lo  db.myzone
@@ -628,7 +628,7 @@ server reload successful
 
 Now lets query our local DNS server and compare answers with the answers that google DNS returns to us:
 
-```text
+```
 root@server1:/etc/bind# dig @localhost www.mycompany.com
 
 ; <<>> DiG 9.10.3-P4-Ubuntu <<>> @localhost www.mycompany.com
@@ -693,7 +693,7 @@ A chroot jail is a way to isolate a process and its children from the rest of th
 
 Confguring BIND DNS server to run in chroot jail can be pretty strait forward. But based on distro that we choose, many configurations might be done automatically. Here we use CentOS6 for demonstartion:
 
-```text
+```
 [root@server1 ~]# yum install bind bind-utils -y
 
 [root@server1 ~]# chkconfig --list | grep named
@@ -723,7 +723,7 @@ named (pid  3321) is running..
 
 In CentOS by default all configuration are placed in /etc/named.conf :
 
-```text
+```
 [root@server1 ~]# cd /etc/named
 [root@server1 named]# ls
 [root@server1 named]# cd ..
@@ -779,13 +779,13 @@ include "/etc/named.root.key";
 
 Lets use CentOS bind-chroot package to put every thing in chroot jail:
 
-```text
+```
 [root@server1 etc]# yum install bind-chroot
 ```
 
 This package create chroot environment and create required links for BIND daemon :
 
-```text
+```
 [root@server1 etc]# cd sysconfig/
 [root@server1 sysconfig]# ls
 acpid         init              network          sandbox
@@ -848,7 +848,7 @@ ROOTDIR=/var/named/chroot
 
 Lets get in /var/named/chroot and say hello :
 
-```text
+```
 [root@server1 sysconfig]# cd /var/named/chroot/
 
 [root@server1 chroot]# ls
@@ -884,7 +884,7 @@ bind-chroot package has built every thing.
 
 To do the same thing we have to edit /etc/default/bind9
 
-```text
+```
 root@server1:/etc# cd default/
 root@server1:/etc/default# cat bind9 
 # run resolvconf?
@@ -896,7 +896,7 @@ OPTIONS="-u bind"
 
 with -t option, The -t option changes the root directory from which bind operates to be /var/named/chroot :
 
-```text
+```
 # run resolvconf?
 RESOLVCONF=no
 
@@ -907,4 +907,3 @@ OPTIONS="-u bind -t /var/named/chroot"
 and then make all required folders under /var/named/chroot directory and copy and link required files.
 
 more info: [https://www.cloudflare.com/dns/dnssec/how-dnssec-works/](https://www.cloudflare.com/dns/dnssec/how-dnssec-works/)
-

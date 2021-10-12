@@ -2,7 +2,7 @@
 
 **Weight:** 2
 
-**Description:** Candidates should be able to configure a VPN \(Virtual Private Network\) and create secure point-to-point or site-to-site connections.
+**Description: **Candidates should be able to configure a VPN (Virtual Private Network) and create secure point-to-point or site-to-site connections.
 
 **Key Knowledge Areas:**
 
@@ -19,11 +19,11 @@ In this light weight lesson we talk about OpenVPN but before that lets talk abou
 
 Imagine that your are working for a company. And you have been asked to provide secure access to the company lan for another user or remote company branch. The problem is that our traffic shoud be transfer over the internet, which is routed and untrusted. The solution is VPN.
 
-A **Virtual Private Network**  \(**VPN**\) is a technology solution used to provide privacy and security for network connections.
+A **Virtual Private Network ** (**VPN**) is a technology solution used to provide privacy and security for network connections.
 
-* It's  **Virtual**...because it's as if we have a private connection directly to another computer we connect to.
-* It's  **Private**...because all our traffic is encrypted and no one can recognize what is really transfered.
-* It's a  **Network**...because we're using a special network of VPN servers that covers the entire globe.
+* It's ** Virtual**...because it's as if we have a private connection directly to another computer we connect to.
+* It's ** Private**...because all our traffic is encrypted and no one can recognize what is really transfered.
+* It's a ** Network**...because we're using a special network of VPN servers that covers the entire globe.
 
 ![](.gitbook/assets/openvpn-vpnoverview.jpg)
 
@@ -31,12 +31,12 @@ Typically an encryption is added and that is SSL/TLS, which uses certificates to
 
 As its shown above there are two types of vpn connections:
 
-* **Point to Point :**  the most commonly used VPN. PPTP VPNs are used by remote users to connect them to the VPN network using their existing internet connection. This is a useful VPN for both business users and home users.
-* **Site to Site :** is mostly used in corporate based operations. The fact that many companies have offices located both nationally and internationally, a Site-to-Site VPN is used to connect the network of the main office location to multiple offices. This is also known as an Intranet based VPN.
+* **Point to Point : ** the most commonly used VPN. PPTP VPNs are used by remote users to connect them to the VPN network using their existing internet connection. This is a useful VPN for both business users and home users.
+* **Site to Site : **is mostly used in corporate based operations. The fact that many companies have offices located both nationally and internationally, a Site-to-Site VPN is used to connect the network of the main office location to multiple offices. This is also known as an Intranet based VPN.
 
 ## OpenVPN
 
-OpenVPN is an open-source software application that implements virtual private network \(VPN\) techniques to create secure point-to-point or site-to-site connections.
+OpenVPN is an open-source software application that implements virtual private network (VPN) techniques to create secure point-to-point or site-to-site connections.
 
 OpenVPN can use a variety of methods such as pre-shared secret keys, certificates, or usernames/passwords, to let clients authenticate to the server. OpenVPN uses the OpenSSL protocol and implements many security and control features such as challenge response authentication, single sign-on capability, load balancing and failover features and multi daemon support.
 
@@ -46,9 +46,9 @@ By default OpenVPN works on port 1194 UDP but Open VPN is highly capable of tran
 
 Lets get started by installing OpenVPN and establish a VPN connection between two computers.
 
-We use CentOS\(192.168.10.147\) computer az a server and ubuntu\(192.168.10.129\) machine as a client, also for keeping simple we will use pre-shared keys instead of generating certificates:
+We use CentOS(192.168.10.147) computer az a server and ubuntu(192.168.10.129) machine as a client, also for keeping simple we will use pre-shared keys instead of generating certificates:
 
-```text
+```
 [root@centos7-1 ~]# yum search openvpn
 Loaded plugins: fastestmirror, langpacks
 Loading mirror speeds from cached hostfile
@@ -61,7 +61,7 @@ No matches found
 
 For installing Open VPN we have to add epel-release repository :
 
-```text
+```
 [root@centos7-1 ~]# yum install epel-release.noarch  -y
 
 [root@centos7-1 ~]# yum repolist 
@@ -82,7 +82,7 @@ repolist: 23,934
 
 and lets install open vpn:
 
-```text
+```
 [root@centos7-1 ~]# yum search openvpn
 Loaded plugins: fastestmirror, langpacks
 epel/x86_64/metalink                                                                                                 |  19 kB  00:00:00     
@@ -112,7 +112,7 @@ stonevpn.noarch : Easy OpenVPN certificate and configuration management
 
 okey lets start generating shared keys:
 
-```text
+```
 [root@centos7-1 ~]# openvpn --genkey --secret openvpn.key
 [root@centos7-1 ~]# ls
 anaconda-ks.cfg  initial-setup-ks.cfg  openvpn.key
@@ -142,7 +142,7 @@ b0abeeca0090b3204e5d7722ace098b6
 
 Transfer shared-key to the client machine with any method that you like:
 
-```text
+```
 [root@centos7-1 ~]# scp openvpn.key 192.168.10.129:/root/
 The authenticity of host '192.168.10.129 (192.168.10.129)' can't be established.
 ECDSA key fingerprint is SHA256:GV/PpX9YGvMZTAbuz6w3zBDreokesZHhVSM1zrXmHLw.
@@ -155,7 +155,7 @@ openvpn.key
 
 on the ubuntu client:
 
-```text
+```
 root@ubuntu16-1:~# cd
 root@ubuntu16-1:~# ls
 openvpn.key
@@ -163,7 +163,7 @@ openvpn.key
 
 Okey lets go back to our CentOS server and configre OpenVPN Server configuration file:
 
-```text
+```
 [root@centos7-1 ~]# vi server.conf
 [root@centos7-1 ~]# cat server.conf 
 dev tun
@@ -173,7 +173,7 @@ secret openvpn.key
 
 and lets start the openvpn sever to recieve connections:
 
-```text
+```
 [root@centos7-1 ~]# openvpn --config server.conf
 Sat Aug 11 04:28:59 2018 disabling NCP mode (--ncp-disable) because not in P2MP client or server mode
 Sat Aug 11 04:28:59 2018 OpenVPN 2.4.6 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Apr 26 2018
@@ -191,7 +191,7 @@ Sat Aug 11 04:28:59 2018 UDPv4 link remote: [AF_UNSPEC]
 
 and it is client configuration time:
 
-```text
+```
 root@ubuntu16-1:~# apt install openvpn
 
 root@ubuntu16-1:~# vim client.conf
@@ -204,7 +204,7 @@ secret openvpn.key
 
 and lets get connected:
 
-```text
+```
 root@ubuntu16-1:~# openvpn --config client.conf 
 Sat Aug 11 02:39:53 2018 OpenVPN 2.3.10 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [EPOLL] [PKCS11] [MH] [IPv6] built on Jun 22 2017
 Sat Aug 11 02:39:53 2018 library versions: OpenSSL 1.0.2g  1 Mar 2016, LZO 2.08
@@ -236,7 +236,7 @@ Sat Aug 11 02:43:20 2018 Initialization Sequence Completed
 
 And as you can see our virtual private network connection has been established and we can ping each other on an imaginary ip addresses that we have set. Before checking, Please make sure that UDP port 1194 is open on the server and the virtual TUN interface used by OpenVPN is not blocked on either the client or server :
 
-```text
+```
 ### CentOS server
 [root@centos7-1 ~]# ifconfig
 ens33: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
@@ -291,7 +291,7 @@ PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.808/0.849/0.890/0.041 ms
 ```
 
-```text
+```
 ### Client
 root@ubuntu16-1:~# ping 10.10.10.2
 PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
@@ -339,13 +339,13 @@ PING 10.10.10.1 (10.10.10.1) 56(84) bytes of data.
 rtt min/avg/max/mdev = 1.557/1.928/2.177/0.269 ms
 ```
 
-It was the simplest example we could demonstrate for establishing point-to-point VPN connection between to computers using a shared key, but as we said, we can use Certificates inorder to provide SSL/TLS connections to make secure, encrypted VPN connections.This way we can prevent snooping our traffic in a higher level. For that we have to install easy-rsa package and do some extra steps\(LPIC3 303 course\)
+It was the simplest example we could demonstrate for establishing point-to-point VPN connection between to computers using a shared key, but as we said, we can use Certificates inorder to provide SSL/TLS connections to make secure, encrypted VPN connections.This way we can prevent snooping our traffic in a higher level. For that we have to install easy-rsa package and do some extra steps(LPIC3 303 course)
 
 ## /etc/openvpn/
 
-All OpenVPN configuration files should be configured under /etc/openvpn directory but by default no configuration files are found here. So we should either create new ones \(which seems complicated\) or we can easily copy sample configuration files from /usr/share/doc/openvpn-x to /etc/openvpn directory and modify them \(the simplest way\)
+All OpenVPN configuration files should be configured under /etc/openvpn directory but by default no configuration files are found here. So we should either create new ones (which seems complicated) or we can easily copy sample configuration files from /usr/share/doc/openvpn-x to /etc/openvpn directory and modify them (the simplest way)
 
-```text
+```
 [root@centos7-1 ~]# tree /usr/share/doc/openvpn-2.4.6/
 /usr/share/doc/openvpn-2.4.6/
 ├── AUTHORS
@@ -405,5 +405,4 @@ Keep this information in your mind for lpic 3 course.
 
 that's all folks!
 
-## Congratulation we have done lpic2-202 !!! do not forget to give a [start](https://github.com/Borosan) and [donate](https://payping.ir/@borosan) :-\)
-
+## Congratulation we have done lpic2-202 !!! do not forget to give a [start](https://github.com/Borosan) and [donate](https://payping.ir/@borosan) :-)

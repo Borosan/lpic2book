@@ -18,7 +18,7 @@
 * predict growth
 * resource exhaustion
 
-Predicting The future is one of the hardest works ever, can you remember "Dorithy and the witches of the OZ"? :\) Many System Administrators wish if they had some thing like Glass Ball. They wish they could realize what kind of problems might happen next day, in order to avoid it today. But unfortunately that is impossible. So forget about that and lets talk about real environment. In computer science predicting future is possible just by archiving and processing what has happened in past.Mathematical science and statistics can analyze old data and graph trends to predict future.
+Predicting The future is one of the hardest works ever, can you remember "Dorithy and the witches of the OZ"? :) Many System Administrators wish if they had some thing like Glass Ball. They wish they could realize what kind of problems might happen next day, in order to avoid it today. But unfortunately that is impossible. So forget about that and lets talk about real environment. In computer science predicting future is possible just by archiving and processing what has happened in past.Mathematical science and statistics can analyze old data and graph trends to predict future.
 
 ![](.gitbook/assets/tuxpi.com.1511961969.jpg)
 
@@ -34,17 +34,17 @@ We can spend a whole course for each of these tools, but for LPI exam we are wan
 
 ## collectd
 
-Collectd, a Unix daemon that collects statistics related to system performance and also provides means for storing the values in different formats like RRD \(Round Robin Database\) files. The statistics gathered by Collectd help to detect the current performance blocks and predict system load in future.
+Collectd, a Unix daemon that collects statistics related to system performance and also provides means for storing the values in different formats like RRD (Round Robin Database) files. The statistics gathered by Collectd help to detect the current performance blocks and predict system load in future.
 
 collectd is installed by default in many distributions how ever it can be easily installed from repositories in redhat or debian systems, here we use CentOS7 system:
 
-```text
+```
 [root@centos7-2 ~]# yum install collectd
 ```
 
 To configure what to monitor, modify collect.conf file:
 
-```text
+```
 [root@centos7-2 ~]# rpm -ql collectd | grep etc
 /etc/collectd.conf
 /etc/collectd.d
@@ -57,9 +57,9 @@ drwxr-xr-x.  2 root root         6 May 17 04:46 collectd.d
 1820 collectd.conf
 ```
 
-and that is a huge configuration file consist of different sections . Which are not part of our exam!\(File has been abstracted\) :
+and that is a huge configuration file consist of different sections . Which are not part of our exam!(File has been abstracted) :
 
-```text
+```
 ##############################################################################
 # Global                                                                     #
 #----------------------------------------------------------------------------#
@@ -273,7 +273,7 @@ In order to monitor specific item we can enable it by removing comment sign in L
 
 Lets restart the service :
 
-```text
+```
 [root@centos7-2 etc]# systemctl restart collectd.service
 ```
 
@@ -281,17 +281,17 @@ Now we have to give collectd enough time to gather information about network and
 
 ### Configure Collectd-web to monitor a server
 
-**Collectd-web** is a web front-end monitoring tool based on RRDtool \(Round-Robin Database Tool\), which interprets and graphical outputs the data collected by the Collectd service on Linux systems.
+**Collectd-web** is a web front-end monitoring tool based on RRDtool (Round-Robin Database Tool), which interprets and graphical outputs the data collected by the Collectd service on Linux systems.
 
 So first lets install and enable rrdtool module:
 
-```text
+```
 [root@centos7-2 ~]# yum install  collectd-rrdtool.x86_64 rrdtool rrdtool-devel rrdtool-perl perl-HTML-Parser perl-JSON perl-CGI
 ```
 
 and modify this parts of collectd.conf file:
 
-```text
+```
 .
 ..
 ...
@@ -313,13 +313,13 @@ LoadPlugin rrdtool
 
 installing git "
 
-```text
+```
 [root@centos7-2 ~]# yum install git
 ```
 
 and Cloning collectd-web from the its repository:
 
-```text
+```
 [root@centos7-2 opt]# ls -l | grep collectd
 drwxr-xr-x. 7 root root 251 Oct 15 19:29 collectd-web
 [root@centos7-2 opt]# cd collectd-web/
@@ -328,15 +328,15 @@ AUTHORS  CHANGELOG      COPYING  index.html  media       runserver.py
 cgi-bin  check_deps.sh  docs     iphone      README.rst
 ```
 
-We use **Collectd-web CGI** scripts which interprets and generates the graphical html page statistics. First we need to make it executable for further use :
+We use **Collectd-web CGI **scripts which interprets and generates the graphical html page statistics. First we need to make it executable for further use :
 
-```text
+```
 [root@centos7-2 collectd-web]# chmod +x cgi-bin/graphdefs.cgi
 ```
 
 By default, collectd-web is configured to run on the loopback address 127.0.0.1. You will need to edit the runserver.py script and change 127.0.0.1 to 0.0.0.0, in order to bind on all network interface IP Adresses and access the collectd-web interface from a remote machine.
 
-```text
+```
 [root@centos7-2 collectd-web]# vim runserver.py 
 [root@centos7-2 collectd-web]# cat runserver.py 
 #!/usr/bin/env python
@@ -367,7 +367,7 @@ if __name__ == "__main__":
 
 Next we need to create /etc/collectd directory and collection.conf file inside that, this specifies where collectd-web can read data from:
 
-```text
+```
 [root@centos7-2 collectd-web]# cd /etc/
 [root@centos7-2 etc]# mkdir collectd
 [root@centos7-2 etc]# cd collectd
@@ -379,13 +379,13 @@ DataDir: "/var/lib/collectd/rrd/"
 
 After modifying the Python server script, we can start the server by running runserver.py :
 
-```text
+```
 [root@centos7-2 collectd-web]# ./runserver.py &
 ```
 
 If we have firewall up and running , add required port for collect-web insterface.Here we are using CentOS so we should deal with firewalld:
 
-```text
+```
 [root@centos7-2 ~]# firewall-cmd --zone=public --permanent --add-port=8888/tcp
 success
 [root@centos7-2 ~]# firewall-cmd --reload
@@ -398,7 +398,7 @@ Finally, we can access the collectd-web interface at the URL [`http://our-server
 
 How does it work? Collectd uses data sets which are defines in types.db:
 
-```text
+```
 [root@centos7-2 ~]# ls /usr/share/collectd/
 types.db
 [root@centos7-2 ~]# cat /usr/share/collectd/types.db | grep cpu
@@ -411,9 +411,9 @@ virt_cpu_total          value:DERIVE:0:U
 virt_vcpu               value:DERIVE:0:U
 ```
 
-to gather data in a special format\(Round Robin DataBase \) in /var/lib/directory/rrd directory which we previously enabled in collectd.conf:
+to gather data in a special format(Round Robin DataBase ) in /var/lib/directory/rrd directory which we previously enabled in collectd.conf:
 
-```text
+```
 [root@centos7-2 ~]# cat /etc/collectd.conf | grep rrd
 #LoadPlugin rrdcached
 LoadPlugin rrdtool
@@ -500,7 +500,7 @@ Okey do not forget that the installation process is not part of LPIC exam and ba
 
 ## Awareness of other monitoring tools:
 
-There are some monitoring tools which are available both in open source \(in core versions \) as well as enterprise versions or are incorporated with other products from enterprise perspective. they offer support and additional functionality.
+There are some monitoring tools which are available both in open source (in core versions ) as well as enterprise versions or are incorporated with other products from enterprise perspective. they offer support and additional functionality.
 
 ## Nagios
 
@@ -520,19 +520,19 @@ web site: [https://www.nagios.com](https://www.nagios.com)
 
 ## MRTG
 
-Multi Router Traffic Grapher \(MRTG\) is a network admins tool that offer enterprise extentions to mrtg including Scrutinizer , FlowPro and replicator.
+Multi Router Traffic Grapher (MRTG) is a network admins tool that offer enterprise extentions to mrtg including Scrutinizer , FlowPro and replicator.
 
 ![](.gitbook/assets/mrtg-logo.gif)
 
 MRTG monitors network traffic loads, reads that traffic and create the statistics from the informations from routers and switches and creates logs for later use. It is written in perl. It works in Unix, Linux and windows
 
-![](.gitbook/assets/mrtg-scrutinizer-logo.png)
+![](.gitbook/assets/mrtg-Scrutinizer-logo.png)
 
 ![](.gitbook/assets/mrtg-flowpro-logo.png)
 
 ![](.gitbook/assets/mrtg-replicator-logo.png)
 
-web site: [https://www.mrtg.com/](https://www.mrtg.com/)
+web site: [https://www.mrtg.com/](https://www.mrtg.com)
 
 ## Cacti
 
@@ -542,30 +542,30 @@ Cacti is a complete network graphing solution designed to harness the power of R
 
 Cacti can be used in conjunction with collectd due to the fact both use rrdTools.
 
-web site: [https://www.cacti.net/](https://www.cacti.net/)
+web site: [https://www.cacti.net/](https://www.cacti.net)
 
 and to summarize, take a look at comparison chart below:
 
-|  | Cacti | Collectd | Icinga | Nagios |
-| :--- | :--- | :--- | :--- | :--- |
-| IP SLA Report | Yes | No | Via Plugin | Via Pugin |
-| Logical Grouping | Yes | No | Yes | Yes |
-| Trending | Yes | No | Yes | Yes |
-| Trend Prediction | Yes | No | No | No |
-| Auto Discovery | Yes | Push Model ,Multicast possible | Via Plugin | Via Plugin |
-| Agentless | Yes | Supported | Supported | Supported |
-| SNMP | Yes | Yes | Via Plugin | Via Plugin |
-| Syslog | Yes | Yes | Via Plugin | Via PLugin |
-| Plugins | Yes | Yes | Yes | Yes |
-| Triggers / Alerts | Yes | Yes | Yes | Yes |
-| WebApp | Full Controll | Viewing | Full Control | Yes |
-| Distributed Monitoring | Yes | Yes | Yes | Yes |
-| Inventory | Yes | No | Via Plugin | Via PLugin |
-| Platform | PHP | C | C | C |
-| Data Storage Method | RRD tool,MySQL | RRD tool | MySQL,PostgreSQL,Oracle Database | Flat File, SQL, MySQL |
-| License | Commercial | GPL V2 | GPL | GPL |
-| Maps | Yes | No | Via Plugin | Yes |
-| Access Control | Yes | Apache acl | Yes | Yes |
+|                        | Cacti          | Collectd                       | Icinga                           | Nagios                |
+| ---------------------- | -------------- | ------------------------------ | -------------------------------- | --------------------- |
+| IP SLA Report          | Yes            | No                             | Via Plugin                       | Via Pugin             |
+| Logical Grouping       | Yes            | No                             | Yes                              | Yes                   |
+| Trending               | Yes            | No                             | Yes                              | Yes                   |
+| Trend Prediction       | Yes            | No                             | No                               | No                    |
+| Auto Discovery         | Yes            | Push Model ,Multicast possible | Via Plugin                       | Via Plugin            |
+| Agentless              | Yes            | Supported                      | Supported                        | Supported             |
+| SNMP                   | Yes            | Yes                            | Via Plugin                       | Via Plugin            |
+| Syslog                 | Yes            | Yes                            | Via Plugin                       | Via PLugin            |
+| Plugins                | Yes            | Yes                            | Yes                              | Yes                   |
+| Triggers / Alerts      | Yes            | Yes                            | Yes                              | Yes                   |
+| WebApp                 | Full Controll  | Viewing                        | Full Control                     | Yes                   |
+| Distributed Monitoring | Yes            | Yes                            | Yes                              | Yes                   |
+| Inventory              | Yes            | No                             | Via Plugin                       | Via PLugin            |
+| Platform               | PHP            | C                              | C                                | C                     |
+| Data Storage Method    | RRD tool,MySQL | RRD tool                       | MySQL,PostgreSQL,Oracle Database | Flat File, SQL, MySQL |
+| License                | Commercial     | GPL V2                         | GPL                              | GPL                   |
+| Maps                   | Yes            | No                             | Via Plugin                       | Yes                   |
+| Access Control         | Yes            | Apache acl                     | Yes                              | Yes                   |
 
 Do not forget, Capacity Calculation, Predicting future needs and have a good sense of IT environment need years of experience.
 
@@ -580,4 +580,3 @@ sources:
 [https://www.tecmint.com/install-collectd-and-collectd-web-to-monitor-server-resources-in-linux/](https://www.tecmint.com/install-collectd-and-collectd-web-to-monitor-server-resources-in-linux/)
 
 [https://devops.profitbricks.com/tutorials/how-to-install-and-configure-collectd-and-collectd-web-to-monitor-a-centos-7-server/](https://devops.profitbricks.com/tutorials/how-to-install-and-configure-collectd-and-collectd-web-to-monitor-a-centos-7-server/)
-

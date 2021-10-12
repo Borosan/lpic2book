@@ -4,21 +4,21 @@
 
 **Weight:** 2
 
-**Description:** Candidates should be able to configure automount filesystems using AutoFS. This objective includes configuring automount for network and device filesystems. Also included is creating filesystems for devices such as CD-ROMs and a basic feature knowledge of encrypted filesystems.
+**Description: **Candidates should be able to configure automount filesystems using AutoFS. This objective includes configuring automount for network and device filesystems. Also included is creating filesystems for devices such as CD-ROMs and a basic feature knowledge of encrypted filesystems.
 
 **Key Knowledge Areas:**
 
 * autofs configuration files
 * Understanding of automount units
 * UDF and ISO9660 tools and utilities
-* Awareness of other CD-ROM filesystems \(HFS\)
-* Awareness of CD-ROM filesystem extensions \(Joliet, Rock Ridge, El Torito\)
-* Basic feature knowledge of data encryption \(dm-crypt / LUKS\)
+* Awareness of other CD-ROM filesystems (HFS)
+* Awareness of CD-ROM filesystem extensions (Joliet, Rock Ridge, El Torito)
+* Basic feature knowledge of data encryption (dm-crypt / LUKS)
 
 **Terms and Utilities:**
 
 * /etc/auto.master
-* /etc/auto.\[dir\]
+* /etc/auto.\[dir]
 * mkisofs
 * cryptsetup
 
@@ -26,13 +26,13 @@
 
 We have already worked with fstab and its usage. When we mount a device using fstab it is always mounted and ready.It is okey except when we are using nfs, cifs, smb , ... trough the network. autofs idea is mount when you need. that is all! this way we avoid network over head .
 
-```text
+```
 root@server1:~# apt install autofs
 ```
 
 autofs puts its configuration files in /etc directory :
 
-```text
+```
 root@server1:~# ls -l /etc/auto*
 -rw-r--r-- 1 root root 12596 Jun 22  2017 /etc/autofs.conf
 -rw-r--r-- 1 root root   797 Jun 22  2017 /etc/auto.master
@@ -43,9 +43,9 @@ root@server1:~# ls -l /etc/auto*
 
 ### auto.master
 
-auto.master is autofs main configuration and it is first configuration file autofs checks. Inside autofs.master we mention where we want the mount-point to be and where is related configuration file. It is strange but that is the way autofs works. So beside auto.master file , you might need other auto.\[\*\] configuration files which auto.master refers to, to create and mount.The format of master map is:
+auto.master is autofs main configuration and it is first configuration file autofs checks. Inside autofs.master we mention where we want the mount-point to be and where is related configuration file. It is strange but that is the way autofs works. So beside auto.master file , you might need other auto.\[\*] configuration files which auto.master refers to, to create and mount.The format of master map is:
 
-```text
+```
 mount-point map-name options
 ```
 
@@ -53,7 +53,7 @@ mount-point map-name options
 
 and the result would be /mynfs/dir1 . Lets make our hands dirty and see what is inside auto.master:
 
-```text
+```
 #
 # Sample auto.master file
 # This is a 'master' automounter map and it has the following format:
@@ -93,13 +93,13 @@ so mynfs directory would be created and would be used as mount point, then it re
 
 `vi /etc/auto.nfs`
 
-```text
+```
 dir1    192.168.10.150:/root/nfsshared/mydir1
 ```
 
 and then restart autofs service in order to changes take effect:
 
-```text
+```
 root@server1:~# systemctl restart autofs  
 root@server1:~# ls
 mynfs
@@ -123,43 +123,43 @@ Previously we have seen different type of File Systems on Hard Drive. Like Hard 
 
 ### ISO9606
 
-ISO 9660 is a file system for optical disc media. Being published by the International Organization for Standardization \(ISO\) the file system is considered an international technical standard.ISO standard was issued in 1988 and as time passed they add some extensions to it, to overcome some shortages it has.
+ISO 9660 is a file system for optical disc media. Being published by the International Organization for Standardization (ISO) the file system is considered an international technical standard.ISO standard was issued in 1988 and as time passed they add some extensions to it, to overcome some shortages it has.
 
-| ISO9660 extension | Description |
-| :--- | :--- |
-| Joliet | By Microsoft, adds support for longer file names and the Unicode character set |
-| Rock Ridge | adds support for POSIX file permissions and ownership, symbolic links, and longer file names |
-| El torito | enables a disc to boot an x86 compatible system |
+| ISO9660 extension | Description                                                                                  |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| Joliet            | By Microsoft, adds support for longer file names and the Unicode character set               |
+| Rock Ridge        | adds support for POSIX file permissions and ownership, symbolic links, and longer file names |
+| El torito         | enables a disc to boot an x86 compatible system                                              |
 
-### UDF\(date range 1995-...\)
+### UDF(date range 1995-...)
 
-the UDF \(Universal Disk Format\) is a more recent file system format. This format is managed by OSTA \(Optical Storage Technology Association\), and was created to overshadow the shortcomings of the ISO standard.  
-It includes both CD and DVDs and as its name says, it makes a universal compatibility across major platforms.  
+the UDF (Universal Disk Format) is a more recent file system format. This format is managed by OSTA (Optical Storage Technology Association), and was created to overshadow the shortcomings of the ISO standard.\
+It includes both CD and DVDs and as its name says, it makes a universal compatibility across major platforms.\
 UDF system also enables a more efficient writing process for CD recordable and rewritable disks.
 
-### HFS \( date range 1904-2040\)
+### HFS ( date range 1904-2040)
 
-Hierarchical File System \(HFS\) is a proprietary file system developed by Apple Inc. for use in computer systems running Mac OS. Originally designed for use on floppy and hard disks, it can also be found on read-only media such as CD-ROMs. HFS is also referred to as Mac OS Standard, while its successor, HFS Plus, is also called Mac OS Extended .  
+Hierarchical File System (HFS) is a proprietary file system developed by Apple Inc. for use in computer systems running Mac OS. Originally designed for use on floppy and hard disks, it can also be found on read-only media such as CD-ROMs. HFS is also referred to as Mac OS Standard, while its successor, HFS Plus, is also called Mac OS Extended .\
 With the introduction of Mac OS X 10.6, Apple dropped support for formatting or writing HFS disks and images, which remain supported as read-only volumes.
 
 ## mkisofs
 
 mkisofs is a tool to create ISO9660/UDF/HFS files. The general format of command is:
 
-```text
+```
 mkisofs -o MY.iso MYDIR/
 ```
 
-| usefull switches | Description |
-| :--- | :--- |
-| -o | Output, specify out put file |
-| -J | Generates Joliet Directory Information |
+| usefull switches    | Description                                            |
+| ------------------- | ------------------------------------------------------ |
+| -o                  | Output, specify out put file                           |
+| -J                  | Generates Joliet Directory Information                 |
 | -r   -rational-rock | Generates Rationalize Rock Ridge Directory Information |
-| -b | Set El torito boot image name, "isolinux.bin" |
+| -b                  | Set El torito boot image name, "isolinux.bin"          |
 
 for more information use mkisofs -help.Lets see how it works:
 
-```text
+```
 root@server3:~# mkdir MYDIR
 root@server3:~# cd MYDIR/
 root@server3:~/MYDIR# touch myfile1,myfile2,myfile3
@@ -183,7 +183,7 @@ drwxr-xr-x 2 root root   4096 Jan  2 07:56 MYDIR
 
 Cryptsetup is utility used to easily setup disk encryption based on DMCrypt kernel module
 
-```text
+```
 root@server1:~# cryptsetup
 The program 'cryptsetup' is currently not installed. You can install it by typing:
 apt install cryptsetup-bin
@@ -298,5 +298,4 @@ Default compiled-in device cipher parameters:
 
 ### LUKS
 
-Linux Unified Key Setup-on-disk-format \(LUKS\) is the standard for Linux hard disk encryption. By providing a standard on-disk-format, it does not only facilitate compatibility among distributions, but also provides secure management of multiple user passwords. In contrast to existing solution, LUKS stores all setup necessary setup information in the partition header, enabling the user to transport or migrate his data very easily.
-
+Linux Unified Key Setup-on-disk-format (LUKS) is the standard for Linux hard disk encryption. By providing a standard on-disk-format, it does not only facilitate compatibility among distributions, but also provides secure management of multiple user passwords. In contrast to existing solution, LUKS stores all setup necessary setup information in the partition header, enabling the user to transport or migrate his data very easily.

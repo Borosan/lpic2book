@@ -37,7 +37,7 @@ As you know any modern linux distribution has its own repository, where we can e
 
 before beginning We need to install some developers tool. in redhat use`yum groupinstall "Development Tools"` and in debian based and ubuntu run `apt-get install build-essentia` :
 
-```text
+```
 root@server1:~# apt install build-essential 
 Reading package lists... Done
 Building dependency tree       
@@ -48,7 +48,7 @@ build-essential is already the newest version (12.1ubuntu2).
 
 For demonstration lets have fun and mine bitcoin with cpuminer. First download the source:
 
-```text
+```
 root@server1:~# wget https://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.5.0.tar.gz
 --2018-02-04 02:37:14--  https://sourceforge.net/projects/cpuminer/files/pooler-cpuminer-2.5.0.tar.gz
 Resolving sourceforge.net (sourceforge.net)... 216.34.181.60
@@ -83,16 +83,16 @@ drwxr-xr-x 2 root root      0 Feb  3 23:53 mynfs
 
 and now lets uncompress the source, as a quick review:
 
-| uncompress commands | Description |
-| :--- | :--- |
-| tar -xvf filename.tar | uncompress  tar file |
-| tar -xvf filename.tar.gz | uncompress gzip file |
+| uncompress commands       | Description           |
+| ------------------------- | --------------------- |
+| tar -xvf filename.tar     | uncompress  tar file  |
+| tar -xvf filename.tar.gz  | uncompress gzip file  |
 | tar -xvf filename.tar.bz2 | uncompress bzip2 file |
-| gunzip filename.gz | uncompress gzip file |
+| gunzip filename.gz        | uncompress gzip file  |
 
 okey:
 
-```text
+```
 root@server1:~# mkdir cpuminer
 root@server1:~# cd cpuminer/
 root@server1:~/cpuminer# tar -zxvf ../pooler-cpuminer-2.5.0.tar.gz 
@@ -156,7 +156,7 @@ cpuminer-2.5.0/sha2-ppc.S
 
 Before being able to compile our source code, we need to prepare all its requirements and dependencies. To do that use configure command. The configure command is NOT a standard Linux command. configure is a script that is generally provided with the source of most standardized type Linux packages.
 
-```text
+```
 root@server1:~/cpuminer# ls
 cpuminer-2.5.0
 root@server1:~/cpuminer# cd cpuminer-2.5.0/
@@ -242,7 +242,7 @@ configure: error: Missing required libcurl >= 7.15.2
 
 Well obviously it needs libcurl, but if we have had read README file it was mentioned there:
 
-```text
+```
 Dependencies:
         libcurl                 http://curl.haxx.se/libcurl/
         jansson                 http://www.digip.org/jansson/
@@ -251,7 +251,7 @@ Dependencies:
 
 so its recommended to read README file, any how lets try to search and install libcurl:
 
-```text
+```
 root@server1:~/cpuminer/cpuminer-2.5.0# apt search libcurl
 Sorting... Done
 Full Text Search... Done
@@ -387,7 +387,7 @@ wmget/xenial 0.6.1-1 amd64
 
 Wow. That is a long list , Usually libraries with "-dev" on their tails are what we want, so we chose one and try:
 
-```text
+```
 root@server1:~/cpuminer/cpuminer-2.5.0# apt search libcurl | grep dev
 
 WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
@@ -413,7 +413,7 @@ root@server1:~/cpuminer/cpuminer-2.5.0# apt install libcurl4-openssl-dev
 
 Now run configure again and watch for any problems:
 
-```text
+```
 root@server1:~/cpuminer/cpuminer-2.5.0# ./configure 
 checking build system type... x86_64-unknown-linux-gnu
 checking host system type... x86_64-unknown-linux-gnu
@@ -495,7 +495,7 @@ config.status: executing depfiles commands
 
 it seems every thing is okey, and it generates some file for compiling :
 
-```text
+```
 -rwxr-xr-x 1 root  root   35K Feb  4 04:08 config.status
 -rw-r--r-- 1 root  root   52K Feb  4 04:08 Makefile
 drwxr-xr-x 3 payam payam 4.0K Feb  4 04:08 compat
@@ -506,7 +506,7 @@ drwxr-xr-x 3 payam payam 4.0K Feb  4 04:08 compat
 
 time to compile:
 
-```text
+```
 root@server1:~/cpuminer/cpuminer-2.5.0# make
 make  all-recursive
 make[1]: Entering directory '/root/cpuminer/cpuminer-2.5.0'
@@ -555,7 +555,7 @@ make[1]: Leaving directory '/root/cpuminer/cpuminer-2.5.0'
 
 All required binary files have been created:
 
-```text
+```
 -rw-r--r-- 1 root  root  261K Feb  4 04:18 minerd-cpu-miner.o
 -rw-r--r-- 1 root  root  164K Feb  4 04:18 minerd-util.o
 -rw-r--r-- 1 root  root   43K Feb  4 04:18 minerd-sha2.o
@@ -567,7 +567,7 @@ All required binary files have been created:
 
 see minerd, it works but its not in the path:
 
-```text
+```
 root@server1:~/cpuminer/cpuminer-2.5.0# ./minerd
 ./minerd: no URL supplied
 Try `minerd --help' for more information.
@@ -578,7 +578,7 @@ minerd: command not found
 
 Next step is installing compiled program. In this step PATHis modified and generated files are placed in /usr/local/bin
 
-```text
+```
 root@server1:~/cpuminer/cpuminer-2.5.0# make install
 Making install in compat
 make[1]: Entering directory '/root/cpuminer/cpuminer-2.5.0/compat'
@@ -612,7 +612,7 @@ Try `minerd --help' for more information.
 
 Okey lets start bitcoin mining:
 
-```text
+```
 root@server1:~/cpuminer/cpuminer-2.5.0# minerd -a sha256d -o stratum+tcp://stratum.antpool.com:3333 -u MyName.1 -p 123
 [2018-02-04 04:44:03] Starting Stratum on stratum+tcp://stratum.antpool.com:3333
 [2018-02-04 04:44:03] Binding thread 0 to cpu 0
@@ -621,4 +621,3 @@ root@server1:~/cpuminer/cpuminer-2.5.0# minerd -a sha256d -o stratum+tcp://strat
 [2018-02-04 04:44:03] Binding thread 3 to cpu 3
 [2018-02-04 04:44:03] Binding thread 2 to cpu 2
 ```
-

@@ -30,13 +30,13 @@ Description: Candidates should be able to properly configure and navigate the st
 
 Previously we said that RAM is like a gateway of a town so that is too busy. Also we introduced some of techniques which is used by linux operating system in order to manage Memory. One of them was swap. Swap is emulated memory in disk. But what are its benefits and how dose it work ? Usually swap is used if computer run out of memory, in this condition two possible solutions are available. First avoiding user from running program or programs which require memory bigger that existing physical memory size and the second, crashing ! Obviously none of these solutions are acceptable. swap let us running programs and allocating them more memory than what we really have, by writing data on the hard disk temporarily. How ever this technique dose not guarantee performance.
 
-swap can be put on a file\(swap file\) or can be an entire disk partition\(swap partition\)
+swap can be put on a file(swap file) or can be an entire disk partition(swap partition)
 
 ### swap file
 
 Lets create a file and use it as swap space:
 
-```text
+```
 root@server1:~# free -m
               total        used        free      shared  buff/cache   available
 Mem:            971         623          67           3         280         159
@@ -48,13 +48,13 @@ Filename                Type        Size    Used    Priority
 
 swapon -s command give us a summary of allocated swap spaces.
 
-```text
+```
 root@server1:~# touch myswapfile
 ```
 
 For being able to use this file as swap space, it should be populated and some meta data should be added, and its better to change the permission so just root has access to it:
 
-```text
+```
 root@server1:~# dd if=/dev/zero of=myswapfile bs=1M count=500
 500+0 records in
 500+0 records out
@@ -72,13 +72,13 @@ root@server1:~# chmod 600 myswapfile
 
 and now lets add it to swap space
 
-```text
+```
 root@server1:~# swapon myswapfile
 ```
 
 and the result:
 
-```text
+```
 root@server1:~# swapon -s
 Filename                Type        Size    Used    Priority
 /dev/sda5                                  partition    1045500    26020    -1
@@ -91,7 +91,7 @@ Swap:          1520          25        1495
 
 in opposite to swapon command we can use swapoff to turn off swap on myswapfile.
 
-```text
+```
 root@server1:~# swapoff myswapfile 
 root@server1:~# swapon -s
 Filename                Type        Size    Used    Priority
@@ -102,7 +102,7 @@ Filename                Type        Size    Used    Priority
 
 swap partition is usually made automatically during linux installation, but it is possible to manipulate that or add another swap partition as needed.
 
-```text
+```
 root@server1:~# swapon -s
 Filename                Type        Size    Used    Priority
 /dev/sda5                                  partition    1045500    45116    -1
@@ -184,7 +184,7 @@ Device     Boot Start     End Sectors  Size Id Type
 
 And lets add required meta data to desired partion before making swap on that:
 
-```text
+```
 root@server1:~# lsblk 
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 sdb      8:16   0    1G  0 disk 
@@ -201,7 +201,7 @@ no label, UUID=6a1c543e-3224-4cfb-82ba-d802051c4b76
 
 and every thing is ready to put the swap on our new fresh partition:
 
-```text
+```
 root@server1:~# swapon /dev/sdb1
 root@server1:~# swapon -s
 Filename                Type        Size    Used    Priority
@@ -215,7 +215,7 @@ Swap:          2043          47        1996
 
 use swapon -p to change the priority of using swap devices :
 
-```text
+```
 root@server1:~# swapoff /dev/sda5
 root@server1:~# swapon -p -2 /dev/sda5
 root@server1:~# swapon -s
@@ -235,7 +235,7 @@ Filename                Type        Size    Used    Priority
 
 When we add a new internal hard disk to our computer it is bounded but it is not mounted. To make it usable first we need to make a partition on that, format it with a file system and then mount it, these is current setting of our computer:
 
-```text
+```
 root@server2:~# ls /dev | grep sd
 sda
 sda1
@@ -252,7 +252,7 @@ sda      8:0    0   50G  0 disk
 
 as an example lets add a new 10GB hard disk :
 
-```text
+```
 root@server2:~# ls /dev | grep sd
 sda
 sda1
@@ -319,7 +319,7 @@ Writing superblocks and filesystem accounting information: done
 
 Now lets mount /dev/sdb1 on a mount point to use it:
 
-```text
+```
 root@server2:~# mkdir /mnt/my10ghdd
 root@server2:~# mount -t ext4 /dev/sdb1 /mnt/my10ghdd/
 
@@ -328,17 +328,17 @@ root@server2:~# ls /mnt/my10ghdd/
 lost+found  myfile1  myfile2  myfile3
 ```
 
--t means what type of file system is going to be mounted, /dev/sdb1 is mount device and /mnt/my10ghdd is mount point.
+\-t means what type of file system is going to be mounted, /dev/sdb1 is mount device and /mnt/my10ghdd is mount point.
 
-| mount command switches | Description |
-| :--- | :--- |
-| mount -V | Output version |
-| mount -v | Verbose mode |
-| mount -h | Prints help message |
-| mount -a | mount all file systems mentioned in /etc/fstab file |
-| mount -n /dev/sda7 /mnt/newpartition | mounting without writing in /etc/mtab file |
-| mount -t &lt;File System Type&gt; /dev/sda7 /mnt/newpartition | indicates the File System ext2, ext3, ext4, iso9660,  ntfs, swap, auto |
-| mount -o &lt;options&gt; /dev/sda7 /mnt/newpartition | ro, rw, exec/noexec, suid/nosuid, dev/nodev, sync/async, user/users |
+| mount command switches                                   | Description                                                            |
+| -------------------------------------------------------- | ---------------------------------------------------------------------- |
+| mount -V                                                 | Output version                                                         |
+| mount -v                                                 | Verbose mode                                                           |
+| mount -h                                                 | Prints help message                                                    |
+| mount -a                                                 | mount all file systems mentioned in /etc/fstab file                    |
+| mount -n /dev/sda7 /mnt/newpartition                     | mounting without writing in /etc/mtab file                             |
+| mount -t \<File System Type> /dev/sda7 /mnt/newpartition | indicates the File System ext2, ext3, ext4, iso9660,  ntfs, swap, auto |
+| mount -o \<options> /dev/sda7 /mnt/newpartition          | ro, rw, exec/noexec, suid/nosuid, dev/nodev, sync/async, user/users    |
 
 Before exploring mount command options lets talk about sync/async concept:
 
@@ -348,22 +348,22 @@ As spped difference between CPU and Hard Disk or other lazy devices, RAM are use
 
 ### mount command options:
 
-| mount option | Description |
-| :--- | :--- |
-| ro | read-only |
-| rw | read-write |
-| exec/noexec | Permit/Prevent execution of binaries |
-| suid/nosuid | Permit/Block the operation of suid, guid bits |
-| dev/nodev | Interpret/Do not interpret character or block special devices on the file system |
-| sync/async | I/O to the file system is done \(a\)synchronously |
-| defaults | Use default options: rw, suid, dev, exec, auto, nouser, and async |
-| remount | Attempt to remount an already-mounted file system, usually used to change mount options |
+| mount option | Description                                                                             |
+| ------------ | --------------------------------------------------------------------------------------- |
+| ro           | read-only                                                                               |
+| rw           | read-write                                                                              |
+| exec/noexec  | Permit/Prevent execution of binaries                                                    |
+| suid/nosuid  | Permit/Block the operation of suid, guid bits                                           |
+| dev/nodev    | Interpret/Do not interpret character or block special devices on the file system        |
+| sync/async   | I/O to the file system is done (a)synchronously                                         |
+| defaults     | Use default options: rw, suid, dev, exec, auto, nouser, and async                       |
+| remount      | Attempt to remount an already-mounted file system, usually used to change mount options |
 
-### /etc/mtab \(contraction of mounted file systems table\)
+### /etc/mtab (contraction of mounted file systems table)
 
 mtab is a file which is kept update with the mount subsystem.It lists currently mounted file system, how ever kernel doesn't do any thing with the mtab file. kernel puts its settings in /proc/mounts and /proc/self/mounts.
 
-```text
+```
 root@server1:~# cat /etc/mtab 
 sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
 proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
@@ -399,7 +399,7 @@ gvfsd-fuse /run/user/1000/gvfs fuse.gvfsd-fuse rw,nosuid,nodev,relatime,user_id=
 
 When we type mount the content of mtab file is shown:
 
-```text
+```
 root@server1:~# mount
 sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
 proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
@@ -435,11 +435,11 @@ gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime
 
 They are the same, as mtab list includes some dynamically mounted system objects it shouldn't be edited by the Administrators.
 
-### /etc/fstab \(file systems table\)
+### /etc/fstab (file systems table)
 
 Every thing seems right but our mounted devices are not persistent and wouldn't be accessible after reboot so far.To make a persistent mount we should use fstab. fstab is very similar to mtab but they are not related. fstab is more easier to edit:
 
-```text
+```
 root@server1:~# cat /etc/fstab 
 # /etc/fstab: static file system information.
 #
@@ -459,14 +459,14 @@ UUID="b4801c8b-ca75-4548-8697-182d1b6d895c" none    swap    sw    0 0
 
 Desciption:
 
-| Item | Example | Description |
-| :--- | :--- | :--- |
-| &lt;file system&gt; | /dev/floppy0 or UUID | Device/partion that contains file system |
-| &lt;mount point&gt; | /media/floppy | Where do we wana mount device/partition |
-| &lt;type&gt; | ext4 | Type of File system |
-| &lt;option&gt; | rw, user, noauto, exec, ... | mount options of accessing device/partition |
-| &lt;dump&gt; | 0 or 1 | enable/disbale backing up device/pertition |
-| &lt;pass&gt; | 0 or 1 or 2 | Control the order of fsck check partition/device during boot process |
+| Item           | Example                     | Description                                                          |
+| -------------- | --------------------------- | -------------------------------------------------------------------- |
+| \<file system> | /dev/floppy0 or UUID        | Device/partion that contains file system                             |
+| \<mount point> | /media/floppy               | Where do we wana mount device/partition                              |
+| \<type>        | ext4                        | Type of File system                                                  |
+| \<option>      | rw, user, noauto, exec, ... | mount options of accessing device/partition                          |
+| \<dump>        | 0 or 1                      | enable/disbale backing up device/pertition                           |
+| \<pass>        | 0 or 1 or 2                 | Control the order of fsck check partition/device during boot process |
 
 Lets take a look at fstab mount options:
 
@@ -474,30 +474,30 @@ Lets take a look at fstab mount options:
 
 Obviously fstab mount options and mount command options are the same but there some options which are meaning full if we are talking about fstab configuration:
 
-| mount option | Description |
-| :--- | :--- |
-| user | Allow an ordinary user to mount the file system. The name of the mounting user is written to mtab so that he can unmount the file system again.This option Implies the options noexec, nosuid, and nodev \(unless overridden by subsequent options, as in the option line user,exec,dev,suid\) |
-| users | Allow every user to mount and unmount the file system. Implies the options noexec, nosuid, and nodev \(unless overridden by subsequent options, as in the option line users,exec,dev,suid\). |
-| nouser | Forbin an ordinary user to mount the File System, this is the default |
-| auto | File System can be mounted Automatically after boot . using mount -a option also mount Device/partition if it is not mounted |
-| noauto | The File System will NOT be automatically mounted after reboot, mount -a wouldn't considering this Device/Partition.You must explicitly mount the filesystem. |
-| \_netdev | filesystem resides on a device that requires network access \(used to prevent the system from attempting to mount these filesystems until the network has been enabled on the system\) |
+| mount option | Description                                                                                                                                                                                                                                                                                  |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| user         | Allow an ordinary user to mount the file system. The name of the mounting user is written to mtab so that he can unmount the file system again.This option Implies the options noexec, nosuid, and nodev (unless overridden by subsequent options, as in the option line user,exec,dev,suid) |
+| users        | Allow every user to mount and unmount the file system. Implies the options noexec, nosuid, and nodev (unless overridden by subsequent options, as in the option line users,exec,dev,suid).                                                                                                   |
+| nouser       | Forbin an ordinary user to mount the File System, this is the default                                                                                                                                                                                                                        |
+| auto         | File System can be mounted Automatically after boot . using mount -a option also mount Device/partition if it is not mounted                                                                                                                                                                 |
+| noauto       | The File System will NOT be automatically mounted after reboot, mount -a wouldn't considering this Device/Partition.You must explicitly mount the filesystem.                                                                                                                                |
+| \_netdev     | filesystem resides on a device that requires network access (used to prevent the system from attempting to mount these filesystems until the network has been enabled on the system)                                                                                                         |
 
 ### blkid
 
 blkid show all information of block devices in our system,
 
-```text
+```
 /dev/sda1: UUID="142a64e5-96f3-4789-9c91-1dc1570057b7" TYPE="ext4" PARTUUID="101c66bb-01"
 /dev/sda5: UUID="b4801c8b-ca75-4548-8697-182d1b6d895c" TYPE="swap" PARTUUID="101c66bb-05"
 /dev/sdb1: UUID="6a1c543e-3224-4cfb-82ba-d802051c4b76" TYPE="swap" PARTUUID="1f54816e-01"
 ```
 
-in fstab we can use UUID \(Universally Unique Identifier\) instead of Device abstract name from /dev/ directory. This way we reduce the mount fails because HAL might change the name as time passes and other Disks are installed.
+in fstab we can use UUID (Universally Unique Identifier) instead of Device abstract name from /dev/ directory. This way we reduce the mount fails because HAL might change the name as time passes and other Disks are installed.
 
 And Finnally lets go back and make the swap partition permanent by editing fstab file :
 
-```text
+```
 # /etc/fstab: static file system information.
 #
 # Use 'blkid' to print the universally unique identifier for a
@@ -516,11 +516,10 @@ UUID="b4801c8b-ca75-4548-8697-182d1b6d895c" none        swap    sw      0 0
 
 and another way to see UUID of devices is:
 
-```text
+```
 root@server1:/# ls -l /dev/disk/by-uuid/
 total 0
 lrwxrwxrwx 1 root root 10 Dec 26 22:17 142a64e5-96f3-4789-9c91-1dc1570057b7 -> ../../sda1
 lrwxrwxrwx 1 root root 10 Dec 26 22:17 6a1c543e-3224-4cfb-82ba-d802051c4b76 -> ../../sdb1
 lrwxrwxrwx 1 root root 10 Dec 26 22:17 b4801c8b-ca75-4548-8697-182d1b6d895c -> ../../sda5
 ```
-

@@ -4,13 +4,13 @@
 
 **Weight:** 3
 
-**Description:** Candidates should be able to configure a system to forward IP packet and perform network address translation \(NAT, IP masquerading\) and state its significance in protecting a network. This objective includes configuring port redirection, managing filter rules and averting attacks.
+**Description:** Candidates should be able to configure a system to forward IP packet and perform network address translation (NAT, IP masquerading) and state its significance in protecting a network. This objective includes configuring port redirection, managing filter rules and averting attacks.
 
 **Key Knowledge Areas:**
 
 * iptables and ip6tables configuration files, tools and utilities
 * Tools, commands and utilities to manage routing tables.
-* Private address ranges \(IPv4\) and Unique Local Addresses as well as Link Local Addresses \(IPv6\)
+* Private address ranges (IPv4) and Unique Local Addresses as well as Link Local Addresses (IPv6)
 * Port redirection and IP forwarding
 * List and write filtering and rules that accept or block IP packets based on source or destination protocol, port and address
 * Save and reload filtering configurations
@@ -27,7 +27,7 @@ Like any other moder operating system, liunx has firewall. First lets see how li
 
 ![](.gitbook/assets/route-netfilter.jpg)
 
-There is a firewalling functionality which is implemented in linux kernel with netfilter. netfilter is a kernel module and any network traffic which kernel forward to any interface\(s\), is pass through netfilter. This way netfilter can make decision wether incomming or out going traffic is allowed or not. The major interface to the netfilter module is iptables. iptables has been around for a long time and it let us to do any advanced configuration on linux firewalls.
+There is a firewalling functionality which is implemented in linux kernel with netfilter. netfilter is a kernel module and any network traffic which kernel forward to any interface(s), is pass through netfilter. This way netfilter can make decision wether incomming or out going traffic is allowed or not. The major interface to the netfilter module is iptables. iptables has been around for a long time and it let us to do any advanced configuration on linux firewalls.
 
 While being able to do any advanced firewall configuration is count as iptables advantage, the biggest disadvantage of iptables is its complexity. This disadvantage has been caused other solutions have been invented like ufw , firewalld . They both work with iptables behind the sence and make firewall configuration easier for us. For lpic2 exam we just talk about iptables.
 
@@ -35,29 +35,29 @@ While being able to do any advanced firewall configuration is count as iptables 
 
 iptables works with tables! There are at present three tables:
 
-* **Filter :**  The filter table is used for packet filtering.
-* **NAT :**  The nat table is used for address translation.
+* **Filter : ** The filter table is used for packet filtering.
+* **NAT : ** The nat table is used for address translation.
 * **Mangle :** The mangle table can be used for special-purpose processing of packets.
 
 Within tables there are chains.chains are used to define what kind of packet follow shoud be filtered exactly.
 
 ![](.gitbook/assets/route-iptables.jpg)
 
-* **PREROUTING:** configured to block, redirect or allow th packet to the next chain.Commonly, used to redirect the packet to another address or/and port. \(DNAT-Destination NAT\).  If destination is local \( this machine\) sent to INPUT chain. If bound for another network, sent to the FORWARD chain.
+* **PREROUTING:** configured to block, redirect or allow th packet to the next chain.Commonly, used to redirect the packet to another address or/and port. (DNAT-Destination NAT).  If destination is local ( this machine) sent to INPUT chain. If bound for another network, sent to the FORWARD chain.
 * INPUT: Configured to be blocked, logged or sent to the local system to be handled by the appropriate client, application or service.
-* OUTPUT:  packet is sent from the firewall out to the network to its final destination.\(Rules usually are not applied at this chain\)
+* OUTPUT:  packet is sent from the firewall out to the network to its final destination.(Rules usually are not applied at this chain)
 * FORWARD : Configured to block, logged or sent to the POSTROUTING chain.
-* **POSTROUTING:**  make changes to the packet as it exits the firewall, commonly used to do masquerading. 
+* **POSTROUTING:  **make changes to the packet as it exits the firewall, commonly used to do masquerading. 
 
-How tables and chain are related so ? All three tree tables \(FILTER, NAT, MANGLE\) can be present in chains\(filter points\) but not every chain has all three table represented:
+How tables and chain are related so ? All three tree tables (FILTER, NAT, MANGLE) can be present in chains(filter points) but not every chain has all three table represented:
 
 ![](.gitbook/assets/route-iptables-tchains.jpg)
 
-* **PREROUTING \(** _**NAT**_ **,** MANGLE**\)**
-* INPUT \(**FILTER** , MANGLE \)
-* FORWARD \(**FILTER** , MANGLE \)
-* OUTPUT \(**FILTER**  ,  _**NAT**_ , MANGLE\)
-* **POSTROUTING \(**_**NAT**_ **,** MANGLE**\)**
+* **PREROUTING ( **_**NAT**_** , **MANGLE**)**
+* INPUT (**FILTER** , MANGLE )
+* FORWARD (**FILTER** , MANGLE )
+* OUTPUT (**FILTER ** ,  _**NAT**_ , MANGLE)
+* **POSTROUTING (**_**NAT**_** , **MANGLE**)**
 
 How rules are broken down within the firewall system? chains are filtering points that we can create rules, and rules are apllied to the packet passing trough. The rules define what exactly should happen to a packet.
 
@@ -68,14 +68,14 @@ In every rule there us target, The typical target is ACCEPT:
 * **ACCEPT** : the package is allowed
 * **DROP** : The package is not allowed, the package will be sileintly dropped and the sender of package doesn't know anything.
 * **REJECT** :  Do not allow package, the sender of package will get an ICMP warnnig message.
-* **LOG :** just LOGs
-* **MASQUARATE :** used for NAT.
+* **LOG : **just LOGs
+* **MASQUARATE : **used for NAT.
 
 the target indicated with -j option. we will talk about that.
 
 In every chain there is a policy. The policy define the default behaviour. The default policy is ACCEPT but its isa good practice to have a policy that will drop every thing that doesn't match specific packet in a chain. to set chain default policy
 
-```text
+```
 iptables -P drop INPUT
 ```
 
@@ -85,7 +85,7 @@ please do notice that is upper case "P".
 
 iptables commands can be pretty long, and sometimes hard to understand so lets defualt components in iptables commands to make it easier:
 
-```text
+```
 iptables -A chain [-i/-o interface] [-s/-d address] -p udp --sport/--dport 80  -j TARGET
 ```
 
@@ -93,18 +93,18 @@ iptables -A chain [-i/-o interface] [-s/-d address] -p udp --sport/--dport 80  -
 
 iptables command options outside of adding rules to chain:
 
-| Option | Description |
-| :--- | :--- |
-| -L &lt;chain-name&gt; -t &lt;table-name&gt; | Lists all of the rules in the  specified chain and table. If not chain or table specified, shows all. |
-| -D | Deletes a rule in a particular chain by number |
-| -F \(or --flush\) | flushes all \(or indicated chain\) of rules |
-| -P | change the default policy for the chain\(can be set to DROP or ACCEPT\) |
-| -v | typically used with -F\(or --flush\) to provide additional output |
-| -n | Display IP address and port in numeric format |
+| Option                            | Description                                                                                           |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| -L \<chain-name> -t \<table-name> | Lists all of the rules in the  specified chain and table. If not chain or table specified, shows all. |
+| -D                                | Deletes a rule in a particular chain by number                                                        |
+| -F (or --flush)                   | flushes all (or indicated chain) of rules                                                             |
+| -P                                | change the default policy for the chain(can be set to DROP or ACCEPT)                                 |
+| -v                                | typically used with -F(or --flush) to provide additional output                                       |
+| -n                                | Display IP address and port in numeric format                                                         |
 
 For demonstration we use CentOS7, in RedHat the defualt solution is firewalld. We have to first stop and disable firewalld because firewalld interface and iptables can not work together:
 
-```text
+```
 [root@centos7-1 ~]# systemctl stop firewalld
 [root@centos7-1 ~]# systemctl disable firewalld
 Removed symlink /etc/systemd/system/multi-user.target.wants/firewalld.service.
@@ -115,7 +115,7 @@ Created symlink from /etc/systemd/system/firewalld.service to /dev/null.
 
 Now lets install iptables and iptables-service packages which is required for systemd:
 
-```text
+```
 [root@centos7-1 ~]# yum install iptables
 Loaded plugins: fastestmirror, langpacks
 Loading mirror speeds from cached hostfile
@@ -135,7 +135,7 @@ Created symlink from /etc/systemd/system/basic.target.wants/iptables.service to 
 
 okey every thing is ready for starting, lets list everything wich is currently used:
 
-```text
+```
 [root@centos7-1 ~]# iptables -L
 Chain INPUT (policy ACCEPT)
 target     prot opt source               destination         
@@ -155,7 +155,7 @@ target     prot opt source               destination
 
 we flush iptables rule : set the default chains policy to DROP for more security and see the results:
 
-```text
+```
 [root@centos7-1 ~]# iptables -F -v
 Flushing chain `INPUT'
 Flushing chain `FORWARD'
@@ -173,7 +173,7 @@ target     prot opt source               destination
 
 set the default chains policy to DROP for more security and see the results:
 
-```text
+```
 [root@centos7-1 ~]# iptables -P INPUT DROP
 [root@centos7-1 ~]# iptables -P FORWARD DROP
 [root@centos7-1 ~]# iptables -P OUTPUT DROP
@@ -190,7 +190,7 @@ target     prot opt source               destination
 
 There is one note that we should never forget, linux uses loopback adapter for internel communication. But we have drope that:
 
-```text
+```
 [root@centos7-1 ~]# ping localhost 
 PING localhost (127.0.0.1) 56(84) bytes of data.
 ping: sendmsg: Operation not permitted
@@ -204,14 +204,14 @@ ping: sendmsg: Operation not permitted
 
 So do not forget to ACCEPT loopback adapter packetes if you want to set chain default policy to drop:
 
-```text
+```
 [root@centos7-1 ~]# iptables -A INPUT -i lo -j ACCEPT
 [root@centos7-1 ~]# iptables -A OUTPUT -o lo -j ACCEPT
 ```
 
 and check:
 
-```text
+```
 [root@centos7-1 ~]# ping localhost -c3
 PING localhost (127.0.0.1) 56(84) bytes of data.
 64 bytes from localhost (127.0.0.1): icmp_seq=1 ttl=64 time=0.030 ms
@@ -225,21 +225,21 @@ rtt min/avg/max/mdev = 0.030/0.098/0.148/0.050 ms
 
 Now lets ACCEPT ssh coonection to be stablished with our host:
 
-```text
+```
 [root@centos7-1 ~]# iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 ```
 
-it seems okey hah? but it doesn't work, check it from another computer\(centos7-2\):
+it seems okey hah? but it doesn't work, check it from another computer(centos7-2):
 
-```text
+```
 [root@centos7-2 ~]# ssh centos7-1
 
 ^C
 ```
 
-The point is that do not forget to set reverse rules inorder to let incomming traffic to our server\(centos7-1\), can come back:
+The point is that do not forget to set reverse rules inorder to let incomming traffic to our server(centos7-1), can come back:
 
-```text
+```
 [root@centos7-1 ~]# iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
 [root@centos7-1 ~]# iptables -L
 Chain INPUT (policy DROP)
@@ -258,7 +258,7 @@ ACCEPT     tcp  --  anywhere             anywhere             tcp spt:ssh
 
 and check:
 
-```text
+```
 [root@centos7-2 ~]# ssh centos7-1
 The authenticity of host 'centos7-1 (192.168.10.133)' can't be established.
 ECDSA key fingerprint is SHA256:QtfM2iXh5pxZeFdAUXEBEnRXNSP40MWIhnSYvpOBMoY.
@@ -274,7 +274,7 @@ Managed by ansible
 
 iptables rules are not persisyent and they are vanished after reboot. rules are stored in /etc/sysconfig/iptables . for saving rules we use iptables-save command,
 
-```text
+```
 [root@centos7-1 ~]# iptables-save > /etc/sysconfig/iptables.$(date +%d-%m-%y)
 [root@centos7-1 ~]# ls /etc/sysconfig | grep iptables
 iptables
@@ -296,7 +296,7 @@ COMMIT
 
 now we clear the previous rules:
 
-```text
+```
 [root@centos7-1 ~]# iptables -F
 [root@centos7-1 ~]# iptables -L
 Chain INPUT (policy DROP)
@@ -311,7 +311,7 @@ target     prot opt source               destination
 
 use iptables-restoreto restore the backup:
 
-```text
+```
 [root@centos7-1 ~]# iptables-restore < /etc/sysconfig/iptables.18-07-18 
 [root@centos7-1 ~]# iptables -L
 Chain INPUT (policy DROP)
@@ -330,7 +330,7 @@ ACCEPT     tcp  --  anywhere             anywhere             tcp spt:ssh
 
 How to delete a rule ? There are two ways for deleting a rule, using -D option with full lenght of rule that we have specified:
 
-```text
+```
 [root@centos7-1 ~]# iptables -D OUTPUT -p tcp --sport 22 -j ACCEPT
 [root@centos7-1 ~]# iptables -L
 Chain INPUT (policy DROP)
@@ -348,7 +348,7 @@ ACCEPT     all  --  anywhere             anywhere
 
 or use iptables -L --line-numbers and delete a rule by using its number in the table:
 
-```text
+```
 [root@centos7-1 ~]# iptables -L --line-numbers
 Chain INPUT (policy DROP)
 num  target     prot opt source               destination         
@@ -379,37 +379,37 @@ ACCEPT     all  --  anywhere             anywhere
 
 Block TCP traffic from Specific IP Address:
 
-```text
+```
 iptables -A INPUT -p tcp -s xxx.xxx.xxx.xxx -j DROP
 ```
 
 Allow All tcp xxx incomming port:
 
-```text
+```
 iptables -A INPUT -p tcp --dport xxx -j ACCEPT
 ```
 
 some time we need to load special iptables module to do something special. Allow Multiple Ports :
 
-```text
+```
 iptables -A INPUT  -p tcp -m multiport --dports 22,80,443 -j ACCEPT
 ```
 
 Allow Specific Network Range on Particular Port:
 
-```text
+```
 iptables -A OUTPUT -p tcp -d 192.168.100.0/24 --dport 22 -j ACCEPT
 ```
 
 Sometimes IP addresses may requests too many connections towards web ports on our website. This can cause number of issues and to prevent such problems, we can Block Network Flood on Apache Port using this rule:
 
-```text
+```
 iptables -A INPUT -p tcp --dport 80 -m limit --limit 100/minute --limit-burst 200 -j ACCEPT
 ```
 
 Some time we want to just monitor network traffic or we want to trouble shoot our iptables firewall, best thing is logging:
 
-```text
+```
 iptables -A INPUT -i eth0 -j LOG --log-prefix "IPtables DROPPED:"
 ```
 
@@ -423,7 +423,7 @@ Sometimes we may want to forward one service’s traffic to another port . Lets 
 
 Here we use two CentOS system, one as a web server which runs on port 80 and the other one as a web client. Every thing is working on port 80 smothly :
 
-```text
+```
 [root@centos7-1 ~]# elinks http://192.168.10.133
 ```
 
@@ -431,14 +431,14 @@ Here we use two CentOS system, one as a web server which runs on port 80 and the
 
 but we want to do something whith iptables which redirect requests from port 8080 to port 80 this way clients from CentOS2 should be able to visit out site on port 8080:
 
-```text
+```
 [root@centos7-1 ~]# iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 [root@centos7-1 ~]# iptables -t nat -A PREROUTING -i ens33 -p tcp --dport 8080 -j REDIRECT --to-port 80
 ```
 
 and check the result from CentOS7-2:
 
-```text
+```
 [root@centos7-2 ~]# elinks http://192.168.10.133:8080
 ```
 
@@ -446,17 +446,17 @@ and check the result from CentOS7-2:
 
 ### ip6tables
 
-The introduction of the next-generation Internet Protocol, called IPv6, expands beyond the 32-bit address limit of IPv4 \(or IP\). IPv6 supports 128-bit addresses and, as such, carrier networks that are IPv6 aware are able to address a larger number of routable addresses than IPv4.
+The introduction of the next-generation Internet Protocol, called IPv6, expands beyond the 32-bit address limit of IPv4 (or IP). IPv6 supports 128-bit addresses and, as such, carrier networks that are IPv6 aware are able to address a larger number of routable addresses than IPv4.
 
 Linux supports IPv6 firewall rules using the Netfilter 6 subsystem and the`ip6tables`command. For example, SSH connections on a IPv6-aware network server can be enabled with the following rule:
 
-```text
+```
 ip6tables -A INPUT -i eth0 -p tcp -s 3ffe:ffff:100::1/128 --dport 22 -j ACCEPT
 ```
 
 ### NAT IP Forwarding
 
-Private \(None-Routable\) Networks have been set aside for use inside corporate networks.They are not able to communicate directly with internet hosts and require a firewall or similar device to translate Network Address. NAT \(Network Address Translation\) is used to originate IP to a public IP that can forward the traffic on their behalf.
+Private (None-Routable) Networks have been set aside for use inside corporate networks.They are not able to communicate directly with internet hosts and require a firewall or similar device to translate Network Address. NAT (Network Address Translation) is used to originate IP to a public IP that can forward the traffic on their behalf.
 
 Ranges are:
 
@@ -464,7 +464,7 @@ Ranges are:
 * 172.16.0.0 to 172.31.255.255
 * 192.168.0.0 to 192.168.255.255
 
-![](.gitbook/assets/route-linuxnatrouter.png)
+![](.gitbook/assets/route-LinuxNATrouter.png)
 
 How linux does that ? Linux uses Connection tracking, Connection tracking is a mechanism done by Linux machine's to keep track of TCP connections that are going out and coming inside. This connection tracking mechanism enables Linux machine's to accurately send packet's which are NATed to the exact internal machines, who initiated the connection.
 
@@ -479,20 +479,20 @@ With the help of that table, stateful firewall can filter out traffic based on t
 
 There are two different types of NAT:
 
-* **Source NAT\(SNAT\)**
-* **Destination NAT \(DNAT\)**
+* **Source NAT(SNAT)**
+* **Destination NAT (DNAT)**
 
 ### Masqueradeand SNAT in Linux
 
-This is the most commonly used NAT. SNAT stands for Source Network Address Translation. It rewrites only the source address of the packets while nating. In the previously shown example of NAT many private ip addresses of the range 192.168.0.0/24 gets translated to the public source address of the Linux NAT router\(4.4.7.23\).
+This is the most commonly used NAT. SNAT stands for Source Network Address Translation. It rewrites only the source address of the packets while nating. In the previously shown example of NAT many private ip addresses of the range 192.168.0.0/24 gets translated to the public source address of the Linux NAT router(4.4.7.23).
 
-In this case the internal network hosts, with private ip addresses can reach the internet with the help of SNAT. But hosts from the internet cannot reach those internal hosts directly \(It will only reach the internal hosts, if the source was NATed to the Linux router's public IP address.\)
+In this case the internal network hosts, with private ip addresses can reach the internet with the help of SNAT. But hosts from the internet cannot reach those internal hosts directly (It will only reach the internal hosts, if the source was NATed to the Linux router's public IP address.)
 
-In other words, connection initiated by the internal hosts to the internet will only be fulfilled\(not the reverse\).
+In other words, connection initiated by the internal hosts to the internet will only be fulfilled(not the reverse).
 
 #### Static SNAT vs DynamicSNAT
 
-Even SNAT can be classified into different types based on the translation it does. For example if many internal private IP addresses gets translated to one public ip address assigned to the Linux router, then its called as a**Static SNAT**.If many internal private IP addresses gets translated to many different public IP addresses assigned to the Linux router, then its called as a**Dynamic SNAT.** Please note that If we are using masquerading instead of SNAT, then we will be unable to specify the outgoing ip address. It will use the default IP address assigned to the outgoing interface.
+Even SNAT can be classified into different types based on the translation it does. For example if many internal private IP addresses gets translated to one public ip address assigned to the Linux router, then its called as a**Static SNAT**.If many internal private IP addresses gets translated to many different public IP addresses assigned to the Linux router, then its called as a**Dynamic SNAT. **Please note that If we are using masquerading instead of SNAT, then we will be unable to specify the outgoing ip address. It will use the default IP address assigned to the outgoing interface.
 
 ### What is DNAT?
 
@@ -506,7 +506,7 @@ Lets make our hands dirty and do some configurations. Here we have two Ubuntu ma
 
 First we have to configure kernel to let forward traffic trough this machine:
 
-```text
+```
 root@server1:~# cat /proc/sys/net/ipv4/ip_forward
 0
 root@server1:~# echo "1" > /proc/sys/net/ipv4/ip_forward
@@ -516,14 +516,14 @@ root@server1:~# cat /proc/sys/net/ipv4/ip_forward
 
 now lets MASQUERADE:
 
-```text
+```
 root@server1:~# iptables --table nat --append POSTROUTING --out-interface ens33 -j MASQUERADE
 root@server1:~# iptables --append FORWARD --in-interface ens38 -j ACCEPT
 ```
 
 and do not forget if we don't specify any tables by default it appends to "filter" table. Okey lets now checks Ubntu2:
 
-```text
+```
 root@server2:~# ip a s
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -548,4 +548,3 @@ rtt min/avg/max/mdev = 161.904/170.784/179.664/8.880 ms
 ```
 
 That is all.
-

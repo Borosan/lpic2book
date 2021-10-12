@@ -8,7 +8,7 @@
 
 * Tools and utilities to scan and test ports on a server
 * Locations and organizations that report security alerts as Bugtraq, CERT or other sources
-* Tools and utilities to implement an intrusion detection system \(IDS\)
+* Tools and utilities to implement an intrusion detection system (IDS)
 * Awareness of OpenVAS and Snort
 
 **Terms and Utilities:**
@@ -25,7 +25,7 @@ Talking about Linux security can be subject of a full course. Many Linux Securit
 
 **Updates :**
 
-We should keep our system\(s\) updated. Daily updates is recommended but in busy production environment it might be posteponed. Do not forget updates, keeping our critical remote access systems updated weekly is a must. Subscribing to third party systems that can provide security information is also important
+We should keep our system(s) updated. Daily updates is recommended but in busy production environment it might be posteponed. Do not forget updates, keeping our critical remote access systems updated weekly is a must. Subscribing to third party systems that can provide security information is also important
 
 **Monitoring**
 
@@ -45,36 +45,36 @@ There are some embeded security tool, some of them are free and some others cost
 
 Lets start with updates and where we can gain information about lates Security Vulnerability and issues.There are some websites and organizations which we can gain valuable information from them:
 
-### CERT \([http://www.cert.org](2124-security-tasks.md#cert-httpwwwcertorg)\)
+### CERT ([http://www.cert.org](2124-security-tasks.md#cert-httpwwwcertorg))
 
-* Computer Emergency response Team \(specifically the CERT Coordination Center or CRET-CC is located at Carnegie Mellon University  \)
+* Computer Emergency response Team (specifically the CERT Coordination Center or CRET-CC is located at Carnegie Mellon University  )
 * Provides tools for vulnerability assessments and analysis including comprehensive list of known vulnerabilities and attack vectors.
 * Often found working with goverments organizations or private institutions regarding computer security policy issues.
 
-### US-CERT [\(http://www.us-cert.gov](2124-security-tasks.md#us-cert-httpwwwus-certgov)\)
+### US-CERT [(http://www.us-cert.gov](2124-security-tasks.md#us-cert-httpwwwus-certgov))
 
 * United States- Computer Emergency Response Team
 * Provides classified governments responses to computer security incidents.
 * Works with the CERT-CC on computer policy issues.
 
-### BugTraq \(mailing list hosted by [http://www.securityfocous.com](2124-security-tasks.md#bugtraq-mailing-list-in-httpwwwsecurityfocouscom)\)
+### BugTraq (mailing list hosted by [http://www.securityfocous.com](2124-security-tasks.md#bugtraq-mailing-list-in-httpwwwsecurityfocouscom))
 
 * this is a subscription based e-mail list.
 * Created and paid for by the _Security Focous Organization_.
-* This list is a moderated \(and very detailed list\) for the discussion of \(and announcements of new\) security vulnerabilities.
-* This list provides details on vulnerabilities as they are discovered and reported, including what is affected \(versions, types, devices and operating systems\), what the vulnerability is and any known attack vectors.
+* This list is a moderated (and very detailed list) for the discussion of (and announcements of new) security vulnerabilities.
+* This list provides details on vulnerabilities as they are discovered and reported, including what is affected (versions, types, devices and operating systems), what the vulnerability is and any known attack vectors.
 
 We have already talked about nmap and nc in previous courses, so lets just have a quick review of them here and show some related examples of them.
 
 ## nc
 
-netcat \(or nc in short\) is a powerful and easy-to-use utility that can be employed for just about anything in Linux in relation to TCP, UDP, or UNIX-domain sockets.
+netcat (or nc in short) is a powerful and easy-to-use utility that can be employed for just about anything in Linux in relation to TCP, UDP, or UNIX-domain sockets.
 
 We have used it to: open TCP connections, listen on arbitrary TCP and UDP ports, send packets, and port scanning which we review here.
 
-By using netcat we can check if a single or multiple or a range of open ports exist in our system\(We use Ubuntu16.04 here\):
+By using netcat we can check if a single or multiple or a range of open ports exist in our system(We use Ubuntu16.04 here):
 
-```text
+```
 root@server1:~# nc -zv localhost 21-29
 Connection to localhost 21 port [tcp/ftp] succeeded!
 nc: connect to localhost port 22 (tcp) failed: Connection refused
@@ -93,7 +93,7 @@ nc: connect to localhost port 29 (tcp) failed: Connection refused
 
 We have discussed about nmap but as a review, nmap is an open source and a very usefull tool for Linux system/network administrators. Nmap is used for exploring networks, perform security scans, network audit and finding open ports on remote machine. It scans for Live hosts, Operating systems, packet filters and open ports running on remote hosts.
 
-```text
+```
 root@server1:~# nmap -v -r  192.168.10.128,138
 
 Starting Nmap 7.01 ( https://nmap.org ) at 2018-07-31 03:02 PDT
@@ -140,7 +140,7 @@ Telnet is one of the earliest remote login protocols on the Internet. It was ini
 
 The most usage of telnet command is for testing perposes:
 
-```text
+```
 [root@centos7-2 ~]# telnet 192.168.10.128 21 
 Trying 192.168.10.128...
 Connected to 192.168.10.128.
@@ -161,13 +161,13 @@ The Telnet session between the client and the server is not encrypted. Anyone wi
 
 Packet sniffing attacks like the above were the underlying reason for developing SSH, and they were the most common security problem on the Internet already in the mid-1990s.
 
-### replace insecureTELNET with secure shell\(SSH\)
+### replace insecureTELNET with secure shell(SSH)
 
-SSH \(Secure Shell\) provides a secure alternative to Telnet. SSH protects user identities, passwords, and data from network snooping attacks, and allows secure logins and file transfers.
+SSH (Secure Shell) provides a secure alternative to Telnet. SSH protects user identities, passwords, and data from network snooping attacks, and allows secure logins and file transfers.
 
 SSH has practically replaced Telnet, and the older protocol is used these days only in rare cases to access decades old legacy equipment that does not support more modern protocols. And there are still organizations that simply do not care about security.
 
-For Unix and Linux operating systems, the OpenSSH implementation comes free with the operating system and can be used to replace Telnet.\(see the previous course\).
+For Unix and Linux operating systems, the OpenSSH implementation comes free with the operating system and can be used to replace Telnet.(see the previous course).
 
 ## fail2ban
 
@@ -175,9 +175,9 @@ Fail2ban is a log-parsing application that monitors system logs for symptoms of 
 
 ![](.gitbook/assets/fail2ban-logo.jpg)
 
-Fail2ban is primarily focused on SSH attacks, although it can be further configured to work for any service that uses log files and can be subject to a compromise. Lets install it \(Ubuntu\):
+Fail2ban is primarily focused on SSH attacks, although it can be further configured to work for any service that uses log files and can be subject to a compromise. Lets install it (Ubuntu):
 
-```text
+```
 root@server1:~# apt search fail2ban
 Sorting... Done
 Full Text Search... Done
@@ -208,7 +208,7 @@ Aug 04 21:00:57 server1 systemd[1]: Started Fail2Ban Service.
 
 The fail2ban service keeps its configuration files in the`/etc/fail2ban`directory.
 
-```text
+```
 root@server1:~# cd /etc/fail2ban/
 root@server1:/etc/fail2ban# ls -l
 total 48
@@ -228,11 +228,11 @@ Fail2ban reads `.conf` configuration files first, then`.local`files override any
 
 `fail2ban.conf` contains the default configuration profile. The default settings will give us a reasonable working setup. If we want to make any changes, it’s best to do it in a separate file,`fail2ban.local`, which overrides`fail2ban.conf`. Rename a copy`fail2ban.conf`to`fail2ban.local`.
 
-```text
+```
 root@server1:/etc/fail2ban# cp fail2ban.conf fail2ban.local
 ```
 
-```text
+```
 root@server1:/etc/fail2ban# cat fail2ban.conf 
 # Fail2Ban main configuration file
 #
@@ -307,15 +307,15 @@ dbpurgeage = 86400
 
 ### Configuring jail.local Settings
 
-The`jail.conf`file will enable Fail2ban for SSH by default for Debian and Ubuntu, but not CentOS. All other protocols and configurations \(HTTP, FTP, etc.\) are commented out. If we want to change this, we should create a`jail.local`for editing:
+The`jail.conf`file will enable Fail2ban for SSH by default for Debian and Ubuntu, but not CentOS. All other protocols and configurations (HTTP, FTP, etc.) are commented out. If we want to change this, we should create a`jail.local`for editing:
 
-```text
+```
 root@server1:/etc/fail2ban# cp jail.conf jail.local
 ```
 
 as `jail.conf` has is a big configuration file, we just take a look at general configurations and ssh related ones:
 
-```text
+```
 root@server1:/etc/fail2ban# cat jail.conf 
 
 #
@@ -563,7 +563,7 @@ maxretry = 5
 
 * ignoreip : To ignore specific IPs, add them to the`ignoreip`line. By default, this command will not ban the localhost
 * bantime: The length of time in seconds for which an IP is banned. If set to a negative number, the ban will be permanent. The default value of`600`is set to ban an IP for a 10-minute duration.
-* findtime: The length of time between login attempts before a ban is set. For example, if Fail2ban is set to ban an IP after five \(5\) failed log-in attempts, those 5 attempts must occur within the set 10-minute`findtime`limit. The`findtime`value should be a set number of seconds.
+* findtime: The length of time between login attempts before a ban is set. For example, if Fail2ban is set to ban an IP after five (5) failed log-in attempts, those 5 attempts must occur within the set 10-minute`findtime`limit. The`findtime`value should be a set number of seconds.
 * maxretry: How many attempts can be made to access the server from a single IP before a ban is imposed. The default is set to 3.
 
 **email alerts:**
@@ -583,9 +583,9 @@ maxretry = 5
 
 ### Failregexs
 
-Although Fail2ban comes with a number of filters, you may want to further customize these filters or create your own to suit your needs. Fail2ban uses regular expressions \(regex\) to parse log files, looking for instances of attempted break-ins and password failures. Fail2ban uses Python’s regex extensions.
+Although Fail2ban comes with a number of filters, you may want to further customize these filters or create your own to suit your needs. Fail2ban uses regular expressions (regex) to parse log files, looking for instances of attempted break-ins and password failures. Fail2ban uses Python’s regex extensions.
 
-```text
+```
 root@server1:/etc/fail2ban# ls
 action.d       fail2ban.d      filter.d   jail.d      paths-common.conf
 fail2ban.conf  fail2ban.local  jail.conf  jail.local  paths-debian.conf
@@ -621,7 +621,7 @@ exim-common.conf           postfix-rbl.conf
 
 as you can there are sshd.conf and sshd-ddos.conf which are related to ssh service. Lets chek it in action, we ssh to ubuntu server1 from buntu server2 and enter many bad passwords:
 
-```text
+```
 root@server2:~# ssh user1@192.168.10.129 
 user1@192.168.10.129's password: 
 Permission denied, please try again.
@@ -654,7 +654,7 @@ ssh: connect to host 192.168.10.129 port 22: Connection refused
 
 Wow lets see what fail2ban has been done:
 
-```text
+```
 root@server1:/etc/fail2ban/filter.d# iptables -S
 -P INPUT ACCEPT
 -P FORWARD ACCEPT
@@ -692,33 +692,32 @@ What is difference?
 
 **Firewall**- A device or application that analyzes packet headers and enforces policy based on protocol type, source address, destination address, source port, and/or destination port. Packets that do not match policy are rejected.
 
-**Intrusion Detection System**  **\(IDS\)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected a log message is generated detailing the event.
+**Intrusion Detection System ** **(IDS)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected a log message is generated detailing the event.
 
-**Intrusion Prevention System**  **\(IPS\)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected the packet is rejected.
+**Intrusion Prevention System ** **(IPS)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected the packet is rejected.
 
 Now lets talk about some other security tools, openVAS and snort:
 
 ## ![](.gitbook/assets/openvas-logo.png)
 
-OpenVAS \(Open Vulnerability Assessment System\) is a suite of tools that provide information on vulnerabilities and provide various levels of alerting when discovered. Good news is that All OpenVAS products are free software, and most components are licensed under the GNU General Public License\(GPL\).
+OpenVAS (Open Vulnerability Assessment System) is a suite of tools that provide information on vulnerabilities and provide various levels of alerting when discovered. Good news is that All OpenVAS products are free software, and most components are licensed under the GNU General Public License(GPL).
 
-* Uses a database \(constantly updated\) of know vulnerability for varous remote tools and remote acess applications.
+* Uses a database (constantly updated) of know vulnerability for varous remote tools and remote acess applications.
 * Identifies and reports on security holes that are known or discovered in our environment.
 * test configuration settings for security issues and highlights changes to make.
 * Commercially available and supported.
 
 ## ![](.gitbook/assets/snort-logo.png)
 
-Snort is a free open source network intrusion detection system \(IDS\)created by Martin Roesch in 1998. Snort is now developed by Sourcefireand and bad news is that it has been owned by Cisco since 2013 .The means we have to pay for signature files.
+Snort is a free open source network intrusion detection system (IDS)created by Martin Roesch in 1998. Snort is now developed by Sourcefireand and bad news is that it has been owned by Cisco since 2013 .The means we have to pay for signature files.
 
 * Snort Can help to determine when someone/something is "probing" our system for vulnerabilities, or attacking with known vectors.
-* Network traffic analysis is used in real time \(called 'sniffing'\) to determine if/when attacks are occurring.
+* Network traffic analysis is used in real time (called 'sniffing') to determine if/when attacks are occurring.
 * Snort can be configured in three main modes:
 * sniffer
 * packet logger
-* network intrusion detection.
+*   network intrusion detection.
 
-  In sniffer mode, the program will read network packets and display them on the console. In packet logger mode, the program will log packets to the disk. In intrusion detection mode, the program will monitor network traffic and analyze it against a rule set defined by the user. The program will then perform a specific action based on what has been identified
+    In sniffer mode, the program will read network packets and display them on the console. In packet logger mode, the program will log packets to the disk. In intrusion detection mode, the program will monitor network traffic and analyze it against a rule set defined by the user. The program will then perform a specific action based on what has been identified
 
 A good alternative free open source for snort is Suricata.
-

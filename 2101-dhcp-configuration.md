@@ -24,35 +24,35 @@
 
 ## What is DHCP?
 
-Dynamic Host Configuration Protocol \(DHCP\) is a network protocol that is used to enable host computers to be automatically assigned IP addresses and related network configurations from a server. DHCP reduce the need for a network administrator or a user to manually assign IP addresses to all network devices .
+Dynamic Host Configuration Protocol (DHCP) is a network protocol that is used to enable host computers to be automatically assigned IP addresses and related network configurations from a server. DHCP reduce the need for a network administrator or a user to manually assign IP addresses to all network devices .
 
 ## How DHCP works?
 
 The following steps show how DHCP actually works:
 
-![](.gitbook/assets/dhcp-how.jpg)
+![](.gitbook/assets/DHCP-How.jpg)
 
-1. Once a client \(that is configured to use DHCP\) and connected to a network boots up, it broadcats a DHCPDISCOVER packet to all the network. and attempts to find a DHCP server on the wire.
-2. Router/ Switch forwards the DHCPDISCOVER to the proper DHCP Server\(as configured\).When the DHCP server receives the DHCPDISCOVER request packet, it replies with a DHCPOFFER packet.Based on the configuration of available addresses, the client hardware address and/or host name and the configuration of DHCP server software determines the appropriate address to assign to the machine which originated the request. The the address temprorary reserved for the client.  
+1. Once a client (that is configured to use DHCP) and connected to a network boots up, it broadcats a DHCPDISCOVER packet to all the network. and attempts to find a DHCP server on the wire.
+2. Router/ Switch forwards the DHCPDISCOVER to the proper DHCP Server(as configured).When the DHCP server receives the DHCPDISCOVER request packet, it replies with a DHCPOFFER packet.Based on the configuration of available addresses, the client hardware address and/or host name and the configuration of DHCP server software determines the appropriate address to assign to the machine which originated the request. The the address temprorary reserved for the client.  
 3. Then the client gets the DHCPOFFER packet, and it sends a DHCPREQUEST packet to the server showing it is ready to receive the network configuration information provided in the DHCPOFFER packet.
-4. Finally, after the DHCP server receives the DHCPREQUEST packet from the client, it sends the DHCPACK packet showing that the client is now permitted to use the IP address assigned to it for \(configured\) period of time.
+4. Finally, after the DHCP server receives the DHCPREQUEST packet from the client, it sends the DHCPACK packet showing that the client is now permitted to use the IP address assigned to it for (configured) period of time.
 
 DHCP use udp port number 67 be default.
 
 ## Implementing DHCP Server
 
-DHCP packages \(on the server side\) are not typically installed by default in most distributions.
+DHCP packages (on the server side) are not typically installed by default in most distributions.
 
 * Packages can be:
 * dhcp
 * dhcp-server
-* isc-dhcp-server \(older\)
-* dhcp3-server \(LPIC-2 Exam Objectivd\)
+* isc-dhcp-server (older)
+* dhcp3-server (LPIC-2 Exam Objectivd)
 * dhcp4-server
 
 We use ubuntu for demontration with two network card:
 
-```text
+```
 root@server1:~# ip  a s
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -76,7 +76,7 @@ root@server1:~# ip  a s
 
 Lets serach for the package name in ubuntu and starts:
 
-```text
+```
 root@server1:~# apt-cache search dhcp | grep server
 dnsmasq-base - Small caching DNS proxy and DHCP/TFTP server
 isc-dhcp-dbg - ISC DHCP server for automatic IP address assignment (debuging symbols)
@@ -117,7 +117,7 @@ root@server1:~# apt install isc-dhcp-server
 
 Now lets see where are configuration and other files:
 
-```text
+```
 root@server1:~# dpkg -L isc-dhcp-server 
 /.
 /etc
@@ -171,9 +171,9 @@ root@server1:~# dpkg -L isc-dhcp-server
 /usr/share/man/man8/dhcpd.8.gz
 ```
 
-based on our distribution and service manager which is used \(SysV , Upstart, Systemd\) DHCP service migh be started right after installation, but weather its started or stopped, its okey because it wont serve and DHCP requests from any interfaces, till we configure that, here in ubuntu we use systemd and its enabled but stoped right after DHCP server installation:
+based on our distribution and service manager which is used (SysV , Upstart, Systemd) DHCP service migh be started right after installation, but weather its started or stopped, its okey because it wont serve and DHCP requests from any interfaces, till we configure that, here in ubuntu we use systemd and its enabled but stoped right after DHCP server installation:
 
-```text
+```
 root@server1:/etc/dhcp# systemctl list-unit-files --type=service | grep dhcp
 isc-dhcp-server.service                    enabled 
 isc-dhcp-server6.service                   enabled
@@ -183,7 +183,7 @@ Lets configure which interface our DHCP service listen on:
 
 /etc/default/isc-dhcp-server
 
-```text
+```
 root@server1:/# cd /etc/default/
 root@server1:/etc/default# cat isc-dhcp-server 
 # Defaults for isc-dhcp-server initscript
@@ -213,7 +213,7 @@ and set enterface like INTERFACE="ens38"
 
 If your firewall is ON do not forget to configure it for DHCP service:
 
-```text
+```
 ---------- iptables (CentOS/RHEL 6) ----------
 iptables -A INPUT -p udp -m state --state NEW --dport 67 -j ACCEPT
 service iptables save
@@ -230,11 +230,11 @@ ufw show
 
 The first step in configuring a DHCP server is to create the configuration file that stores the network information for the clients.
 
-Primary location of DHCP configuration file can be found in /etc/dhcpd.conf \(CentOS\) or in /etc/dhcp/dhcp.conf \(ubuntu\)also is can be copied from /usr/share/doc/dhcp-4.2.5/dhcpd.conf.example in \(CentOS\) or /usr/share/doc/isc-dhcp-server/examples/dhcpd.conf.example\(ubuntu\) directory.
+Primary location of DHCP configuration file can be found in /etc/dhcpd.conf (CentOS) or in /etc/dhcp/dhcp.conf (ubuntu)also is can be copied from /usr/share/doc/dhcp-4.2.5/dhcpd.conf.example in (CentOS) or /usr/share/doc/isc-dhcp-server/examples/dhcpd.conf.example(ubuntu) directory.
 
-The configuration file can contain extra tabs or blank lines for easier formatting. Keywords are case-insensitive and lines beginning with a hash sign \(\#\) are considered comments.
+The configuration file can contain extra tabs or blank lines for easier formatting. Keywords are case-insensitive and lines beginning with a hash sign (#) are considered comments.
 
-```text
+```
 root@server1:~# cd /etc/dhcp/
 
 root@server1:/etc/dhcp# ls -l
@@ -249,7 +249,7 @@ drwxr-xr-x 2 root root  4096 Aug  1  2017 dhclient-exit-hooks.d
 
 Lets get into main configuration file:
 
-```text
+```
 root@server1:/etc/dhcp# cat dhcpd.conf 
 #
 # Sample configuration file for ISC dhcpd for Debian
@@ -366,8 +366,8 @@ log-facility local7;
 
 there are two types of statements defined in the DHCP configuration file, these are:
 
-* **parameters** state how to carry out a task, whether to perform a task, or what network configuration options to send to the DHCP client.
-* **declarations**  specify the network topology, define the clients, offer addresses for the clients, or apply a group of parameters to a group of declarations.
+* **parameters **state how to carry out a task, whether to perform a task, or what network configuration options to send to the DHCP client.
+* **declarations ** specify the network topology, define the clients, offer addresses for the clients, or apply a group of parameters to a group of declarations.
 
 The parameters that start with the keyword option are referred to as _options_. These options control DHCP options; whereas, parameters configure values that are not optional or control how the DHCP server behaves.
 
@@ -377,39 +377,39 @@ Some of the most important options and directives are:
 
 Determine whether you want the DHCP server to attempt to update the requesting clients DNS server addresses or not.
 
-#### ddns-update-style \[style\];
+#### ddns-update-style \[style];
 
 #### ignore client-updates;
 
 valid values are:
 
 * none : no attempt to update DNS servers is made
-* ad-hoc : oldest method, it is retired method of updating based on a script value\(valid for DHCP3\).
-* interim : C language based update of DNS, \(named "interim" as such as it was intended as temporary replacement of "ad-hoc" method\)
-* standard : newset method \(DHCP v4\), incorporates new standards for Dynamic DNS Services.
+* ad-hoc : oldest method, it is retired method of updating based on a script value(valid for DHCP3).
+* interim : C language based update of DNS, (named "interim" as such as it was intended as temporary replacement of "ad-hoc" method)
+* standard : newset method (DHCP v4), incorporates new standards for Dynamic DNS Services.
 
 okey for now we do not configure Dynamic updates so lets continue.
 
 ### IP Ranges:
 
-#### subnet \[network\] netmask \[mask\] {\[options and directives\]}
+#### subnet \[network] netmask \[mask] {\[options and directives]}
 
 defines and identifies a network IP and associated netmask as the network our server will maintain
 
-| Key Directives | Description |
-| :--- | :--- |
-| option routers "192.168.1.2" | define default GW for clients |
-| option subnet-mask "255.255.255.0" | subnet mask of clients which are going to receive an IP addr |
-| range 10.10.1.1 10.10.1.10 | Define range of IP addr to release |
-| option domain-name "example.com"; | Domain name which our clients belong to |
-| option domain-name-servers 8.8.8.8; | Define DNS server IP address or HostName |
+| Key Directives                      | Description                                                  |
+| ----------------------------------- | ------------------------------------------------------------ |
+| option routers "192.168.1.2"        | define default GW for clients                                |
+| option subnet-mask "255.255.255.0"  | subnet mask of clients which are going to receive an IP addr |
+| range 10.10.1.1 10.10.1.10          | Define range of IP addr to release                           |
+| option domain-name "example.com";   | Domain name which our clients belong to                      |
+| option domain-name-servers 8.8.8.8; | Define DNS server IP address or HostName                     |
 
 The ISC server allows the network architect to specify a default lease length, a minimum lease length, and a maximum lease length.
 
-| min-lease-time 400; | The minimum lease length is used to force the client to take a longer lease than it has requested. |
-| :--- | :--- |
-| default-lease-time 600; | The default lease length is used if the client does not request a specific lease. |
-| max-lease-time 7200; | The maximum lease length defines the longest lease that the server can allocate. |
+| min-lease-time 400;     | The minimum lease length is used to force the client to take a longer lease than it has requested. |
+| ----------------------- | -------------------------------------------------------------------------------------------------- |
+| default-lease-time 600; | The default lease length is used if the client does not request a specific lease.                  |
+| max-lease-time 7200;    | The maximum lease length defines the longest lease that the server can allocate.                   |
 
 for defining IP range:
 
@@ -417,7 +417,7 @@ Do not forget to restart DHCP service in order to changes take effect.
 
 and also lets configure IP range by copying and modifying examples like this:
 
-```text
+```
 subnet 192.168.10.1 netmask 255.255.255.0 {
   range 192.168.10.101 192.168.10.110;
   option routers 192.168.10.2;
@@ -426,7 +426,7 @@ subnet 192.168.10.1 netmask 255.255.255.0 {
 
 Okey after doing some modifications on configuration file , lets check it :
 
-```text
+```
 root@server1:~# vim /etc/dhcp/dhcpd.conf 
 root@server1:~# dhcpd -t -cf /etc/dhcp/dhcpd.conf 
 Internet Systems Consortium DHCP Server 4.3.3
@@ -440,7 +440,7 @@ PID file: /var/run/dhcpd.pid
 
 and if there is no errors restart the service :
 
-```text
+```
 root@server1:/etc/dhcp# systemctl restart isc-dhcp-server
 root@server1:/etc/dhcp# journalctl -xe
 -- 
@@ -476,9 +476,9 @@ Apr 22 03:52:11 server1 sh[8402]: Sending on   Socket/fallback/fallback-net
 Apr 22 03:52:11 server1 dhcpd[8402]: Server starting service.
 ```
 
-and as you can see Wrote 0 leases to leases file !! oh lets bring up our client \(server3\) and see what will happen:
+and as you can see Wrote 0 leases to leases file !! oh lets bring up our client (server3) and see what will happen:
 
-```text
+```
 root@server3:~# ip a s
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -496,7 +496,7 @@ root@server3:~# dhclient
 
 to make sure which DHCP server has issued our address, we can check it on the DHCP client :
 
-```text
+```
 root@server3:~# cat /var/lib/dhcp/dhclient.leases 
 lease {
   interface "ens33";
@@ -551,7 +551,7 @@ Logs are in one of these two places depends on our distrobutions:
 
 and see the logs in server side:
 
-```text
+```
 root@server1:/etc/dhcp# tail /var/log/syslog
 Apr 22 03:52:11 server1 sh[8402]: Listening on LPF/ens38/00:0c:29:03:64:17/192.168.1.0/24
 Apr 22 03:52:11 server1 dhcpd[8402]: Sending on   LPF/ens38/00:0c:29:03:64:17/192.168.1.0/24
@@ -565,13 +565,13 @@ Apr 22 03:52:21 server1 dhcpd[8402]: DHCPREQUEST for 192.168.1.101 (192.168.1.12
 Apr 22 03:52:21 server1 dhcpd[8402]: DHCPACK on 192.168.1.101 to 00:0c:29:9f:ee:a3 (server3) via ens38
 ```
 
-ahun One IP address is released. Congratulations :\).
+ahun One IP address is released. Congratulations :).
 
 ## /var/lib/dhcp/dhcp/leases
 
 to see the leased IP adresses from our DHCP server:
 
-```text
+```
 root@server1:/# cat /var/lib/dhcp/dhcpd.leases
 # The format of this file is documented in the dhcpd.leases(5) manual page.
 # This lease file was written by isc-dhcp-4.3.3
@@ -614,19 +614,19 @@ lease 192.168.1.101 {
 
 Some times we need to assign a specific IP address to a specific client, this way that client would get the same IP address even if it leaves our network and return.This way we can configure firewall rules in our network easily and add one level of security.
 
-For accomplish our goal we need to simply define the section below in `/etc/dhcp/dhcpd.conf` ****file, where we must explicitly specify client’s MAC addresses and the fixed IP to be assigned.
+For accomplish our goal we need to simply define the section below in `/etc/dhcp/dhcpd.conf`** **file, where we must explicitly specify client’s MAC addresses and the fixed IP to be assigned.
 
-#### host \[name\] { \[static network information\] }
+#### host \[name] { \[static network information] }
 
-| key directives | description |
-| :--- | :--- |
-| hardware ether 00:0c:29:9f:ee:a3; | define mac address of client |
-| fixed-address 192.168.1.110; | reserved IP address |
-| option host-name "server3"; | Client host name if u like to define |
+| key directives                    | description                          |
+| --------------------------------- | ------------------------------------ |
+| hardware ether 00:0c:29:9f:ee:a3; | define mac address of client         |
+| fixed-address 192.168.1.110;      | reserved IP address                  |
+| option host-name "server3";       | Client host name if u like to define |
 
 Lets go back and see released on the server:
 
-```text
+```
 root@server1:/# cat /var/lib/dhcp/dhcpd.leases
 # The format of this file is documented in the dhcpd.leases(5) manual page.
 # This lease file was written by isc-dhcp-4.3.3
@@ -653,7 +653,7 @@ lease 192.168.1.101 {
 
 Now we want to assign another IP address to the DHCP client called "server3", with the mac address of "00:0c:29:9f:ee:a3". Lets double check our information:
 
-```text
+```
 root@server3:~# hostname
 server3
 root@server3:~# ifconfig -a 
@@ -669,7 +669,7 @@ ens33     Link encap:Ethernet  HWaddr 00:0c:29:9f:ee:a3
 
 and add following section right after subnet section which we previously defined in /etc/dhcp/dhcpd.conf in DHCP server:
 
-```text
+```
 ### add static IP address
 host server3 {
 hardware  ethernet 00:0c:29:9f:ee:a3;
@@ -679,7 +679,7 @@ fixed-address 192.168.1.110;
 
 okey lets restart DHCP service:
 
-```text
+```
 root@server1:/etc/dhcp# systemctl restart isc-dhcp-server
 root@server1:/etc/dhcp# systemctl status isc-dhcp-server
 ● isc-dhcp-server.service - ISC DHCP IPv4 server
@@ -704,7 +704,7 @@ Apr 22 19:56:07 server1 dhcpd[9236]: Server starting service.
 
 and to check the result on DHCP client:
 
-```text
+```
 root@server3:~# dhclient -r
 Killed old client process
 root@server3:~# dhclient
@@ -717,7 +717,7 @@ root@server3:~# ifconfig -a | grep -i inet
 
 and on the server side:
 
-```text
+```
 root@server1:~# tail /var/log/syslog
 Apr 22 19:56:23 server1 dhcpd[9236]: DHCPREQUEST for 192.168.1.110 (192.168.1.129) from 00:0c:29:9f:ee:a3 via ens38
 Apr 22 19:56:23 server1 dhcpd[9236]: DHCPACK on 192.168.1.110 to 00:0c:29:9f:ee:a3 via ens38
@@ -739,15 +739,15 @@ One of the main golas of Network Subnetting is reducing Network traffic by contr
 
 One solution is running a DHCP server for each subnet and clients which are beside the routers , but it doesn't sound good. The right solution is using DHCP relay agent.
 
-DHCP Relay Agent is a special agent that can listen on a subnet that do not have a DHCP Server for DHCP requests \(or BOOTP\) and then forward those on to a specific DHCP sever on another network.
+DHCP Relay Agent is a special agent that can listen on a subnet that do not have a DHCP Server for DHCP requests (or BOOTP) and then forward those on to a specific DHCP sever on another network.
 
-![](.gitbook/assets/dhcp-relayagent.jpg)
+![](.gitbook/assets/DHCP-RelayAgent.jpg)
 
 DHCP Relay is like a piece of software which can be run on Network switches/ routers or can be installed and modified on a linux machine.
 
 For demonstration we imaging new Centos Client with ip range 172.20.10.0/24 has come and ask for ip address, for that we configure DHCP relay agent on ubuntu as "server2". We use our previously configured DHCP Server ubuntu "server1" .
 
-```text
+```
 ###Main DHCP server
 root@server1:~# ifconfig | grep inet
           inet addr:192.168.10.129  Bcast:192.168.10.255  Mask:255.255.255.0
@@ -769,7 +769,7 @@ root@server1:~# systemctl status isc-dhcp-server
 
 Our Relay:
 
-```text
+```
 root@server2:~# ifconfig | grep inet
           inet addr:192.168.1.102  Bcast:192.168.1.255  Mask:255.255.255.0
           inet6 addr: fe80::47a6:91f0:8edb:9a49/64 Scope:Link
@@ -781,7 +781,7 @@ root@server2:~# ifconfig | grep inet
 
 And our poor client is waiting to receive an IP address from Rage Address 172:
 
-```text
+```
 [root@centos7 ~]# ifconfig
 ens33: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         inet6 fe80::c645:f0c3:7796:4d77  prefixlen 64  scopeid 0x20<link>
@@ -794,7 +794,7 @@ ens33: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 
 Okey Lets start With DHCP Server and add bellow range to /etc/dhcp/dhcpd.conf :
 
-```text
+```
 ###For clients behind the router
 subnet 172.20.1.0 netmask 255.255.255.0 {
   range 172.20.1.101 172.20.1.110;
@@ -804,7 +804,7 @@ subnet 172.20.1.0 netmask 255.255.255.0 {
 
 and add the route on it:
 
-```text
+```
 root@server1:~# ip route add 172.20.1.0/24 via 192.168.1.102 dev ens38
 root@server1:~# route -n
 Kernel IP routing table
@@ -818,13 +818,13 @@ root@server1:~#
 
 okey Lets go and install DHCP relay Agent on ubuntu "server2":
 
-```text
+```
 root@server2:~# apt-get  install isc-dhcp-relay
 ```
 
 and during installation it ask for DHCP server IP address and the interface which DHCP Relay Agent should listen on. For later modifying we should configure /etc/default/isc-dhcp-relay :
 
-```text
+```
 root@server2:~# cat  /etc/default/isc-dhcp-relay
 # Defaults for isc-dhcp-relay initscript
 # sourced by /etc/init.d/isc-dhcp-relay
@@ -846,7 +846,7 @@ OPTIONS=""
 
 do not forget to restart isc-dhcp-relay service after any configuration.:
 
-```text
+```
 root@server2:~# systemctl start isc-dhcp-relay
 
 root@server2:~# systemctl status isc-dhcp-relay
@@ -861,7 +861,7 @@ root@server2:~# systemctl status isc-dhcp-relay
 
 the comand to run agent is `dhcrelay [IP of DHCP Server to Forward to]` :
 
-```text
+```
 root@server2:~# dhcrelay 192.168.1.129
 Internet Systems Consortium DHCP Relay Agent 4.3.3
 Copyright 2004-2015 Internet Systems Consortium.
@@ -876,7 +876,7 @@ Sending on   Socket/fallback
 
 and Finally lets check our "CentOS7" DHCP Client machine:
 
-```text
+```
 [root@centos7 ~]#  ip a s
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -898,7 +898,7 @@ and Finally lets check our "CentOS7" DHCP Client machine:
     link/ether 52:54:00:68:0d:c9 brd ff:ff:ff:ff:ff:ff
 ```
 
-and you can go and see more logs on "server1" our main DHCP server :\)
+and you can go and see more logs on "server1" our main DHCP server :)
 
 ## Configuring DHCP on client Machine
 
@@ -906,7 +906,7 @@ There are always some clients which we have manually set the IP address on them.
 
 in cent os /etc/sysconfig/network-scripts/ifcfg-eth0 should be like this :
 
-```text
+```
 DEVICE=eth0
 BOOTPROTO=dhcp
 TYPE=Ethernet
@@ -915,14 +915,14 @@ ONBOOT=yes
 
 and in ubuntu /etc/network/interfaces should be modified like this:
 
-```text
+```
 auto  eth0
 iface eth0 inet dhcp
 ```
 
-## DHCP FOR IPV6 \(DHCPV6\)
+## DHCP FOR IPV6 (DHCPV6)
 
-The ISC DHCP includes support for IPv6 \(DHCPv6\) since the 4.x release with a DHCPv6 server, client and relay agent functionality. The server, client and relay agents support both IPv4 and IPv6. However, the client and the server can only manage one protocol at a time . for dual support they must be started separately for IPv4 and IPv6.
+The ISC DHCP includes support for IPv6 (DHCPv6) since the 4.x release with a DHCPv6 server, client and relay agent functionality. The server, client and relay agents support both IPv4 and IPv6. However, the client and the server can only manage one protocol at a time . for dual support they must be started separately for IPv4 and IPv6.
 
 The DHCPv6 server configuration file is installed together with the dhcp package and it can be found at `/etc/dhcp/dhcpd6.conf`.
 
@@ -930,7 +930,7 @@ The sample server configuration file can be found at `/usr/share/doc/dhcp-<versi
 
 A simple DHCPv6 server configuration file looks like this:
 
-```text
+```
 subnet6 2001:db8:0:1::/64 {
         range6 2001:db8:0:1::129 2001:db8:0:1::254;
         option dhcp6.name-servers fec0:0:0:1::1;
@@ -942,14 +942,14 @@ the DHCPv6 service is named "dhcpd6" which should be started and stopped as root
 
 DHCPv6 can be configured two modes to work in:
 
-* **statefull :** Stateless configuration \(also known as SLAAC-StateLess AutoConfiguration\) The stateful version of DHCPv6 is pretty much the same as for IPv4. Our DHCPv6 server will assign IPv6 addresses to all DHCPv6 clients and it will keep track of the bindings. In short, the DHCPv6 servers knows exactly what IPv6 address has been assigned to what host.
-* **stateless :** Stateless works a bit different. The DHCPv6 server does not assign IPv6 addresses to the DHCPv6 clients, this is done through "autoconfiguration." The DHCPv6 server is only used to assign information that autoconfiguration doesn’t….stuff like a domain-name, multiple DNS servers and all the other options that DHCP has to offer.
+* **statefull :** Stateless configuration (also known as SLAAC-StateLess AutoConfiguration) The stateful version of DHCPv6 is pretty much the same as for IPv4. Our DHCPv6 server will assign IPv6 addresses to all DHCPv6 clients and it will keep track of the bindings. In short, the DHCPv6 servers knows exactly what IPv6 address has been assigned to what host.
+* **stateless : **Stateless works a bit different. The DHCPv6 server does not assign IPv6 addresses to the DHCPv6 clients, this is done through "autoconfiguration." The DHCPv6 server is only used to assign information that autoconfiguration doesn’t….stuff like a domain-name, multiple DNS servers and all the other options that DHCP has to offer.
 
 ## radvd
 
 IPv6 has a lot more support for autoconfiguration than IPv4. But for this autoconfiguration to work on the hosts of a network, the routers of the local network have to run a program which answers the autoconfiguration requests of the hosts.
 
-On Linux this program is called radvd, which stands for Router ADVertisement Daemon. This daemon listens to router solicitations \(RS\) and answers with router advertisement \(RA\).
+On Linux this program is called radvd, which stands for Router ADVertisement Daemon. This daemon listens to router solicitations (RS) and answers with router advertisement (RA).
 
 These RAs contain information, which is used by hosts to configure their interfaces. This information includes address prefixes, the MTU of the link and information about default routers.
 
@@ -959,7 +959,7 @@ Of course the routers can't autoconfigure themself, so the information on the ro
 
 Radvd's config file is normally /etc/radvd.conf. An simple example looks like following:
 
-```text
+```
 interface eth0 {
         AdvSendAdvert on;
         prefix 5f15:9100:c2dd:1400:8000::0/80
@@ -974,7 +974,6 @@ interface eth0 {
 
 we need at least radvd. Router advertisements communicate to devices on the network what the default gateway is and what the network configuration is. we always need that.
 
-The router advertisement can tell clients whether they are allowed to choose their own addresses or not \(auto configuration\). If we allow this then we might not need DHCP at all. Then we can add DHCP, either stateless or stateful.
+The router advertisement can tell clients whether they are allowed to choose their own addresses or not (auto configuration). If we allow this then we might not need DHCP at all. Then we can add DHCP, either stateless or stateful.
 
 As we need radvd anyway it's the easiest, possibly combined with stateless DHCP. Don't bother with stateful DHCP unless we really need to manage addresses manually.
-

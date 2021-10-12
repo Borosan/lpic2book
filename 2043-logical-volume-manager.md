@@ -4,7 +4,7 @@
 
 **Weight:** 3
 
-**Description:** Candidates should be able to create and remove logical volumes, volume groups, and physical volumes. This objective includes snapshots and resizing logical volumes.
+**Description: **Candidates should be able to create and remove logical volumes, volume groups, and physical volumes. This objective includes snapshots and resizing logical volumes.
 
 **Key Knowledge Areas:**
 
@@ -24,33 +24,33 @@
 
 ## LVM
 
-In traditional storage management, Operating system searchs for Disk Drives like /dev/sda, /dev/sdb and then looks for what partitions are available on the disks like /dev/sda1, /dev/sdb1 .Partitions are limited to the disks and they are not so flexible. Logical Volume Manager \(LVM\) bring us flexibility by creating an abstraction layer between Operating System and Disk Devices.
+In traditional storage management, Operating system searchs for Disk Drives like /dev/sda, /dev/sdb and then looks for what partitions are available on the disks like /dev/sda1, /dev/sdb1 .Partitions are limited to the disks and they are not so flexible. Logical Volume Manager (LVM) bring us flexibility by creating an abstraction layer between Operating System and Disk Devices.
 
 LVM functions by layering abstractions on top of physical storage devices, The basic layers that LVM use are:
 
-![](.gitbook/assets/lvm.jpg)
+![](.gitbook/assets/LVM.jpg)
 
-* physical volumes\(pv\):A physical volume is typically a hard disk, though it may be a device that looks like a hard disk \(ex:software raid device\).It can be a partition or entire of a disk.
-* volume groups\(vg\): The Volume Group is central level and heart of the LVM. It gathers together a collection of Physical Volumes and create a pool of different storage resources.
-* logical volumes\(lv\):The equivalent of a disk partition in a non-LVM system. logical volume takes disk space from disk space which is available on volume group. On top of logical volumes we create File Systems\( xfs, ext4, ...\)
+* physical volumes(pv):A physical volume is typically a hard disk, though it may be a device that looks like a hard disk (ex:software raid device).It can be a partition or entire of a disk.
+* volume groups(vg): The Volume Group is central level and heart of the LVM. It gathers together a collection of Physical Volumes and create a pool of different storage resources.
+* logical volumes(lv):The equivalent of a disk partition in a non-LVM system. logical volume takes disk space from disk space which is available on volume group. On top of logical volumes we create File Systems( xfs, ext4, ...)
 
-LVM is capable of doing operations such as increasing, decreasing the size of a logical volume\(which we will be discussing later\) because the physical volume is made up of small chunks which are always of fixed size. Each physical disk that combinely makes up a volume group will have a number of small chunks of equal size, where data will reside.
+LVM is capable of doing operations such as increasing, decreasing the size of a logical volume(which we will be discussing later) because the physical volume is made up of small chunks which are always of fixed size. Each physical disk that combinely makes up a volume group will have a number of small chunks of equal size, where data will reside.
 
-![](.gitbook/assets/lvmpele.jpg)
+![](.gitbook/assets/LVMPELE.jpg)
 
 This small chunks of equal size, which makes up the physical volumes are called as Physical Extents. Creating a volume group simply combines all the physical extents of all the physical volumes to form one large logical volume group.
 
 Redhat base Systems use LVM by default, they setup LVM during installation, so here we use ubuntu to create lvm :
 
-```text
+```
 root@server2:~# apt-get install lvm2
 ```
 
-### Working with physical volumes\(pv\)
+### Working with physical volumes(pv)
 
 Here we use sdb, sdc to create pv. In order to prepare a partition to be a physical volume in LVM, it is recommended to format it with LVM tag:
 
-```text
+```
 root@server2:~# ls -l /dev/sd*
 brw-rw---- 1 root disk 8,  0 Jan 13 21:55 /dev/sda
 brw-rw---- 1 root disk 8,  1 Jan 13 21:55 /dev/sda1
@@ -145,7 +145,7 @@ Syncing disks.
 
 Now lets chek weather any LVM has been setup or not and start:
 
-```text
+```
 root@server2:~# pvdisplay 
 root@server2:~# pvcreate /dev/sdb1 /dev/sdc1
   Physical volume "/dev/sdb1" successfully created
@@ -176,21 +176,21 @@ root@server2:~# pvdisplay
   PV UUID               JZ3DkI-goy7-tNIW-MpgH-NC3T-02dT-YB2WTL
 ```
 
-| physical volume commands | Description |
-| :--- | :--- |
-| pvdisplay | display physical volume details |
-| pvscan | scan all disks for physical volume |
-| pvs | report info about physical volumes |
-| pvcreate  /dev/sdb1 /dev/sdc1 | create physical volume |
-| pvchange | Activate, de-Activate physical volume |
-| pvmove | move data from one pv to another pv |
-| pvremove /dev/sdc1 | remove a physical volume |
+| physical volume commands      | Description                           |
+| ----------------------------- | ------------------------------------- |
+| pvdisplay                     | display physical volume details       |
+| pvscan                        | scan all disks for physical volume    |
+| pvs                           | report info about physical volumes    |
+| pvcreate  /dev/sdb1 /dev/sdc1 | create physical volume                |
+| pvchange                      | Activate, de-Activate physical volume |
+| pvmove                        | move data from one pv to another pv   |
+| pvremove /dev/sdc1            | remove a physical volume              |
 
-### Working with  volume group\(vg\)
+### Working with  volume group(vg)
 
 Now we create a volume group consist of two pv, /dev/sdb1 and /dev/sdc1:
 
-```text
+```
 root@server2:~# vgdisplay 
 root@server2:~# vgcreate myfirstvg /dev/sdb1 /dev/sdc1
   Volume group "myfirstvg" successfully created
@@ -217,24 +217,24 @@ root@server2:~# vgdisplay
   VG UUID               pBA82t-uB9F-VGpT-PKjn-HL9K-1KyN-Yo1VLg
 ```
 
-| volume group commands | Description |
-| :--- | :--- |
-| vgdisplay | Display volume group details |
-| vgscan | scans  disk devices in the system looking for  PV and VG |
-| vgs | Report info about volume groups |
-| vgcreate myfirstvg /dev/sdb1 /dev/sdc1 | Create a volume group |
-| vgextend myfirstvg /dev/sdd1 /dev/sde1 | Add a new PV to VG |
-| vgreduce myfirstvg /dev/sde1 | Remove PV from VG |
-| vgexport  myfirstvg | Export VG to system |
-| vgimport myfirstvg /dev/sdb1 /dev/sdd1 | Import VG system |
-| vgchange -a y myfirstvg | Activate VG, use "-a n" to deactivate |
-| vgremove myfirstvg | Remove VG from the system |
-| vgrename myfirstvg myvg00 | Rename VG |
-| vgsync /dev/myfirstvg | Sync stale PE in VG |
+| volume group commands                  | Description                                              |
+| -------------------------------------- | -------------------------------------------------------- |
+| vgdisplay                              | Display volume group details                             |
+| vgscan                                 | scans  disk devices in the system looking for  PV and VG |
+| vgs                                    | Report info about volume groups                          |
+| vgcreate myfirstvg /dev/sdb1 /dev/sdc1 | Create a volume group                                    |
+| vgextend myfirstvg /dev/sdd1 /dev/sde1 | Add a new PV to VG                                       |
+| vgreduce myfirstvg /dev/sde1           | Remove PV from VG                                        |
+| vgexport  myfirstvg                    | Export VG to system                                      |
+| vgimport myfirstvg /dev/sdb1 /dev/sdd1 | Import VG system                                         |
+| vgchange -a y myfirstvg                | Activate VG, use "-a n" to deactivate                    |
+| vgremove myfirstvg                     | Remove VG from the system                                |
+| vgrename myfirstvg myvg00              | Rename VG                                                |
+| vgsync /dev/myfirstvg                  | Sync stale PE in VG                                      |
 
-### Working with  logical volume\(lv\)
+### Working with  logical volume(lv)
 
-```text
+```
 root@server2:~# lvdisplay 
 root@server2:~# lvcreate --name myfirstlv --size 1G myfirstvg
   Logical volume "myfirstlv" created.
@@ -259,7 +259,7 @@ root@server2:~# lvdisplay
 
 And lets format it and mount it:
 
-```text
+```
 root@server2:~# mkfs.ext4 /dev/myfirstvg/myfirstlv 
 mke2fs 1.42.13 (17-May-2015)
 Creating filesystem with 262144 4k blocks and 65536 inodes
@@ -312,7 +312,7 @@ gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime
 
 We can now easily resize volume group with lvresize:
 
-```text
+```
 root@server2:~# lvresize --help
   lvresize: Resize a logical volume
 
@@ -370,25 +370,25 @@ tmpfs                             98M   60K   98M   1% /run/user/1000
 
 if we havn't used `-r`switch then we had to use `resizefs /dev/myfirstvg/myfirstlv`command inorder to get File System .informed about size changes.
 
-| logical volume commands | Description |
-| :--- | :--- |
-| lvdisplay | Display logical volume details |
-| lvscan | Scan for logical volumes |
-| lvs | show logical volume info |
-| lvcreate --name --size 1G my2ndlv | Create logical volume |
-| lvremove /dev/myfirstvg/myfirstlv | Remove logical volume |
-| lvrename my2ndlv my3rdlv | Rename logical volume |
-| lvextend -L1G /dev/myfirstvg/myfirstlv | Increase size of logical volume |
-| lvreduce -L1G /dev/myfirstvg/myfirstlv | Decrease size of logical volume |
-| lvchange -ay /dev/myfirstvg/myfirstlv | Active logical volume, use "-an" to Deactivate |
-| lvsync /dev/myfirstvg/myfirstlv | Sync stale LE of logical volume |
-| lvlnboot \[-b/-d/-r/-s/-R/-v\] /dev/myfirstvg/myfirstlv | Set lv as root, boot, swap, dump volume |
+| logical volume commands                                | Description                                    |
+| ------------------------------------------------------ | ---------------------------------------------- |
+| lvdisplay                                              | Display logical volume details                 |
+| lvscan                                                 | Scan for logical volumes                       |
+| lvs                                                    | show logical volume info                       |
+| lvcreate --name --size 1G my2ndlv                      | Create logical volume                          |
+| lvremove /dev/myfirstvg/myfirstlv                      | Remove logical volume                          |
+| lvrename my2ndlv my3rdlv                               | Rename logical volume                          |
+| lvextend -L1G /dev/myfirstvg/myfirstlv                 | Increase size of logical volume                |
+| lvreduce -L1G /dev/myfirstvg/myfirstlv                 | Decrease size of logical volume                |
+| lvchange -ay /dev/myfirstvg/myfirstlv                  | Active logical volume, use "-an" to Deactivate |
+| lvsync /dev/myfirstvg/myfirstlv                        | Sync stale LE of logical volume                |
+| lvlnboot \[-b/-d/-r/-s/-R/-v] /dev/myfirstvg/myfirstlv | Set lv as root, boot, swap, dump volume        |
 
 ## LVM snapshots
 
 snapshots lets us to freeze the current state of logical volume.Every thing which is added or removed doesn't make any changes in our snapshot and we can easily reverse to previous stat of volume. snapshots can help us to create a short term backup when no files are open. For creating snap shots we should define the size of snap shot, so we should consider amount of future changes:
 
-```text
+```
 root@server2:~# lsblk
 NAME                    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 sdb                       8:16   0    1G  0 disk 
@@ -441,7 +441,7 @@ root@server2:~# lvs
 
 Lets remove some data and restore snap shot, do not forget to unmount before restoring snap shot:
 
-```text
+```
 root@server2:~# cd /mnt/
 root@server2:/mnt# ls
 adduser.conf  appstream.conf   bindresvport.blacklist  ca-certificates.conf
@@ -471,7 +471,7 @@ apg.conf      bash_completion  brltty.conf             lost+found
 
 Lets take a look at /etc/lvm/ directory:
 
-```text
+```
 root@server2:~# tree /etc/lvm/
 /etc/lvm/
 ├── archive    ###where automatic archives go after a volume group change 
@@ -505,11 +505,11 @@ A daily system backup should include the contents of the /etc/lvm directory in t
 
 ## /dev/mapper
 
-The Device mapper is a generic interface to the linux kernel that can be used by different storage solutions.![](.gitbook/assets/devicemapper.jpg)
+The Device mapper is a generic interface to the linux kernel that can be used by different storage solutions.![](.gitbook/assets/DeviceMapper.jpg)
 
 Lets Take a look:
 
-```text
+```
 root@server2:~# ls -l /dev/myfirstvg/myfirstlv 
 lrwxrwxrwx 1 root root 7 Jan 14 00:22 /dev/myfirstvg/myfirstlv -> ../dm-0
 root@server2:~# ls -l /dev/dm-0 
@@ -518,7 +518,7 @@ brw-rw---- 1 root disk 253, 0 Jan 14 00:22 /dev/dm-0
 
 By using LVM or RAID or LUKS more md-X devices are created and used. Nice interface to that is:
 
-```text
+```
 root@server2:~# ls -l /dev/mapper/
 total 0
 crw------- 1 root root 10, 236 Jan 13 21:55 control
@@ -527,7 +527,7 @@ lrwxrwxrwx 1 root root       7 Jan 13 22:55 myfirstvg-myfirstlv -> ../dm-0
 
 Some Device Mapper Devices might be created just for the system to do it things. We can work with Device Mapper Directly with dmsetup command but thats not straightforward and it is beyond the scope of LPIC exam.
 
-```text
+```
 root@server2:/dev# dmsetup ls
 myfirstvg-myfirstlv    (253:0)
 root@server2:/dev# dmsetup info myfirstvg-myfirstlv
@@ -543,4 +543,3 @@ UUID: LVM-pBA82tuB9FVGpTPKjnHL9K1KyNYo1VLgg75etDo9YWiAeMsU2dnKatK84Vyle2qv
 ```
 
 so we have seen while using RAID can give us performance and reliability, LVM cause flexibility.
-

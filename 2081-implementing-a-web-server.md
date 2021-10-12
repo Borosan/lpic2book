@@ -11,10 +11,10 @@
 * Apache 2.4 configuration files, terms and utilities
 * Apache log files configuration and content
 * Access restriction methods and files
-* mod\_perl and PHP configuration
+* mod_perl and PHP configuration
 * Client user authentication files and utilities
 * Configuration of maximum requests, minimum and maximum servers and clients
-* Apache 2.4 virtual host implementation \(with and without dedicated IP addresses\)
+* Apache 2.4 virtual host implementation (with and without dedicated IP addresses)
 * Using redirect statements in Apache’s configuration files to customize file access
 
 **TermsandUtilities:**
@@ -22,7 +22,7 @@
 * access logs and error logs
 * .htaccess
 * httpd.conf
-* mod\_auth\_basic, mod\_authz\_host and mod\_access\_compat
+* mod_auth_basic, mod_authz_host and mod_access_compat
 * htpasswd
 * AuthUserFile, AuthGroupFile
 * apachectl, apache2ctl
@@ -30,28 +30,28 @@
 
 ## WhatisTheWebServer?
 
-A Web server is a program that uses HTTP \(Hypertext Transfer Protocol\) to serve the files that form Web pages to users, in response to their requests, which are forwarded by their computers' HTTP clients. Dedicated computers and appliances may be referred to as Web servers as well.
+A Web server is a program that uses HTTP (Hypertext Transfer Protocol) to serve the files that form Web pages to users, in response to their requests, which are forwarded by their computers' HTTP clients. Dedicated computers and appliances may be referred to as Web servers as well.
 
 ![](.gitbook/assets/apache-webserver.jpg)
 
 There are some considerations in choosing a Web server include how well it works with the operating system and other servers, its ability to handle server-side programming, security characteristics, and the particular publishing, search engine and site building tools that come with it.
 
-Leading Web servers include Apache \(the most widely-installed Web server\), Microsoft's Internet Information Server \(IIS\) and nginx \(pronounced engine X\) from NGNIX. Other Web servers include Novell's NetWare server, Google Web Server \(GWS\) and IBM's family of Domino servers.
+Leading Web servers include Apache (the most widely-installed Web server), Microsoft's Internet Information Server (IIS) and nginx (pronounced engine X) from NGNIX. Other Web servers include Novell's NetWare server, Google Web Server (GWS) and IBM's family of Domino servers.
 
 ## Apache![](.gitbook/assets/apache-logo.png)
 
 The Apache HTTP Server Project is an effort to develop and maintain an open-source HTTP server for modern operating systems including UNIX and Windows. The goal of this project is to provide a secure, efficient and extensible server that provides HTTP services in sync with the current HTTP standards.
 
-The Apache HTTP Server \("httpd"\) was launched in 1995 and it has been the most popular web server on the Internet since April 1996. It has celebrated its 20th birthday as a project in February 2015. The Apache HTTP Server is a project of The Apache Software Foundation. The current version of apache is version 2.0.
+The Apache HTTP Server ("httpd") was launched in 1995 and it has been the most popular web server on the Internet since April 1996. It has celebrated its 20th birthday as a project in February 2015. The Apache HTTP Server is a project of The Apache Software Foundation. The current version of apache is version 2.0.
 
 ## httpd.conf
 
-Apache configuration file\(s\) are stored differently in different distributions, but they are mostly the same thing. There is one standard configuration file which might be broked to many pieces.
+Apache configuration file(s) are stored differently in different distributions, but they are mostly the same thing. There is one standard configuration file which might be broked to many pieces.
 
-| apache | Redhat / CentOS | Debian / Ubuntu |
-| :--- | :--- | :--- |
-| Package Name | httpd | apache2 |
-| Configuration Files Location | /etc/httpd | /etc/apache2 |
+| apache                       | Redhat / CentOS | Debian / Ubuntu |
+| ---------------------------- | --------------- | --------------- |
+| Package Name                 | httpd           | apache2         |
+| Configuration Files Location | /etc/httpd      | /etc/apache2    |
 
 Configuration files are broken up in differently in Redhat or Debian :
 
@@ -63,7 +63,7 @@ Configuration files are broken up in differently in Redhat or Debian :
 
 ok.Lets install apache2 on ubuntu first:
 
-```text
+```
 root@server1:~# apt-get install apache2
 root@server1:~# dpkg -L apache2 | egrep -i "\/etc|\/var"
 /etc
@@ -123,7 +123,7 @@ root@server1:~# dpkg -L apache2 | egrep -i "\/etc|\/var"
 
 the main configuration file httpd.conf:
 
-```text
+```
 root@server1:/# cd /etc/apache2/
 root@server1:/etc/apache2# cat apache2.conf 
 # This is the main Apache server configuration file.  It contains the
@@ -349,7 +349,7 @@ IncludeOptional sites-enabled/*.conf
 
 Wow that is a big configuration file but it gives us good information about how apache include other directories and configuration files.
 
-```text
+```
 root@server1:/etc/apache2# tree
 .
 ├── apache2.conf
@@ -427,7 +427,7 @@ lrwxrwxrwx 1 root root 35 Apr 28 02:02 000-default.conf -> ../sites-available/00
 
 and see how 000-default.conf configuration file looks like:
 
-```text
+```
 root@server1:/etc/apache2/sites-enabled# cat 000-default.conf 
 <VirtualHost *:80>
     # The ServerName directive sets the request scheme, hostname and port that
@@ -466,7 +466,7 @@ root@server1:/etc/apache2/sites-enabled# cat 000-default.conf
 
 In centOS there are some minor differences:
 
-```text
+```
 root@centos7 ~]# yum search httpd | grep -i  server  | grep -i apache
 httpd.x86_64 : Apache HTTP Server
 httpd-devel.x86_64 : Development interfaces for the Apache HTTP server
@@ -537,7 +537,7 @@ mod_dav_svn.x86_64 : Apache httpd module for Subversion server
 
 and the main configuration file in CentOS /etc/httpd/httpd.conf :
 
-```text
+```
 [root@centos7 httpd]# ll
 total 0
 drwxr-xr-x. 2 root root  37 Apr 28 06:22 conf
@@ -918,10 +918,10 @@ Another point is that in ubuntu apache service "apache2" is enabled and started 
 Some of common directives which we have to know are:
 
 * ServerRoot : Is what defines the base directory that all of configurations, modules, ... for our apache instance is configured to be. It can be changed but it needs to update specific links or directories with reference that start with /etc/httpd .
-* Listen: It can do two things for us. it allows us to define the port which apache service listen on\(by default 80tcp\). Also it allows us to bind a service to a specific IP Address on the system.
-* DocumentRoot: Determine the base directory that all contents are served from. bedefault it is`/var/www/` . We can change it but if we have selinux enbaled in our system, there are some consideration about that .\(beyond the scope of LPIC2, LPIC3\)
+* Listen: It can do two things for us. it allows us to define the port which apache service listen on(by default 80tcp). Also it allows us to bind a service to a specific IP Address on the system.
+* DocumentRoot: Determine the base directory that all contents are served from. bedefault it is`/var/www/` . We can change it but if we have selinux enbaled in our system, there are some consideration about that .(beyond the scope of LPIC2, LPIC3)
 
-```text
+```
 ### Ubuntu ###
 root@server1:~# cd /var/www/
 root@server1:/var/www# ls -la
@@ -942,7 +942,7 @@ drwxr-xr-x.  2 root root    6 Oct 19  2017 html
 
 to check if it works, use same html file below:
 
-```text
+```
 <html>
     <head>
     </head>
@@ -952,11 +952,11 @@ to check if it works, use same html file below:
 </html>
 ```
 
-* LogLevels : There are two log files by default which every site writes to. They are in `/var/log/apache2`\(ubuntu\) or in `/var/log/httpd`\(CentOS\)
+* LogLevels : There are two log files by default which every site writes to. They are in `/var/log/apache2`(ubuntu) or in `/var/log/httpd`(CentOS)
   * Access Log: Contains all information about whose accessing the web sever, IP address , user agent and number of other things.
   * ErrorLog : Determines and displays errors that are related to files missing, or some one who tries to log in to secure directory with a wrong password
 
-```text
+```
 ### Ubuntu ###
   root@server1:~# ls -la /var/log/apache2/
   total 16
@@ -976,9 +976,9 @@ to check if it works, use same html file below:
 
 * LogLevel can have several different values that we can set it for, debug, info, notice, warn, error, crit, alert, emerg \\(default : warn\\) it depends what we are doing.
 
-All the thing we have seen till now were . Directives are lines ,\(can be within a section \),in the configuration file that contains one or more values define our use in the configuration .
+All the thing we have seen till now were . Directives are lines ,(can be within a section ),in the configuration file that contains one or more values define our use in the configuration .
 
-```text
+```
 Directive1 yes
 Directive2 no
 <Section>
@@ -991,7 +991,7 @@ Directive4 none
 
 We can restrict access to directories with “Allow” and “Deny” options . Here is an example, This will make root dierctory secure:
 
-```text
+```
 <Directory />
     Options None
     Order deny,allow
@@ -1015,7 +1015,7 @@ apache deals with html files, so if we have used other languages like "php" we h
 
 For demonstaration we use Ubuntu here. Lets search and install php module for apache:
 
-```text
+```
 root@server1:~# apt-cache search php | grep apache
 libapache2-mod-php - server-side, HTML-embedded scripting language (Apache 2 module) (default)
 libapache2-mod-php7.0 - server-side, HTML-embedded scripting language (Apache 2 module)
@@ -1030,7 +1030,7 @@ root@server1:~# apt-get install libapache2-mod-php
 
 congratulations, from now on we can use index.php in `/var/www/` directory. Now lets do more investigation on how php module has became available:
 
-```text
+```
 root@server1:~# cd /etc/apache2/
 root@server1:/etc/apache2# ls
 apache2.conf    conf-enabled  magic           mods-enabled  sites-available
@@ -1047,7 +1047,7 @@ lrwxrwxrwx 1 root root 29 Apr 29 22:49 php7.0.load -> ../mods-available/php7.0.l
 
 In CentOS all available modules are exist in /etc/httpd/conf.modules.d folder.
 
-```text
+```
 [root@centos7 ~]# cd /etc/httpd/modules/
 [root@centos7 modules]# ls -l
 total 2472
@@ -1063,7 +1063,7 @@ total 2472
 
 these modules can be loaded if related ".conf" file exist in modules.conf.d :
 
-```text
+```
 [root@centos7 modules]# cd ..
 [root@centos7 httpd]# ls
 conf  conf.d  conf.modules.d  logs  modules  run
@@ -1079,7 +1079,7 @@ LoadModule dav_lock_module modules/mod_dav_lock.so
 
 because every ".conf" file is included by /etc/httpd//conf/httpd.conf file:
 
-```text
+```
 [root@centos7 conf.modules.d]# cd ..
 [root@centos7 httpd]# ls
 conf  conf.d  conf.modules.d  logs  modules  run
@@ -1092,13 +1092,13 @@ IncludeOptional conf.d/*.conf
 
 Now lets install php module on CentOS:
 
-```text
+```
 [root@centos7 httpd]# yum install php
 ```
 
 and the configuration files:
 
-```text
+```
 [root@centos7 httpd]# cd /etc/httpd/modules/
 [root@centos7 modules]# ls | grep php
 libphp5.so
@@ -1133,7 +1133,7 @@ total 32
 
 now we can put a php file in /var/www/html and chek it!
 
-```text
+```
 <html>
  <head>
   <title>PHP Test</title>
@@ -1149,7 +1149,7 @@ now we can put a php file in /var/www/html and chek it!
 
 First start with ubuntu:
 
-```text
+```
 root@server1:~# apt-cache search perl | grep apache2
 libapache2-mod-perl2 - Integration of perl with the Apache2 web server
 libapache2-mod-perl2-dev - Integration of perl with the Apache2 web server - development files
@@ -1173,14 +1173,14 @@ root@server1:~# apt-get install libapache2-mod-perl2
 
 after finishing installation:
 
-```text
+```
 root@server1:~# ls -l /etc/apache2/mods-enabled/ | grep perl
 lrwxrwxrwx 1 root root 27 Apr 30 02:43 perl.load -> ../mods-available/perl.load
 ```
 
-as perl scripts are almost server side script \(means they need to be processed on the server based on client condition and then turns back to the client\) we need to make a directory to keep perl scripts inside:
+as perl scripts are almost server side script (means they need to be processed on the server based on client condition and then turns back to the client) we need to make a directory to keep perl scripts inside:
 
-```text
+```
 root@server1:/var/www# ls
 html
 root@server1:/var/www# mkdir perl
@@ -1188,7 +1188,7 @@ root@server1:/var/www# mkdir perl
 
 and now add some confogurations to /etc/apache2/apache2.conf :
 
-```text
+```
 ################# Perl support
 Alias /perl /var/www/perl
 <Directory /var/www/perl>
@@ -1201,7 +1201,7 @@ Alias /perl /var/www/perl
 
 and then put perl script in /var/www/perl:
 
-```text
+```
 root@server1:/var/www/perl# vim hello.pl
 root@server1:/var/www/perl# ls -l
 total 4
@@ -1212,7 +1212,7 @@ and check it out!
 
 Now lets install Perl module on cetOS:
 
-```text
+```
 [root@centos7 ~]# yum install mod_perl
 [root@centos7 ~]# cd /etc/httpd/
 [root@centos7 httpd]# ls
@@ -1237,11 +1237,11 @@ LoadModule perl_module modules/mod_perl.so
 
 Ok as we mentioned above, perl scripts are processed in server side so we need to make a place for scripts an then configure httpd service to deal with:
 
-```text
+```
 [root@centos7 conf.modules.d]#  mkdir /var/www/html/perl-cgi
 ```
 
-```text
+```
 [root@centos7 conf.modules.d]# cd ..
 [root@centos7 httpd]# ls
 conf  conf.d  conf.modules.d  logs  modules  run
@@ -1251,7 +1251,7 @@ conf  conf.d  conf.modules.d  logs  modules  run
 
 and add bellow part to httpd.conf:
 
-```text
+```
 #enable perl server side CGI
 <Directory /var/www/html/perl-cgi>
     AllowOverride All
@@ -1266,7 +1266,7 @@ and add bellow part to httpd.conf:
 
 next we need to restart httpd service and then add a perl script like this to test:
 
-```text
+```
 [root@centos7 conf]# cd /var/www/html/perl-cgi/
 [root@centos7 perl-cgi]# vim hello.pl
 [root@centos7 perl-cgi]# cat hello.pl 
@@ -1289,7 +1289,7 @@ total 4
 
 a sample perl script could be like this:
 
-```text
+```
 #!/usr/bin/perl
 
 print "Content-type: text/html\n\n";
@@ -1308,9 +1308,9 @@ Apache provides easiest way to enable and disable apache modules by using simple
 
 a2dismod is an inbuilt script that disabling the given module from an apache configuration file by removing symlinks.
 
-* **a2dismod \[module name\]**
+* **a2dismod \[module name]**
 
-```text
+```
 root@server1:~# a2dismod php7.0 
 Module php7.0 disabled.
 To activate the new configuration, you need to run:
@@ -1321,9 +1321,9 @@ root@server1:~# ls -l /etc/apache2/mods-enabled/ | grep -i php
 
 a2enmod is an inbuilt script that enabling the given module in apache configuration file by creating symlinks.
 
-* **a2enmod \[module name\]**
+* **a2enmod \[module name]**
 
-```text
+```
 root@server1:~# a2enmod php7.0 
 Considering conflict php5 for php7.0:
 Enabling module php7.0.
@@ -1337,36 +1337,36 @@ lrwxrwxrwx 1 root root 29 May  1 02:41 php7.0.load -> ../mods-available/php7.0.l
 
 ### MPM Modules
 
-MPM stands for Multi Processing Modules, actually Apache follows some mechanism to accept and complete web server requests. In practice, MPMs extend the modular functionality of Apache by allowing us to decide how to configure the web server to bind to network ports on the machine, accept requests from clients, and use children processes \(and threads, alternatively\) to handle such requests.
+MPM stands for Multi Processing Modules, actually Apache follows some mechanism to accept and complete web server requests. In practice, MPMs extend the modular functionality of Apache by allowing us to decide how to configure the web server to bind to network ports on the machine, accept requests from clients, and use children processes (and threads, alternatively) to handle such requests.
 
-Apache offers three different MPMs to choose from, depending on our needs \(Beginning with version 2.4\):
+Apache offers three different MPMs to choose from, depending on our needs (Beginning with version 2.4):
 
 * **prefork**
 * **worker**
 * **event**
 
-The **prefork** MPM uses multiple child processes without threading. Each process handles one connection at a time without creating separate threads for each. Without going into too much detail, we can say that you will want to use this MPM only when debugging an application that uses, or if our application needs to deal with, non-thread-safe modules like _**mod\_php**_.
+The **prefork **MPM uses multiple child processes without threading. Each process handles one connection at a time without creating separate threads for each. Without going into too much detail, we can say that you will want to use this MPM only when debugging an application that uses, or if our application needs to deal with, non-thread-safe modules like _**mod_php**_.
 
 ![](.gitbook/assets/apache-preforkmodel.png)
 
-The **worker** MPM uses several threads per child processes, where each thread handles one connection at a time. This is a good choice for high-traffic servers as it allows more concurrent connections to be handled with less RAM than in the previous case.
+The **worker **MPM uses several threads per child processes, where each thread handles one connection at a time. This is a good choice for high-traffic servers as it allows more concurrent connections to be handled with less RAM than in the previous case.
 
 ![](.gitbook/assets/apache-apacheworker.png)
 
-Finally, the **event** MPM is the default MPM in most Apache installations for versions 2.4 and above. It is similar to the worker MPM in that it also creates multiple threads per child process but with an advantage: it causes KeepAlive or idle connections \(while they remain in that state\) to be handled by a single thread, thus freeing up memory that can be allocated to other threads. This MPM is not suitable for use with non-thread-safe modules like mod\_php, for which a replacement such a PHP-FPM must be used instead.
+Finally, the **event** MPM is the default MPM in most Apache installations for versions 2.4 and above. It is similar to the worker MPM in that it also creates multiple threads per child process but with an advantage: it causes KeepAlive or idle connections (while they remain in that state) to be handled by a single thread, thus freeing up memory that can be allocated to other threads. This MPM is not suitable for use with non-thread-safe modules like mod_php, for which a replacement such a PHP-FPM must be used instead.
 
-To check the MPM used by our Apache installation use httpd -V \(CentOS\):
+To check the MPM used by our Apache installation use httpd -V (CentOS):
 
-```text
+```
  -D SERVER_CONFIG_FILE="conf/httpd.conf"
 [root@centos7 perl-cgi]# httpd -V | grep -i mpm
 AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using fe80::20c:29ff:fea0:58c8. Set the 'ServerName' directive globally to suppress this message
 Server MPM:     prefork
 ```
 
-or apache2ctl -V \(ubuntu\):
+or apache2ctl -V (ubuntu):
 
-```text
+```
 root@server1:/var/www/perl# apache2ctl -V | grep -i mpm
 AH00557: apache2: apr_sockaddr_info_get() failed for server1
 AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1. Set the 'ServerName' directive globally to suppress this message
@@ -1375,7 +1375,7 @@ Server MPM:     prefork
 
 Here we see how ubuntu mpm modules work:
 
-```text
+```
 root@server1:~# cd /etc/apache2/mods-available/
 root@server1:/etc/apache2/mods-available# ls -l | grep -i mpm
 -rw-r--r-- 1 root root  668 Mar 19  2016 mpm_event.conf
@@ -1391,9 +1391,9 @@ lrwxrwxrwx 1 root root 34 Apr 29 22:48 mpm_prefork.conf -> ../mods-available/mpm
 lrwxrwxrwx 1 root root 34 Apr 29 22:48 mpm_prefork.load -> ../mods-available/mpm_prefork.load
 ```
 
-as we have installed php module, apache server load prefork mpm. lets take alook at mpm\_prefork.conf file:
+as we have installed php module, apache server load prefork mpm. lets take alook at mpm_prefork.conf file:
 
-```text
+```
 root@server1:/etc/apache2/mods-enabled# cat mpm_prefork.conf 
 # prefork MPM
 # StartServers: number of server processes to start
@@ -1421,7 +1421,7 @@ Some times we want to limit access to a specific web directory in order to prote
 
 We use Ubuntu for this demonstartion, lets start with default site:
 
-```text
+```
 root@server1:~# cd /etc/apache2/
 root@server1:/etc/apache2# ls
 apache2.conf    conf-enabled  magic           mods-enabled  sites-available
@@ -1440,7 +1440,7 @@ lrwxrwxrwx 1 root root 35 Apr 28 02:02 000-default.conf -> ../sites-available/00
 
 Lets add some parts in the default site:
 
-```text
+```
 root@server1:/etc/apache2# vim sites-enabled/000-default.conf 
 
 <VirtualHost *:80>
@@ -1491,7 +1491,7 @@ root@server1:/etc/apache2# vim sites-enabled/000-default.conf
 
 Now it is time to create user name and password using htpasswd:
 
-```text
+```
 root@server1:/etc/apache2# apt-get install apache2.utils
 root@server1:/etc/apache2# htpasswd -c /etc/apache2/webpass user1
 New password: 
@@ -1503,7 +1503,7 @@ user1:$apr1$4oFb123N$5.sK3e56UVvju3oCj6qXL/
 
 to add more users to existing file use htpasswd command without -C switch.
 
-```text
+```
 root@server1:/etc/apache2# htpasswd webpass user2
 New password: 
 Re-type new password: 
@@ -1519,7 +1519,7 @@ And finally we need to restart apache service inorder our changes take affect, f
 
 apache2ctl is a part of apache2-utils and usually is installed with the main package, if not installe it:
 
-```text
+```
 root@server1:~# apt-get install apache2-utils 
 Reading package lists... Done
 Building dependency tree       
@@ -1536,7 +1536,7 @@ root@server1:/etc/apache2# service apache2 restart
 
 Now lets creat sample index.html file inside /var/www/html/protected directory wich we defined in configuration file before:
 
-```text
+```
 root@server1:/etc/apache2# mkdir /var/www/html/protected
 root@server1:/etc/apache2# vim /var/www/html/protected/index.html
 root@server1:/etc/apache2# cat /var/www/html/protected/index.html
@@ -1559,11 +1559,11 @@ this was one way for protecting specific location in our web server and requirin
 
 ### .htaccess
 
-Alternative method to secure content of a directory is using htaccess file, which is simpler and need less modifications inside the main configuration file. The idea is using a seperate file called "htaccess" inside the directory which we need to be protected and then putting sort of configurations inside that \(.htaccess\). Then modify appache configuration file\(apache2.conf / httpd.conf \) or our web site \(000-default.conf\) to let htaccess confoguaration be played.
+Alternative method to secure content of a directory is using htaccess file, which is simpler and need less modifications inside the main configuration file. The idea is using a seperate file called "htaccess" inside the directory which we need to be protected and then putting sort of configurations inside that (.htaccess). Then modify appache configuration file(apache2.conf / httpd.conf ) or our web site (000-default.conf) to let htaccess confoguaration be played.
 
 Lets create second directory and create ".htaccess" file insude that:
 
-```text
+```
 root@server1:/etc/apache2# mkdir /var/www/html/protected2
 root@server1:/etc/apache2# cd /var/www/html/protected2
 root@server1:/var/www/html/protected2# vim .htaccess
@@ -1577,14 +1577,14 @@ Require valid-user
 
 Now lets configureour default web site confoguration file inorder to let setting inside ".htaccess" over ride main configs:
 
-```text
+```
 root@server1:/var/www/html/protected2# cd /etc/apache2/
 root@server1:/etc/apache2# vim apache2.conf 
 root@server1:/etc/apache2# cd sites-enabled/
 root@server1:/etc/apache2/sites-enabled# vim 000-default.conf
 ```
 
-```text
+```
  ### secured with ".htaccess"
         <Directory /var/www/html/protected2>
                 AllowOverride AuthConfig
@@ -1593,7 +1593,7 @@ root@server1:/etc/apache2/sites-enabled# vim 000-default.conf
 
 and finnaly restart the service and check it:
 
-```text
+```
  root@server1:/etc/apache2/sites-enabled# systemctl restart apache2.service
 root@server1:/etc/apache2/sites-enabled# elinks http://localhost/protected2
 ```
@@ -1614,15 +1614,15 @@ Redirects are used whenever a site needs people requesting one address to be dir
 
 ### How to Redirect in Apache
 
-Apache can redirect using a few different tools. The simplest ways are accomplished with tools from the "mod\_alias" module, but more extensive redirects can be created with "mod\_rewrite".
+Apache can redirect using a few different tools. The simplest ways are accomplished with tools from the "mod_alias" module, but more extensive redirects can be created with "mod_rewrite".
 
 * **Using the Redirect Directive**
 
-In Apache, we can accomplish simple, single-page redirects using the "Redirect" directive, which is included in the "mod\_alias" module. This directive takes at least two arguments: the old URL and the new URL.
+In Apache, we can accomplish simple, single-page redirects using the "Redirect" directive, which is included in the "mod_alias" module. This directive takes at least two arguments: the old URL and the new URL.
 
 In its simplest form it would be like this:
 
-```text
+```
 <VirtualHost *:80>
 
  #Redirecting form one directory to another directory
@@ -1634,7 +1634,7 @@ This redirect instructs the browser to direct all requests for "[http://localhos
 
 If we want e to create a permanent redirect, we can do so in either of the following two ways:
 
-```text
+```
 Redirect permanent /oldlocation http://www.example.com/newlocation
 Redirect 301 /oldlocation http://www.example.com/newlocation
 ```
@@ -1647,15 +1647,15 @@ To redirect more than a single page, we can use the "RedirectMatch" directive, w
 
 For example, if we wanted to match every request for something within the "/images" directory to a subdomain named "images.example.com", we could use the following:
 
-```text
+```
 RedirectMatch ^/images/(.*)$ http://images.example.com/$1
 ```
 
 RedirectMatch matches patterns in parenthesis and then references the matched text in the redirect using "$1", where 1 is the first group of text. Subsequent groups are given numbers sequentially.
 
-* **Using mod\_rewrite to Redirect**
+* **Using mod_rewrite to Redirect**
 
-The most flexible, but complicated way to create redirect rules is with the module called "mod\_rewrite". This is outside of the scope of this article , but you can learn it from [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-mod_rewrite).
+The most flexible, but complicated way to create redirect rules is with the module called "mod_rewrite". This is outside of the scope of this article , but you can learn it from [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-mod_rewrite).
 
 ## Apache Virtual Hosting
 
@@ -1675,11 +1675,11 @@ With the IP based virtual hosting, we can assign a separate IP for each domain o
 
 ![](.gitbook/assets/apache-virtualhosting.jpg)
 
-For demontration we use ubuntu, \(in CentOS all the thing would be configured in one single httpd.conf file\)
+For demontration we use ubuntu, (in CentOS all the thing would be configured in one single httpd.conf file)
 
 Simple Virtual directory in the defualt web site confoguration is like this:
 
-```text
+```
 root@server1:/etc/apache2/sites-enabled# cat 000-default.conf 
 <VirtualHost *:80>
     # The ServerName directive sets the request scheme, hostname and port that
@@ -1708,7 +1708,7 @@ root@server1:/etc/apache2/sites-enabled# cat 000-default.conf
 
 First lest create two directories with simple html file in each of them :
 
-```text
+```
 root@server1:~# cd /var/www/html/
 root@server1:/var/www/html# ls
 index.html  protected  protected2
@@ -1720,7 +1720,7 @@ root@server1:/var/www/html# echo "<h1> This is example2 site</h1>" > example2/in
 
 Lets add secondary ip address to the existing NIC:
 
-```text
+```
 root@server1:/var/www/html# ifconfig ens33:0 192.168.10.133
 root@server1:/var/www/html# ip a s
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
@@ -1741,7 +1741,7 @@ root@server1:/var/www/html# ip a s
 
 and finally cheat on dns sever by configuring host file to resolve example1.com and example2.com :
 
-```text
+```
 root@server1:/var/www/html# cat /etc/hosts
 127.0.0.1    localhost
 127.0.1.1    ubuntu
@@ -1755,18 +1755,18 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 ```
 
-then make sure every thing is okey by pinging example1.com\(192.168.10.128\) and example2.com\(192.168.10.133\).
+then make sure every thing is okey by pinging example1.com(192.168.10.128) and example2.com(192.168.10.133).
 
-Now lets go to available sites and configure two web sites configuration files like this\(Name Based Virtual Hosting\):
+Now lets go to available sites and configure two web sites configuration files like this(Name Based Virtual Hosting):
 
-```text
+```
 root@server1:/var/www/html# cd /etc/apache2/
 root@server1:/etc/apache2# cd sites-available/
 root@server1:/etc/apache2/sites-available# vim example1.conf
 root@server1:/etc/apache2/sites-available# vim example2.conf
 ```
 
-```text
+```
 ### example1.conf
 <VirtualHost 192.168.10.128:80>
     ServerAdmin webmaster@example1.com
@@ -1778,7 +1778,7 @@ root@server1:/etc/apache2/sites-available# vim example2.conf
 </VirtualHost>
 ```
 
-```text
+```
 ### example2.conf
 <VirtualHost *:80>
     ServerAdmin webmaster@example2.com
@@ -1790,7 +1790,7 @@ root@server1:/etc/apache2/sites-available# vim example2.conf
 </VirtualHost>
 ```
 
-```text
+```
 root@server1:/etc/apache2/sites-available# ls
 000-default.conf  default-ssl.conf  example1.conf  example2.conf
 ```
@@ -1799,9 +1799,9 @@ If we go to available web sites directory we would see that there is no link for
 
 ### a2ensite
 
-a2ensite is a script that enables the specified site \(which contains a &lt;VirtualHost&gt; block\) within the apache2 configuration. It does this by creating symlinks within /etc/apache2/sites-enabled. Likewise, a2dissite disables a site by removing those symlinks. It is not an error to enable a site which is already enabled, or to disable one which is already disabled.
+a2ensite is a script that enables the specified site (which contains a \<VirtualHost> block) within the apache2 configuration. It does this by creating symlinks within /etc/apache2/sites-enabled. Likewise, a2dissite disables a site by removing those symlinks. It is not an error to enable a site which is already enabled, or to disable one which is already disabled.
 
-```text
+```
 root@server1:/etc/apache2/sites-available# cd ../sites-enabled/
 root@server1:/etc/apache2/sites-enabled# ls -l
 total 0
@@ -1823,7 +1823,7 @@ lrwxrwxrwx 1 root root 32 May  6 05:56 example2.conf -> ../sites-available/examp
 
 and lets disable default web site with `a2dissite`:
 
-```text
+```
 root@server1:/etc/apache2/sites-enabled# a2dissite 000-default.conf 
 Site 000-default disabled.
 To activate the new configuration, you need to run:
@@ -1839,7 +1839,7 @@ root@server1:/etc/apache2/sites-enabled#
 
 and its time to test it:
 
-```text
+```
 root@server1:~# elinks http://192.168.10.128
     This is example1 site
 root@server1:~# elinks http://example2.com
@@ -1848,7 +1848,7 @@ root@server1:~# elinks http://example2.com
 
 In CentOS most of configuration is done in httpd.conf file, and Virtual Hosting Configuration would be like this:
 
-```text
+```
 ### Name Based Virtual Hosting
 
 NameVirtualHost 192.168.10.128:80
@@ -1869,7 +1869,7 @@ NameVirtualHost 192.168.10.128:80
 </VirtualHost>
 ```
 
-```text
+```
 ### IP Based Virtual Hosting
 <VirtualHost 192.168.10.128:80>
     ServerAdmin webmaster@example1.com
@@ -1888,4 +1888,3 @@ NameVirtualHost 192.168.10.128:80
 ```
 
 That's all!
-

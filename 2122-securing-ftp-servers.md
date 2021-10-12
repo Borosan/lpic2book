@@ -4,7 +4,7 @@
 
 **Weight:** 2
 
-**Description:** Candidates should be able to configure an FTP server for anonymous downloads and uploads. This objective includes precautions to be taken if anonymous uploads are permitted and configuring user access.
+**Description: **Candidates should be able to configure an FTP server for anonymous downloads and uploads. This objective includes precautions to be taken if anonymous uploads are permitted and configuring user access.
 
 **Key Knowledge Areas:**
 
@@ -19,74 +19,73 @@
 
 ## What is FTP?
 
-FTP \(File Transfer Protocol\) is a traditional and widely used standard tool for transferring files between a server and clients over a network, especially where no authentication is necessary \( FTP permits anonymous users to connect to a server\). We must understand that FTP is unsecure by default, because it transmits user credentials and data without encryption.
+FTP (File Transfer Protocol) is a traditional and widely used standard tool for transferring files between a server and clients over a network, especially where no authentication is necessary ( FTP permits anonymous users to connect to a server). We must understand that FTP is unsecure by default, because it transmits user credentials and data without encryption.
 
-If we planning to use FTP, consider configuring FTP connection with SSL/TLS . Otherwise, it’s always better to use secure FTP such as Very Secure FTP \(vsftp\).
+If we planning to use FTP, consider configuring FTP connection with SSL/TLS . Otherwise, it’s always better to use secure FTP such as Very Secure FTP (vsftp).
 
 ### FTP ports
 
-FTP is a TCP based service exclusively. There is no UDP component to FTP. FTP is an unusual service in that it utilizes two ports, a '**data**' port and a **'command**' port \(also known as the **control port**\). Traditionally these are port 21 for the command port and port 20 for the data port. The confusion begins however, when we find that depending on the mode, the data port is not always on port 20!
+FTP is a TCP based service exclusively. There is no UDP component to FTP. FTP is an unusual service in that it utilizes two ports, a '**data**' port and a **'command**' port (also known as the **control port**). Traditionally these are port 21 for the command port and port 20 for the data port. The confusion begins however, when we find that depending on the mode, the data port is not always on port 20!
 
 ### Active FTP  vs Passive FTP
 
 Data is transferred across a separate data channel, but this port varies dependant on the FTP mode being used. Generally there are 2 modes for FTP:
 
 * Active mode
-* Passive mode \(PASV\)
+* Passive mode (PASV)
 
-**Active Mode :** In active mode FTP the client connects from a random unprivileged port \(N &gt; 1023\) to the FTP server's command port, port 21. Then, the client starts listening to port N+1 and sends the FTP command`PORT N+1`to the FTP server. The server will then connect back to the client's specified data port from its local data port, which is port 20. This can cause problems if you are behind a firewall / NAT router!
+**Active Mode : **In active mode FTP the client connects from a random unprivileged port (N > 1023) to the FTP server's command port, port 21. Then, the client starts listening to port N+1 and sends the FTP command`PORT N+1`to the FTP server. The server will then connect back to the client's specified data port from its local data port, which is port 20. This can cause problems if you are behind a firewall / NAT router!
 
 ![](.gitbook/assets/ftp-active.gif)
 
 From the server-side firewall's standpoint, to support active mode FTP the following communication channels need to be opened:
 
-* FTP server's port 21 from anywhere \(Client initiates connection\)
-* FTP server's port 21 to ports &gt; 1023 \(Server responds to client's control port\)
-* FTP server's port 20 to ports &gt; 1023 \(Server initiates data connection to client's data port\)
-* FTP server's port 20 from ports &gt; 1023 \(Client sends ACKs to server's data port\)
+* FTP server's port 21 from anywhere (Client initiates connection)
+* FTP server's port 21 to ports > 1023 (Server responds to client's control port)
+* FTP server's port 20 to ports > 1023 (Server initiates data connection to client's data port)
+* FTP server's port 20 from ports > 1023 (Client sends ACKs to server's data port)
 
-**Passive FTP :** In order to resolve the issue of the server initiating the connection to the client a different method for FTP connections was developed. This was known as passive mode, or PASV, after the command used by the client to tell the server it is in passive mode.
+**Passive FTP : **In order to resolve the issue of the server initiating the connection to the client a different method for FTP connections was developed. This was known as passive mode, or PASV, after the command used by the client to tell the server it is in passive mode.
 
-In passive mode FTP the client initiates both connections to the server, solving the problem of firewalls filtering the incoming data port connection to the client from the server. When opening an FTP connection, the client opens two random unprivileged ports locally \(N &gt; 1023 and N+1\). The first port contacts the server on port 21, but instead of then issuing a PORT command and allowing the server to connect back to its data port, the client will issue the PASV command. The result of this is that the server then opens a random unprivileged port \(P &gt; 1023\) and sends P back to the client in response to the PASV command. The client then initiates the connection from port N+1 to port P on the server to transfer data.
+In passive mode FTP the client initiates both connections to the server, solving the problem of firewalls filtering the incoming data port connection to the client from the server. When opening an FTP connection, the client opens two random unprivileged ports locally (N > 1023 and N+1). The first port contacts the server on port 21, but instead of then issuing a PORT command and allowing the server to connect back to its data port, the client will issue the PASV command. The result of this is that the server then opens a random unprivileged port (P > 1023) and sends P back to the client in response to the PASV command. The client then initiates the connection from port N+1 to port P on the server to transfer data.
 
 ![](.gitbook/assets/ftp-passive.gif)
 
 From the server-side firewall's standpoint, to support passive mode FTP the following communication channels need to be opened:
 
-* FTP server's port 21 from anywhere \(Client initiates connection\)
-* FTP server's port 21 to ports &gt; 1023 \(Server responds to client's control port\)
-* FTP server's ports &gt; 1023 from anywhere \(Client initiates data connection to random port specified by server\)
-* FTP server's ports &gt; 1023 to remote ports &gt; 1023 \(Server sends ACKs \(and data\) to client's data port\)
+* FTP server's port 21 from anywhere (Client initiates connection)
+* FTP server's port 21 to ports > 1023 (Server responds to client's control port)
+* FTP server's ports > 1023 from anywhere (Client initiates data connection to random port specified by server)
+* FTP server's ports > 1023 to remote ports > 1023 (Server sends ACKs (and data) to client's data port)
 
 #### Summary
 
 The following chart should help admins remember how each FTP mode works:
 
-* Active FTP :
+*   Active FTP :
 
-  command : client &gt;1023 -&gt; server 21
+    command : client >1023 -> server 21
 
-  data : client &gt;1023 &lt;- server 20
+    data : client >1023 <- server 20
+*   Passive FTP :
 
-* Passive FTP :
+    command : client >1023 -> server 21
 
-  command : client &gt;1023 -&gt; server 21
+    data : client >1024 -> server >1023
 
-  data : client &gt;1024 -&gt; server &gt;1023
+## Very Secure FTP(vsftp)
 
-## Very Secure FTP\(vsftp\)
+vsftpd (Very Secure FTP Daemon) is a lightweight, stable and secure FTP server for UNIX-like systems. vsftp (as its name says) is not very secure and still dosen't encrypt the connection between client and the server, but that is more secure than standard ftp and many security options have been seen inside its configuration file.
 
-vsftpd \(Very Secure FTP Daemon\) is a lightweight, stable and secure FTP server for UNIX-like systems. vsftp \(as its name says\) is not very secure and still dosen't encrypt the connection between client and the server, but that is more secure than standard ftp and many security options have been seen inside its configuration file.
+Lets install vsftp (use CentOS7):
 
-Lets install vsftp \(use CentOS7\):
-
-```text
+```
 [root@centos7-1 ~]# yum install vsftpd
 ```
 
 the initial configuration is okey specially if want to run it in our private network, so lets start the service:
 
-```text
+```
 [root@centos7-1 ~]# systemctl start vsftpd
 
 [root@centos7-1 ~]# systemctl status vsftpd
@@ -108,7 +107,7 @@ Jul 22 01:51:40 centos7-1 systemd[1]: Started Vsftpd ftp daemon.
 
 There are some vsftp configuration files inside /etc/vsftp directry:
 
-```text
+```
 [root@centos7-1 ~]# cd /etc/vsftpd/
 [root@centos7-1 vsftpd]# ls -l
 total 20
@@ -118,9 +117,9 @@ total 20
 -rwxr--r--. 1 root root  338 Aug  3  2017 vsftpd_conf_migrate.sh
 ```
 
-* /etc/vsftpd/user\_list — This file can be configured to either deny or allow access to the users listed, depending on whether the userlist\_deny directive is set to YES \(default\) or NO in /etc/vsftpd/vsftpd.conf. If /etc/vsftpd.user\_list is used to grant access to users, the usernames listed must not appear in /etc/vsftpd/ftpusers.
+* /etc/vsftpd/user_list — This file can be configured to either deny or allow access to the users listed, depending on whether the userlist_deny directive is set to YES (default) or NO in /etc/vsftpd/vsftpd.conf. If /etc/vsftpd.user_list is used to grant access to users, the usernames listed must not appear in /etc/vsftpd/ftpusers.
 
-```text
+```
 [root@centos7-1 vsftpd]# cat user_list
 # vsftpd userlist
 # If userlist_deny=NO, only allow users in this file
@@ -146,7 +145,7 @@ nobody
 
 * /etc/vsftpd/ftpusers — A list of users not allowed to log into vsftpd. By default, this list includes the root, bin, and daemon users, among others.
 
-```text
+```
 [root@centos7-1 vsftpd]# cat ftpusers 
 # Users that are not allowed to login via ftp
 root
@@ -167,9 +166,9 @@ nobody
 
 This file is used by vsftpd pam module /etc/pam.d/vsftpd .
 
-* /etc/pam.d/vsftpd — The Pluggable Authentication Modules \(PAM\) configuration file for vsftpd. This file defines the requirements a user must meet to login to the FTP server. \(We have talked about previously in pam course\)
+* /etc/pam.d/vsftpd — The Pluggable Authentication Modules (PAM) configuration file for vsftpd. This file defines the requirements a user must meet to login to the FTP server. (We have talked about previously in pam course)
 
-```text
+```
 [root@centos7-1 ~]# cat /etc/pam.d/vsftpd 
 #%PAM-1.0
 session    optional     pam_keyinit.so    force revoke
@@ -185,7 +184,7 @@ session    include    password-auth
 
 The configuration file for vsftpd.
 
-```text
+```
 [root@centos7-1 vsftpd]# cat vsftpd.conf 
 # Example config file /etc/vsftpd/vsftpd.conf
 #
@@ -318,43 +317,43 @@ tcp_wrappers=YES
 
 The most important ones are:
 
-**anonymous\_enable** — When enabled, anonymous users are allowed to log in. The usernames anonymous and ftp are accepted.The default value is YES.
+**anonymous_enable **— When enabled, anonymous users are allowed to log in. The usernames anonymous and ftp are accepted.The default value is YES.
 
-**anon\_upload\_enable** — When enabled in conjunction with the write\_enable directive, anonymous users are allowed to upload files within a parent directory which has write permissions.The default value is NO.
+**anon_upload_enable** — When enabled in conjunction with the write_enable directive, anonymous users are allowed to upload files within a parent directory which has write permissions.The default value is NO.
 
-**local\_enable** — When enabled, local users are allowed to log into the system. The default value is YES.
+**local_enable **— When enabled, local users are allowed to log into the system. The default value is YES.
 
-**write\_enable** — When enabled, FTP commands which can change the file system are allowed, such as DELE, RNFR, and STOR. The default value is YES.
+**write_enable** — When enabled, FTP commands which can change the file system are allowed, such as DELE, RNFR, and STOR. The default value is YES.
 
-**local\_umask** — Specifies the umask value for file creation. Note that the default value is in octal form \(a numerical system with a base of eight\), which includes a "0" prefix. Otherwise the value is treated as a base-10 integer.
+**local_umask **— Specifies the umask value for file creation. Note that the default value is in octal form (a numerical system with a base of eight), which includes a "0" prefix. Otherwise the value is treated as a base-10 integer.
 
-**anon\_mkdir\_write\_enable** — When enabled in conjunction with the write\_enable directive, anonymous users are allowed to create new directories within a parent directory which has write permissions.
+**anon_mkdir_write_enable **— When enabled in conjunction with the write_enable directive, anonymous users are allowed to create new directories within a parent directory which has write permissions.
 
-**dirmessage\_enable** — When enabled, a message is displayed whenever a user enters a directory with a message file. This message resides within the current directory. The name of this file is specified in the message\_file directive and is .message by default.
+**dirmessage_enable **— When enabled, a message is displayed whenever a user enters a directory with a message file. This message resides within the current directory. The name of this file is specified in the message_file directive and is .message by default.
 
-**connect\_from\_port\_20** — When enabled, vsftpd runs with enough privileges to open port 20 on the server during active mode data transfers. Disabling this option allows vsftpd to run with less privileges, but may be incompatible with some FTP clients.
+**connect_from_port\_20** — When enabled, vsftpd runs with enough privileges to open port 20 on the server during active mode data transfers. Disabling this option allows vsftpd to run with less privileges, but may be incompatible with some FTP clients.
 
-**pam\_service\_name** — Specifies the PAM service name for vsftpd.The default value is ftp. Note, in Fedora, the value is set to vsftpd.The default value is NO. Note, in Fedora, the value is set to YES.
+**pam_service_name** — Specifies the PAM service name for vsftpd.The default value is ftp. Note, in Fedora, the value is set to vsftpd.The default value is NO. Note, in Fedora, the value is set to YES.
 
-**userlist\_enable** — When enabled, the users listed in the file specified by the userlist\_file directive are denied access. Because access is denied before the client is asked for a password, users are prevented from submitting unencrypted passwords over the network.
+**userlist_enable** — When enabled, the users listed in the file specified by the userlist_file directive are denied access. Because access is denied before the client is asked for a password, users are prevented from submitting unencrypted passwords over the network.
 
-**ftpd\_banner** — When enabled, the string specified within this directive is displayed when a connection is established to the server. This option can be overridden by the banner\_file directive.By default vsftpd displays its standard banner.
+**ftpd_banner **— When enabled, the string specified within this directive is displayed when a connection is established to the server. This option can be overridden by the banner_file directive.By default vsftpd displays its standard banner.
 
-**banner\_file** — Specifies the file containing text displayed when a connection is established to the server. This option overrides any text specified in the ftpd\_banner directive.
+**banner_file** — Specifies the file containing text displayed when a connection is established to the server. This option overrides any text specified in the ftpd_banner directive.
 
-**anon\_max\_rate** — Specifies the maximum data transfer rate for anonymous users in bytes per second.The default value is 0, which does not limit the transfer rate.
+**anon_max_rate** — Specifies the maximum data transfer rate for anonymous users in bytes per second.The default value is 0, which does not limit the transfer rate.
 
-**tcp\_wrappers** — If enabled, and vsftpd was compiled with tcp\_wrappers support, incoming connections will be fed through tcp\_wrappers access control. Furthermore, there is a mechanism for per-IP based configuration. If tcp\_wrappers sets the VSFTPD\_LOAD\_CONF environment variable, then the vsftpd session will try and load the vsftpd configuration file specified in this variable. the Default is set to YES.
+**tcp_wrappers** — If enabled, and vsftpd was compiled with tcp_wrappers support, incoming connections will be fed through tcp_wrappers access control. Furthermore, there is a mechanism for per-IP based configuration. If tcp_wrappers sets the VSFTPD_LOAD_CONF environment variable, then the vsftpd session will try and load the vsftpd configuration file specified in this variable. the Default is set to YES.
 
-**local\_root** — Specifies the directory vsftpd changes to after a local user logs in.There is no default value for this directive.
+**local_root** — Specifies the directory vsftpd changes to after a local user logs in.There is no default value for this directive.
 
-**anon\_root** — Specifies the directory vsftpd changes to after an anonymous user logs in. There is no default value for this directive. 
+**anon_root** — Specifies the directory vsftpd changes to after an anonymous user logs in. There is no default value for this directive. 
 
 ### ftp client commands
 
 The standard ftp program is the original ftp client. It comes standard with most Linux distributions. It first appeared in 4.2BSD, which was developed by the University of California, Berkeley.
 
-```text
+```
 [root@centos7-1 vsftpd]# yum search ftp | grep client
 [root@centos7-1 vsftpd]# yum install ftp.x86_64
 ```
@@ -363,15 +362,15 @@ Now lets take a quick look at the use full ftp client commands.
 
 #### Establishing an FTP connection:
 
-```text
+```
 ftp example.com
 ftp 192.168.10.133
 ftp user@ftpdomain.com
 ```
 
-Most FTP servers logins are password protected, so the server will ask us for a 'username'and a'password'. \(If you connect to a so-called anonymous FTP server, then try to use "anonymous" as username and an empty password \):
+Most FTP servers logins are password protected, so the server will ask us for a 'username'and a'password'. (If you connect to a so-called anonymous FTP server, then try to use "anonymous" as username and an empty password ):
 
-```text
+```
 Name: user1
 Password:
 230 Login successful.
@@ -381,7 +380,7 @@ Using binary mode to transfer files.
 
 #### Listing directories with security settings:
 
-```text
+```
 ftp> ls
 229 Entering Extended Passive Mode (|||59162|).
 150 Here comes the directory listing.
@@ -391,7 +390,7 @@ drwxrwxr-x    3 1001     1001           19 May 27 05:19 mail
 
 #### Changing Directories:
 
-```text
+```
 ftp> cd /home
 250 Directory successfully changed.
 ```
@@ -400,7 +399,7 @@ ftp> cd /home
 
 Before downloading a file, we should set the local FTP file download directory by using 'lcd' command:
 
-```text
+```
 ftp> lcd /home/user1/
 Local directory now /home/user1
 ```
@@ -409,7 +408,7 @@ If we dont specify the download directory, the file will be downloaded to the cu
 
 Now, we can use the command 'get' command to download a file, the usage is:
 
-```text
+```
 ftp> get mail
 ```
 
@@ -417,19 +416,19 @@ The file will be downloaded to the directory previously set with the 'lcd' comma
 
 #### Uploading Files with FTP:
 
-```text
+```
 put file
 ```
 
 To upload several files we can use the mput command similar to the mget example from above:
 
-```text
+```
 mput *.xls
 ```
 
 #### Closing the FTP connection:
 
-```text
+```
 bye
 exit
 quit
@@ -437,15 +436,15 @@ quit
 
 ## pureftpd
 
-Pure-FTPd is a free \(BSD license\) FTP Server with a strong focus on software security. It can be compiled and run on a variety of Unix-like computer operating systems but it mostly used in debian based distroes how ever CentOS has it in its repository.
+Pure-FTPd is a free (BSD license) FTP Server with a strong focus on software security. It can be compiled and run on a variety of Unix-like computer operating systems but it mostly used in debian based distroes how ever CentOS has it in its repository.
 
-```text
+```
 root@server1:~# apt install pure-ftpd
 ```
 
 You probably think of pure-ftpd configuration file:
 
-```text
+```
 [root@centos7-2 ~]# cd /etc/pure-ftpd/
 [root@centos7-2 pure-ftpd]# ls -l
 total 24
@@ -461,16 +460,16 @@ pureftpd is driven by configuration that is done by the command line .There are 
 
 Now lets start working with pure-ftpd .Use pure-ftpd command line tool for starting pure-ftpd daemon:
 
-```text
+```
 [root@centos7-2 pure-ftpd]# which pure-ftpd
 /sbin/pure-ftpd
 
 [root@centos7-2 pure-ftpd]# pure-ftpd -B -S localhost,21 -e
 ```
 
--B says start pure-ftpd starts as a background service in a Daemon mode , -S is used to bind ftp service to specific host \(if multiple servers are exist\)and a port, and -e enable Anonymouse access.
+\-B says start pure-ftpd starts as a background service in a Daemon mode , -S is used to bind ftp service to specific host (if multiple servers are exist)and a port, and -e enable Anonymouse access.
 
-```text
+```
 [root@centos7-2 pure-ftpd]# ps aux | grep pure-ftpd
 root      15051  0.0  0.0 202480  1888 ?        Ss   03:12   0:00 pure-ftpd (SERVER)
 root      15053  0.0  0.0 112660   972 pts/0    R+   03:12   0:00 grep --color=auto pure-ftpd
@@ -478,7 +477,7 @@ root      15053  0.0  0.0 112660   972 pts/0    R+   03:12   0:00 grep --color=a
 
 and check it out:
 
-```text
+```
 [root@centos7-2 pure-ftpd]# ftp localhost
 Trying ::1...
 Connected to localhost (::1).
@@ -496,18 +495,18 @@ ftp>
 
 and some more usefull pure-ftpd command switches:
 
-| pure-ftpd switches | Description |
-| :--- | :--- |
-| -c | Number of cuncurrence  connections in total |
-| -C | Number of Maximum concurrence connections from a Host |
-| -e | Enable Anonymouse access |
-| -E | Disable Anonymouse access. Only authenticated users. |
-| -M | Allow anonymous users to create directories. |
-| -I | Change the maximum idle time in minutes\(defualt=15\) |
+| pure-ftpd switches | Description                                           |
+| ------------------ | ----------------------------------------------------- |
+| -c                 | Number of cuncurrence  connections in total           |
+| -C                 | Number of Maximum concurrence connections from a Host |
+| -e                 | Enable Anonymouse access                              |
+| -E                 | Disable Anonymouse access. Only authenticated users.  |
+| -M                 | Allow anonymous users to create directories.          |
+| -I                 | Change the maximum idle time in minutes(defualt=15)   |
 
 as an example lets disable anounymous access:
 
-```text
+```
 [root@centos7-2 pure-ftpd]# killall pure-ftpd
 [root@centos7-2 pure-ftpd]# ps aux | grep pure-ftpd
 root      15872  0.0  0.0 112660   972 pts/0    R+   03:33   0:00 grep --color=auto pure-ftpd
@@ -515,7 +514,7 @@ root      15872  0.0  0.0 112660   972 pts/0    R+   03:33   0:00 grep --color=a
 [root@centos7-2 pure-ftpd]# pure-ftpd -B -S localhost,21 -E
 ```
 
-```text
+```
 [root@centos7-2 pure-ftpd]# ftp localhost
 Trying ::1...
 Connected to localhost (::1).
@@ -535,7 +534,7 @@ ftp>
 
 ok if you like to see the full list:
 
-```text
+```
 [root@centos7-2 pure-ftpd]# pure-ftpd -h
 pure-ftpd v1.0.42 [privsep]
 
@@ -601,15 +600,15 @@ pure-ftpd v1.0.42 [privsep]
 
 ## Proftpd
 
-ProFTPD is an Open Source FTP Server and one of the most used, secure and reliable file transfer daemons on Unix environments, due to its file configurations simplicity speed and easy setup\(CentOS\)
+ProFTPD is an Open Source FTP Server and one of the most used, secure and reliable file transfer daemons on Unix environments, due to its file configurations simplicity speed and easy setup(CentOS)
 
-```text
+```
 [root@centos7-2 pure-ftpd]# yum install proftpd.x86_64
 ```
 
 Proftp has its own configuration file and that looks like Apache configurations:
 
-```text
+```
 [root@centos7-2 etc]# cat /etc/proftpd.conf
 ```
 
@@ -620,4 +619,3 @@ That is enouhg for lpic2 exam.
 * If you want to run a FTP server at scale with many users: vsftpd
 * If you have just a few users and want a simple, secure FTP server: PureFTPd
 * If you want a server with the most flexible configuration options and external modules: ProFTPd
-

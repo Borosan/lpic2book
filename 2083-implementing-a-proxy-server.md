@@ -17,7 +17,7 @@
 
 * squid.conf
 * acl
-* http\_access
+* http_access
 
 In this light weight lesson we talk about squid proxy server. Squid has a giant configuration file and covering all aspect of that needs spending more time, but for this course we just discuss about items which are important for LPIC2 exam.
 
@@ -36,7 +36,7 @@ Clearly some of the above reasons are perfectly fitting for a business and some 
 
 ## What is squid ?
 
-**Squid** is a free and open-source full featured web proxy cache server released under GPL 3, which can be used in many other ways like a web server caching daemon to speed up websites loading, cache DNS lookups, filter the traffic and many other network protocols, right now, Squid server supports HTTP and FTP protocols, there is a limited support to other protocols like TLS and SSL, it was first released in 1996.
+**Squid **is a free and open-source full featured web proxy cache server released under GPL 3, which can be used in many other ways like a web server caching daemon to speed up websites loading, cache DNS lookups, filter the traffic and many other network protocols, right now, Squid server supports HTTP and FTP protocols, there is a limited support to other protocols like TLS and SSL, it was first released in 1996.
 
 ![](.gitbook/assets/squid_logo.png)
 
@@ -44,7 +44,7 @@ Clearly some of the above reasons are perfectly fitting for a business and some 
 
 Lets install squid on CentOS7 and see what does really look like:
 
-```text
+```
 [root@centos7-2 ~]# yum install squid
 
 [root@centos7-2 ~]# rpm -ql squid | grep etc
@@ -70,7 +70,7 @@ The current version of squid server is version 3 , so based on our distribution 
 
 The default configuration file for squid is located under /etc/squid3/squid.conf or /etc/squid/squid.conf.
 
-```text
+```
 [root@centos7-2 ~]# cd /etc/squid/
 [root@centos7-2 squid]# ls -l
 total 48
@@ -86,7 +86,7 @@ total 48
 
 This file contains some configuration directives that needs to be configured to affect the behavior of the Squid.
 
-```text
+```
 [root@centos7-2 squid]# cat squid.conf
 #
 # Recommended minimum configuration:
@@ -165,31 +165,31 @@ refresh_pattern .        0    20%    4320
 
 The file in Ubuntu is so huge cause of its rich documents.Lets take a look at important ones:
 
-**port \[mode\] \[options\]**
+**port \[mode] \[options]**
 
 This is the default port for the HTTP proxy server, by default it is 3128
 
-**cache\_mem \[bytes\]**
+**cache_mem \[bytes]**
 
 Defines the amount of memory Squid can use for cache. The default is 256 MB and it is commented out. This does not specify the memory usage of Squid and may be exceeded.
 
-**maximum\_object\_size\_in\_memory \[bytes\]**
+**maximum_object_size_in_memory \[bytes]**
 
-Objects greater than this size will not be attempted to kept in the memory cache. This should be set high enough to keep objects accessed frequently in memory to improve performance whilst low enough to keep larger objects from hoarding cache\_mem. And the default size is 512 KB.
+Objects greater than this size will not be attempted to kept in the memory cache. This should be set high enough to keep objects accessed frequently in memory to improve performance whilst low enough to keep larger objects from hoarding cache_mem. And the default size is 512 KB.
 
-**cache\_dir aufs Directory-Name Mbytes L1 L2 \[options\]**
+**cache_dir aufs Directory-Name Mbytes L1 L2 \[options]**
 
-The entry cache\_dir defines the directory where all the objects are stored on disk. The numbers at the end indicate the maximum disk space in MB to use and the number of directories in the first and second level. "ufs" is the old well-known Squid storage format that has always been there. By default disk caching is not turned on and we can enable it by commenting it out.
+The entry cache_dir defines the directory where all the objects are stored on disk. The numbers at the end indicate the maximum disk space in MB to use and the number of directories in the first and second level. "ufs" is the old well-known Squid storage format that has always been there. By default disk caching is not turned on and we can enable it by commenting it out.
 
 `cache_dir ufs /var/cache/squid/ 100 16 256` : The default is 100 MB occupied disk space in the /var/cache/squid directory and creation of 16 subdirectories inside it, each containing 256 more subdirectories.
 
-**maximum\_object\_size \[bytes\]**
+**maximum_object_size \[bytes]**
 
-Set the default value for max-size parameter on any cache\_dir. The value is specified in bytes, and the default is 4 MB.
+Set the default value for max-size parameter on any cache_dir. The value is specified in bytes, and the default is 4 MB.
 
-And after doing some configurations \(as en example here we have turned on disk cache\) we need to restart squid service :
+And after doing some configurations (as en example here we have turned on disk cache) we need to restart squid service :
 
-```text
+```
 [root@centos7-2 ~]# systemctl status squid.service 
 ● squid.service - Squid caching proxy
    Loaded: loaded (/usr/lib/systemd/system/squid.service; disabled; vendor preset: disabled)
@@ -220,19 +220,19 @@ helo
 ........
 ```
 
-And as a next step we need to configure our browser to goes trough proxy server \(we use the same computer for our demonstration\):
+And as a next step we need to configure our browser to goes trough proxy server (we use the same computer for our demonstration):
 
 ![](.gitbook/assets/squid-firefox.jpg)
 
 And if you like browsing in terminal with programs like lynx:
 
-```text
+```
 [root@centos7-2 squid]# export http_proxy=http://192.168.52.135:3128
 ```
 
 Well, for testing purpose we need to show the speed of web surfing in our browser which is not possible here. Do not forget that each web browser has a local cache and try to clear that before reloading a page again and again.
 
-## **ACLs**\(**Access Control Lists**\)
+## **ACLs**(**Access Control Lists**)
 
 ACLs allow us to restrict the access to websites, and / or monitor the access on a per user basis. We can restrict access based on day of week or time of day, or domain, for example.
 
@@ -242,7 +242,7 @@ The access control scheme of the Squid web proxy server consists of two differen
 
 **acl aclname acltype argument ...**
 
-```text
+```
 acl SSL_ports port 443
 acl Safe_ports port 80          # http
 acl Safe_ports port 21          # ftp
@@ -260,11 +260,11 @@ The lines above for squid.conf represent a basic example of the usage of ACL ele
 
 The first word, acl, indicates that this is a ACL element directive line.
 
-The second word, localhost or Safe\_ports, specify a name for the directive.
+The second word, localhost or Safe_ports, specify a name for the directive.
 
 The third word, port in this case, is an ACL element type that is used to represent a TCP port. It can be a client IP address or range of addresses. Also it is possible to use hostname, if we have some sort of DNS resolution implemented.
 
-```text
+```
 ***** Different ACL Elements  *****
 
 src: source (client) IP addresses
@@ -303,7 +303,7 @@ ext_user_regex: regular expression pattern matching on user= field returned by e
 
 2-The access list rules consist of an allow or deny action followed by a number of ACL elements, and are used to indicate what action or limitation has to be enforced for a given request. There are a number of different access lists:
 
-```text
+```
 ***** Different ACL types *****
 http_access: Allows HTTP clients (browsers) to access the HTTP port. This is the primary access control list.
 http_reply_access: Allows HTTP clients (browsers) to receive the reply to their request. This further restricts permissions given by http_access, and is primarily intended to be used together with rep_mime_type acl for blocking different content types.
@@ -329,7 +329,7 @@ log_access: Controls which requests are logged. This is global and overrides spe
 
 Lets go back to squid.conf and fine some examples:
 
-```text
+```
 # Deny requests to certain unsafe ports
 http_access deny !Safe_ports
 ```
@@ -342,9 +342,9 @@ Notes:
 2. An access list consists of one or more access list rules.
 3. Access list rules are checked in the order they are written. List searching terminates as soon as one of the rules is a match.
 4. If a rule has multiple ACL elements, it uses AND logic. In other words, all ACL elements of the rule must be a match in order for the rule to be a match. This means that it is possible to write a rule that can never be matched. For example, a port number can never be equal to both 80 AND 8000 at the same time.
-5. To summarize the ACL logics can be described as: \(note: AND/OR below is just for illustartion, not part of the syntax\)
+5. To summarize the ACL logics can be described as: (note: AND/OR below is just for illustartion, not part of the syntax)
 
-```text
+```
 http_access allow|deny acl AND acl AND ...
         OR
 http_access allow|deny acl AND acl AND ...
@@ -352,9 +352,9 @@ http_access allow|deny acl AND acl AND ...
 ...
 ```
 
-If none of the rules are matched, then the default action is the opposite of the last rule in the list. Its a good idea to be explicit with the default action. The best way is to use the all ACL \(Cache All\). For example:
+If none of the rules are matched, then the default action is the opposite of the last rule in the list. Its a good idea to be explicit with the default action. The best way is to use the all ACL (Cache All). For example:
 
-```text
+```
 http_access deny all
 ```
 
@@ -362,14 +362,14 @@ So to have a big picture in mind of how squid works, it works like that :
 
 For demonstration Lets create required ACL elements and ACL rules to avoid visiting yahoo web site on Fridays:
 
-```text
+```
 acl YAHOO dstdomain .yahoo.com
 acl FRIDAY time Friday
 ```
 
 Do not forget to define acl rule before cache all:
 
-```text
+```
 #
 # INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
 #
@@ -388,33 +388,33 @@ http_access deny all
 
 and finally do not forget to restart thr service:
 
-```text
+```
 [root@centos7-2 squid]# systemctl restart squid.service
 ```
 
 ## Squid Authentication
 
-One another option of squid is adding user authentication . For that we need to use auth\_param ACL element.
+One another option of squid is adding user authentication . For that we need to use auth_param ACL element.
 
-### auth\_param
+### auth_param
 
-The auth\_param directive controls almost every aspect of Squid's external user authentication interface. Squid currently supports three authentication schemes: Basic, Digest, and NTLM. Basic authentication support is compiled by default \(For the others, you must use the enable-auth option with ./configure.\).
+The auth_param directive controls almost every aspect of Squid's external user authentication interface. Squid currently supports three authentication schemes: Basic, Digest, and NTLM. Basic authentication support is compiled by default (For the others, you must use the enable-auth option with ./configure.).
 
-The auth\_param directive is very complex, what we are presenting here for LPIC2 exam is HTTP Basic authentication helper, and the syntax would be:
+The auth_param directive is very complex, what we are presenting here for LPIC2 exam is HTTP Basic authentication helper, and the syntax would be:
 
-**auth\_param basic program command ...**
+**auth_param basic program command ...**
 
 example:`auth_param basic program /opt/squid/ncsa /etc/squid/passwd`
 
 So basic says what type of authentication we are going to use, so in browser it just pops up a window.
 
-program defines what program is going to be used for Authentication, and the actual location of that program \(the location might be different in different distributions, be careful and check it\).
+program defines what program is going to be used for Authentication, and the actual location of that program (the location might be different in different distributions, be careful and check it).
 
 > ncsa is a very simple program which uses the same apache htpasswd type format.
 
 some others are:
 
-```text
+```
 => NCSA: Uses an NCSA-style username and password file.
 => LDAP: Uses the Lightweight Directory Access Protocol
 => MSNT: Uses a Windows NT authentication domain.
@@ -427,11 +427,11 @@ some others are:
 
 And the last argument for ncsa is where the user password file is stored.
 
-Start implementing basic user authentication in squid and as first step locate nsa\_auth place in our distribution
+Start implementing basic user authentication in squid and as first step locate nsa_auth place in our distribution
 
-\(In ubuntu use `dpkg -L squid | grep ncsa_auth` \) :
+(In ubuntu use `dpkg -L squid | grep ncsa_auth` ) :
 
-```text
+```
 [root@centos7-2 squid]# locate ncsa_auth
 [root@centos7-2 squid]# rpm -ql squid | grep ncsa_auth
 /usr/lib64/squid/basic_ncsa_auth
@@ -460,9 +460,9 @@ Start implementing basic user authentication in squid and as first step locate n
 -rwxr-xr-x. 1 root root 63088 Apr 10  2018 ntlm_smb_lm_auth
 ```
 
-Next we configure squid.conf file and search for auth\_param . There are some documentations and examples :
+Next we configure squid.conf file and search for auth_param . There are some documentations and examples :
 
-```text
+```
 #    === Example Configuration ===
 #
 #    This configuration displays the recommended authentication scheme
@@ -494,7 +494,7 @@ Next we configure squid.conf file and search for auth\_param . There are some do
 
 and the default is none. We add the previously discussed basic http authentication options :
 
-```text
+```
 auth_param basic program /usr/lib64/squid/basic_ncsa_auth /etc/squid/passwords
 ###Specify squid password file and helper program location
 
@@ -510,19 +510,19 @@ Specifies how long squid assumes an externally validated username:password pair 
 
 Next we need to create an ACL element and then tell it to use that element in an ACL:
 
-```text
+```
 ### ACL element
 acl BASICAUTHENTICATED proxy_auth REQUIRED
 ```
 
-```text
+```
 ### ACL 
 http_access allow BASICAUTHENTICATED
 ```
 
 do not forget that based on the order you put your rules the result would be different. So if we put it above other rules, as long as users can authenticate it works fine. part of our squid.conf file:
 
-```text
+```
 acl Safe_ports port 591         # filemaker
 acl Safe_ports port 777         # multiling http
 acl CONNECT method CONNECT
@@ -545,9 +545,9 @@ http_access allow MYBASICAUTH
 http_access deny !Safe_ports
 ```
 
-Now we have to create password file\(for that we might need to install apach2-utils \(Deb\)or httpd-tools \(RedHat\)\) :
+Now we have to create password file(for that we might need to install apach2-utils (Deb)or httpd-tools (RedHat)) :
 
-```text
+```
 [root@centos7-2 squid]# htpasswd -c /etc/squid/passwords user1
 New password: 
 Re-type new password: 
@@ -567,7 +567,7 @@ total 52
 
 and to make sure every thing is working properly with our passwords file:
 
-```text
+```
 [root@centos7-2 squid]# /usr/lib64/squid/basic_ncsa_auth /etc/squid/passwords 
 user1 Aa@123?
 OK
@@ -575,23 +575,23 @@ OK
 
 lets restart the service and see the results:
 
-```text
+```
 [root@centos7-2 squid]# systemctl restart squid.service
 ```
 
-### ![](.gitbook/assets/squid-firefoxauthbox.jpg)
+### ![](.gitbook/assets/squid-firefoxAuthBox.jpg)
 
 ### /var/log/squid/
 
-That is squid log file directory. The logs give us information about Squid workloads and performance. The logs record not only access information, but also system configuration errors and resource consumption \(eg, memory, disk space\). There are several log file maintained by Squid. Some have to be explicitely activated during compile time, others can safely be deactivated during.
+That is squid log file directory. The logs give us information about Squid workloads and performance. The logs record not only access information, but also system configuration errors and resource consumption (eg, memory, disk space). There are several log file maintained by Squid. Some have to be explicitely activated during compile time, others can safely be deactivated during.
 
 * **/var/log/squid/access.log** : Most log file analysis program are based on the entries in access.log. We can use this file to find out who is using squid server and what they are doing etc
-* **/var/log/squid/cache.log** : The cache.log file contains the debug and error messages that Squid generates. 
+* **/var/log/squid/cache.log **: The cache.log file contains the debug and error messages that Squid generates. 
 * **/var/log/squid/store.log** : The store.log file covers the objects currently kept on disk or removed ones. As a kind of transaction log it is ususally used for debugging purposes. 
 
 To display log files in real time use tail command:
 
-```text
+```
 tail -f /var/log/squid/access.log
 ```
 
@@ -603,7 +603,6 @@ Links: [http://www.comfsm.fm/computing/squid/FAQ-10.html](http://www.comfsm.fm/c
 
 [https://wiki.squid-cache.org/SquidFaq/SquidAcl](https://wiki.squid-cache.org/SquidFaq/SquidAcl)
 
-[http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth\_param/](http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth_param/)
+[http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth_param/](http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth_param/)
 
 [https://hostpresto.com/community/tutorials/how-to-install-and-configure-squid-proxy-on-centos-7/](https://hostpresto.com/community/tutorials/how-to-install-and-configure-squid-proxy-on-centos-7/)
-

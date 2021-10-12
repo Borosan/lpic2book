@@ -10,10 +10,10 @@
 
 * Tools and utilities to configure DMA for IDE devices including ATAPI and SATA
 * Tools and utilities to configure Solid State Drives including AHCI and NVMe
-* Tools and utilities to manipulate or analyse system resources \(e.g. interrupts\)
+* Tools and utilities to manipulate or analyse system resources (e.g. interrupts)
 * Awareness of sdparm command and its uses
 * Tools and utilities for iSCSI
-* Awareness of SAN, including relevant protocols \(AoE, FCoE\)
+* Awareness of SAN, including relevant protocols (AoE, FCoE)
 
 **Terms and Utilities:**
 
@@ -23,37 +23,37 @@
 * fstrim
 * sysctl
 * /dev/hd\*, /dev/sd\*, /dev/nvme\*
-* iscsiadm, scsi\_id, iscsid and iscsid.conf
+* iscsiadm, scsi_id, iscsid and iscsid.conf
 * WWID, WWN, LUN numbers
 
 In this course many standards and storage concepts are discussed. Before begging lets classified some topics and then we realize where each tools for.
 
-| Storage Types | Description |
-| :--- | :--- |
-| HDD | Hard Disk Drive, traditional mechanical hard disks stores data on magnetic platter. |
-| SSD | Solid state drives \(SSDs\) are storage devices that contain non-volatile flash memory. they are superior to mechanical hard disk drives in terms of performance, power use, and availability. |
-| NVMe | non-volatile memory expres \(NVMe\) devices are flash memory chips connected to a system via the PCI-E bus. |
+| Storage Types | Description                                                                                                                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HDD           | Hard Disk Drive, traditional mechanical hard disks stores data on magnetic platter.                                                                                                          |
+| SSD           | Solid state drives (SSDs) are storage devices that contain non-volatile flash memory. they are superior to mechanical hard disk drives in terms of performance, power use, and availability. |
+| NVMe          | non-volatile memory expres (NVMe) devices are flash memory chips connected to a system via the PCI-E bus.                                                                                    |
 
 and from another aspect :
 
-| Storage Connectivity Protocols | Description |
-| :--- | :--- |
-| IDE/ATA | Popular Interface, used to connect hard disks and optical drives. speed: 133 MB/s |
-| Serial ATA | Serial Version of IDE/ATA typically used for internal connectivity.speed up to 16 Gb/s |
-| SCSI | Popular standard for compute-to-storage connectivity.speed up to 640 MB/s |
-| SAS | Serial attached SCSI, is a point-to-point serial protocol that provides alternative to SCSI.speed up to 12 Gb/s |
-| FC | Fibre Channel a widely-used-protocol for high-spedd communication to the storage device. Latest version speed up to 32 Gb/s |
-| IP | IP is a network protocol that has been traditionally used for compute-to-compute traffic.ISCSI and FCIP protocols are common examples of using IP for compute-to-storage communications. |
+| Storage Connectivity Protocols | Description                                                                                                                                                                              |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IDE/ATA                        | Popular Interface, used to connect hard disks and optical drives. speed: 133 MB/s                                                                                                        |
+| Serial ATA                     | Serial Version of IDE/ATA typically used for internal connectivity.speed up to 16 Gb/s                                                                                                   |
+| SCSI                           | Popular standard for compute-to-storage connectivity.speed up to 640 MB/s                                                                                                                |
+| SAS                            | Serial attached SCSI, is a point-to-point serial protocol that provides alternative to SCSI.speed up to 12 Gb/s                                                                          |
+| FC                             | Fibre Channel a widely-used-protocol for high-spedd communication to the storage device. Latest version speed up to 32 Gb/s                                                              |
+| IP                             | IP is a network protocol that has been traditionally used for compute-to-compute traffic.ISCSI and FCIP protocols are common examples of using IP for compute-to-storage communications. |
 
 Now lets get familiar with some linux tools for specific Hard Drives:
 
 ## hdparm
 
-hdparm is a command line program to set and view ATA hard disk drive hardware parameters. First \(in 2005\) hdparm utility developed by Mrk Lord to test Linux drivers for IDE hard drives. Since then, the program has developed into a valuable tool for diagnosis and tuning of hard drives It can set parameters such as drive caches, sleep mode, power management and DMA settings.As hdparm interacts directly with hardware it can cause data lost and other file system damages.
+hdparm is a command line program to set and view ATA hard disk drive hardware parameters. First (in 2005) hdparm utility developed by Mrk Lord to test Linux drivers for IDE hard drives. Since then, the program has developed into a valuable tool for diagnosis and tuning of hard drives It can set parameters such as drive caches, sleep mode, power management and DMA settings.As hdparm interacts directly with hardware it can cause data lost and other file system damages.
 
 hdparm has to be run with root privileges, otherwise it will either not be found or the requested actions will not be executed properly.
 
-```text
+```
 root@server1:~# hdparm -h
 
 hdparm - get/set hard disk parameters - version v9.48, by Mark Lord.
@@ -139,7 +139,7 @@ Options:
 
 hdparm -I /dev/sda to get information about Hard Disk :
 
-```text
+```
 root@server1:~# hdparm -I /dev/sda
 
 /dev/sda:
@@ -248,20 +248,20 @@ Checksum: correct
 
 lets check how fast is my ssd drive with -t switch:
 
-```text
+```
 root@server1:~# hdparm -t /dev/sda
 
 /dev/sda:
  Timing buffered disk reads: 1528 MB in  3.00 seconds = 509.06 MB/sec
 ```
 
-Wow 509.06 MB/ sec.Not bad :\). Some other amazing parameters and features that can be manipulated with hdparm:
+Wow 509.06 MB/ sec.Not bad :). Some other amazing parameters and features that can be manipulated with hdparm:
 
-| hdparam command switch | Description |
-| :--- | :--- |
-| hdparm -B 125 /dev/sda | Set the Advanced Power Management, valus &lt;1-255&gt;. While 1-127 permit spin-down, 128-254 no not allow spin-down and 255 disable feature completly |
-| hdparm -S 240 /dev/sda | Set standby time.specifies how long to wait in idle \(with no disk activity\) before turning off the motor to save power. 0 can disbale feature,the values from 1 to 240 specify multiples of 5 seconds and values from 241 to 251 specify multiples of 30 minutes. |
-| hdparm -d 1 /dev/sda | set DMA \(Direct Memory Access\)on   or off,values 0 or 1 |
+| hdparam command switch | Description                                                                                                                                                                                                                                                       |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| hdparm -B 125 /dev/sda | Set the Advanced Power Management, valus <1-255>. While 1-127 permit spin-down, 128-254 no not allow spin-down and 255 disable feature completly                                                                                                                  |
+| hdparm -S 240 /dev/sda | Set standby time.specifies how long to wait in idle (with no disk activity) before turning off the motor to save power. 0 can disbale feature,the values from 1 to 240 specify multiples of 5 seconds and values from 241 to 251 specify multiples of 30 minutes. |
+| hdparm -d 1 /dev/sda   | set DMA (Direct Memory Access)on   or off,values 0 or 1                                                                                                                                                                                                           |
 
 and many many other options.
 
@@ -277,7 +277,7 @@ Linux has NVMe driver which is natively included in the kernel since version 3.3
 
 tune2fs command is used by the system administrator to change/modify tunable parameters on ext2, ext3 and ext4 type filesystems. Incomparison to hdparm it manipulates disk drive from File System layer.
 
-```text
+```
 root@server1:~# tune2fs 
 tune2fs 1.42.13 (17-May-2015)
 Usage: tune2fs [-c max_mounts_count] [-e errors_behavior] [-g group]
@@ -292,7 +292,7 @@ Usage: tune2fs [-c max_mounts_count] [-e errors_behavior] [-g group]
 
 We have already seen tune2fs -l /dev/sda command and we have used -i and -c flags to change fsck check interval. Lets do something more interesting. By default every File System in Linux has some space reserved for root, so no regular user can fill file system up to 100%. As a standard, each File System reserve 5% of total space.Lets change it:
 
-```text
+```
 root@server1:~# tune2fs -l /dev/sda8 | grep -i reserved 
 Reserved block count:     610355
 Reserved GDT blocks:      1021
@@ -318,7 +318,7 @@ note that after any manipulation fsck should be run in order to changes take eff
 
 We have previously seen sysctl as a tool to view and change kernel parameters at the run time. sysctl deals with /proc directory .
 
-```text
+```
 root@blackbird:~# sysctl 
 
 Usage:
@@ -350,7 +350,7 @@ Options:
 For more details see sysctl(8).
 ```
 
-We used sysctl -a to list all parameters ,and as an example we know sysctl -w net.ipv4.ipforward=1 is the same as echo "1" &gt; /proc/sys/net/ipv4/ip\_forward. Then for marking changes persistent we learned that sysctl has a configuration file which is /etc/sysctl.conf and kernel parameters are defined there.
+We used sysctl -a to list all parameters ,and as an example we know sysctl -w net.ipv4.ipforward=1 is the same as echo "1" > /proc/sys/net/ipv4/ip_forward. Then for marking changes persistent we learned that sysctl has a configuration file which is /etc/sysctl.conf and kernel parameters are defined there.
 
 ## What is LUN?
 
@@ -358,11 +358,11 @@ a logical unit number, or LUN, is a number used to identify a logical unit, whic
 
 ## iscsi "EYE-skuzzy"
 
-Befor talking about iscsi, lets talk about scsi to understand it better, Whats scsi? SCSI "skuzzy" \( Small Computer System Interface\), is a set of American National Standards Institute \(ANSI\) standard electronic interfaces that allow personal computers \(PCs\) to communicate with peripheral hardware such as disk drives, tape drives, CD-ROM drives, printers and scanners faster and more flexibly than previous parallel data transfer interfaces . But what if we could do it remotely?
+Befor talking about iscsi, lets talk about scsi to understand it better, Whats scsi? SCSI "skuzzy" ( Small Computer System Interface), is a set of American National Standards Institute (ANSI) standard electronic interfaces that allow personal computers (PCs) to communicate with peripheral hardware such as disk drives, tape drives, CD-ROM drives, printers and scanners faster and more flexibly than previous parallel data transfer interfaces . But what if we could do it remotely?
 
-iSCSI \(Internet Small Computer System Interface\), works on top of the TCP \(Transport Control Protocol\) and allows the SCSI command to be sent end-to-end over LANs and WANs or the Internet.
+iSCSI (Internet Small Computer System Interface), works on top of the TCP (Transport Control Protocol) and allows the SCSI command to be sent end-to-end over LANs and WANs or the Internet.
 
-How dose it work? iSCSI works by transporting block-level data between an iSCSI initiator on a computer\(as client\) and an iSCSI target on a storage device\(as server\). The iSCSI protocol encapsulates SCSI commands and assembles the data in packets for the TCP/IP layer. Packets are sent over the network using a point-to-point connection. When packets arrived, the iSCSI protocol disassembles the packets, take out SCSI commands so the operating system will see the storage as a local SCSI device that can be formatted as usual.
+How dose it work? iSCSI works by transporting block-level data between an iSCSI initiator on a computer(as client) and an iSCSI target on a storage device(as server). The iSCSI protocol encapsulates SCSI commands and assembles the data in packets for the TCP/IP layer. Packets are sent over the network using a point-to-point connection. When packets arrived, the iSCSI protocol disassembles the packets, take out SCSI commands so the operating system will see the storage as a local SCSI device that can be formatted as usual.
 
 ![](.gitbook/assets/iscsi.jpg)
 
@@ -372,33 +372,33 @@ Each iscsi target or iscsi initirator is called iscsi node.All iSCSI nodes are i
 
 iSCSI addresses can be one of two types:
 
-1. iSCSI Qualified Name \(iQN\) 
-2. IEEE Naming convention \(EUI\)
+1. iSCSI Qualified Name (iQN) 
+2. IEEE Naming convention (EUI)
 
 iQN format ‐ iqn.yyyy‐mm.com.xyz.aabbccddeeffgghh :
 
 * iqn ‐ Naming convention identifier
 * yyyy‐nn ‐ Point in time when the .com domain was registered
 * com.xyz ‐ Domain of the node backwards
-* aabbccddeeffgghh ‐ Device identifier \(can be a WWN, the system name, or any other vendorimplemented
+*   aabbccddeeffgghh ‐ Device identifier (can be a WWN, the system name, or any other vendorimplemented
 
-   standard\)
+     standard)
 
 EUI format ‐ eui.64‐bit WWN:
 
 * eui ‐ Naming prefix
 * 64‐bit WWN ‐ FC WWN of the host
 
-Okey enough introduction lets start.To keep it simple we use CentOS 7 server \(target\) with additional 10 gig Disk Drive and then get Our Ubuntu client \(initiator\) connected to it. First We need to add EPEL repository:
+Okey enough introduction lets start.To keep it simple we use CentOS 7 server (target) with additional 10 gig Disk Drive and then get Our Ubuntu client (initiator) connected to it. First We need to add EPEL repository:
 
-```text
+```
 ###Server Side , CentOS with 10 gig Disk, iscsitarget
 [root@server1 ~]# yum install epel-release
 ```
 
 and now lets install iscsi target:
 
-```text
+```
 [root@server1 ~]# yum search scsi target
 Loaded plugins: fastestmirror, langpacks
 Loading mirror speeds from cached hostfile
@@ -486,7 +486,7 @@ sda               8:0    0   50G  0 disk
 
 Now lets configure target vi /etc/tgt/target.conf:
 
-```text
+```
 # This is a sample config file for tgt-admin.
 #
 # The "#" symbol disables the processing of a line.
@@ -514,7 +514,7 @@ default-driver iscsi
 
 lets restrat service:
 
-```text
+```
 [root@server1 ~]# systemctl restrat tgtd.service 
 Unknown operation 'restrat'.
 [root@server1 ~]# systemctl restart tgtd.service 
@@ -546,7 +546,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
 
 use tgtadmin to scan what is result:
 
-```text
+```
 [root@server1 ~]# tgtadm --mode target --op show
 Target 1: 192.168.10.134:target00
     System information:
@@ -590,7 +590,7 @@ Target 1: 192.168.10.134:target00
 
 Do not forget to `sysemctl enable tgt.service` to keep iscsi target service Active even after reboot. Before testing we have to make tcp port 3260 open, CentOS 7 use firewalld on top of iptables so we use firewall-cmd to manipulate ip table:
 
-```text
+```
 [root@server1 ~]# firewall-cmd --add-port=3260/tcp --zone=public --permanent
 success
 [root@server1 ~]# firewall-cmd --reload
@@ -613,14 +613,14 @@ public
 
 okey its time to configure our client as iscsi initiator , we use ubuntu 16 here:
 
-```text
+```
 ###Client side, ubuntu 16.04, initiator
 root@server2:~# apt install open-iscsi
 ```
 
 lets configure iscsi initiator `vi /etc/iscsi/iscsid.conf` :
 
-```text
+```
 #
 # Open-iSCSI default configuration.
 # Could be located at /etc/iscsi/iscsid.conf or ~/.iscsid.conf
@@ -935,20 +935,20 @@ node.session.auth.password = mypassword
 
 and lets start the service:
 
-```text
+```
 root@server2:~# systemctl start iscsid.service
 ```
 
 and check with iscsiadm tool:
 
-```text
+```
 root@server2:~# iscsiadm --mode discovery -t sendtargets --portal 192.168.10.134
 192.168.10.134:3260,1 192.168.10.134:target00
 ```
 
 see current hard disk of our client and lets add new hard disk using iscsiadm:
 
-```text
+```
 root@server2:~# ls /dev/sd*
 /dev/sda  /dev/sda1  /dev/sda2  /dev/sda5
 
@@ -962,7 +962,7 @@ root@server2:~# ls /dev/sd*
 
 okey /dev/sdb is added, if you have noticed. to confirm:
 
-```text
+```
 root@server2:~# iscsiadm -m session -o show
 tcp: [1] 192.168.10.134:3260,1 192.168.10.134:target00 (non-flash)
 root@server2:~# cat /proc/partitions 
@@ -975,14 +975,13 @@ major minor  #blocks  name
    8       32   10485760 sdb
 ```
 
-and if we reboot the system BoOoMM! every thing is gone! to make it persistent change `node.startup = manual`  
+and if we reboot the system BoOoMM! every thing is gone! to make it persistent change `node.startup = manual`\
 to automatic inside /etc/iscsi/iscsi.conf file. and copy iscsiadm script to /etc/rc.local and enable it if required:
 
-```text
+```
 root@server2:~# echo "iscsiadm --mode node --targetname 192.168.10.134:target00 --portal 192.168.10.134 --login" >> /etc/rc.local
 root@server2:~# systemctl enable rc-local.service 
 root@server2:~# chmod 750 /etc/rc.local
 ```
 
 and we are done. Now we can format mount the partition or we can add it to fstab using `_netdev` option.
-

@@ -2,9 +2,9 @@
 
 ## **208.4 Implementing Nginx as a web server and a reverse proxy**
 
-**Weight:** 2
+**Weight: **2
 
-**Description:** Candidates should be able to install and configure a reverse proxy server, Nginx. Basic configuration of Nginx as a HTTP server is included.
+**Description: **Candidates should be able to install and configure a reverse proxy server, Nginx. Basic configuration of Nginx as a HTTP server is included.
 
 **Key Knowledge Areas:**
 
@@ -19,7 +19,7 @@
 
 ### Whats is nginx ?![](.gitbook/assets/nginx-logo.png)
 
- **NGINX**  \(short for**Engine X**\) is a free, open-source and powerful HTTP web server and reverse proxy with an event-driven \(asynchronous\) architecture. It is written using  **C**  programming language and runs on Unix-like operating systems as well as Windows OS.
+** NGINX ** (short for**Engine X**) is a free, open-source and powerful HTTP web server and reverse proxy with an event-driven (asynchronous) architecture. It is written using ** C ** programming language and runs on Unix-like operating systems as well as Windows OS.
 
 It also works as a reverse proxy, standard mail and TCP/UDP proxy server, and can additionally be configured as a load balancer. It is powering many sites on the web. well known for its high-performance, stability and feature-rich set.
 
@@ -33,15 +33,15 @@ Apache and Nginx both are the most common open source web servers. Together, bot
 
 While Apache and Nginx split many qualities, they should not be consideration of as completely interchangeable. Each has been developed in its own way and it is important to understand the situations where we may need to re-evaluate ourweb server of choices. This table will show how each web server stacks up in various areas:
 
-| Criterian | Apache | Nginx |
-| :--- | :--- | :--- |
-| Static speed | Second to nginx | 2.5x faster than apache |
-| Dynamic speed | Both same in this area | Both same in this area |
-| OS support | Unix, Windows, Mac OSX | works great with Unix-like OS. Not so with windows. |
-| Security | Both have excellent security track record | Both have excellent security track record |
-| Flexibility | Highly customizable architecture | Difficult to customize modules for the server due to complex base architecture |
-| Support | Excellent community with wide spread user base.Lots of online support | provide community  support through mailing lists, IRC , ... |
-| Cost | Open source hence free to download and support | Open source license available along with paid liencese for advanced features like NGINX plus |
+| Criterian     | Apache                                                                | Nginx                                                                                        |
+| ------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Static speed  | Second to nginx                                                       | 2.5x faster than apache                                                                      |
+| Dynamic speed | Both same in this area                                                | Both same in this area                                                                       |
+| OS support    | Unix, Windows, Mac OSX                                                | works great with Unix-like OS. Not so with windows.                                          |
+| Security      | Both have excellent security track record                             | Both have excellent security track record                                                    |
+| Flexibility   | Highly customizable architecture                                      | Difficult to customize modules for the server due to complex base architecture               |
+| Support       | Excellent community with wide spread user base.Lots of online support | provide community  support through mailing lists, IRC , ...                                  |
+| Cost          | Open source hence free to download and support                        | Open source license available along with paid liencese for advanced features like NGINX plus |
 
 Comparing and getting deeper to nginx features is beyond the scope of this lesson but it is recommanded to invest some time on it.
 
@@ -51,11 +51,11 @@ In this course we will stablish a basic web server using nginx and then implemen
 
 Lets start by installing Nginx web server from Ubuntu official repositories:
 
-```text
+```
 root@server1:~# apt install nginx
 ```
 
-```text
+```
 root@server1:~# systemctl status nginx.service 
 ● nginx.service - A high performance web server and a reverse proxy server
    Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: en
@@ -81,7 +81,7 @@ tcp6       0      0 :::80                   :::*                    LISTEN      
 
 All NGINX configuration files are located in the /etc/nginx/ directory.
 
-```text
+```
 root@server1:~# cd /etc/nginx/
 root@server1:/etc/nginx# ls -l
 total 56
@@ -103,7 +103,7 @@ drwxr-xr-x 2 root root 4096 Jun 30 03:17 snippets
 
 The primary configuration file is /etc/nginx/nginx.conf:
 
-```text
+```
 root@server1:/etc/nginx# cat nginx.conf 
 user www-data;
 worker_processes auto;
@@ -194,7 +194,7 @@ http {
 
 In CentOS the configuration file would be like this:
 
-```text
+```
 [root@centos7-1 nginx]# cat nginx.conf
 # For more information on configuration, see:
 #   * Official English Documentation: http://nginx.org/en/docs/
@@ -287,22 +287,22 @@ http {
 }
 ```
 
-Configuration options in NGINX are called directives. Directives are organized into groups known as blocks \(or contexts,They are synonymous\)
+Configuration options in NGINX are called directives. Directives are organized into groups known as blocks (or contexts,They are synonymous)
 
-Lines preceded by a \# character are comments and not interpreted by NGINX. Lines containing directives must end with a ; or NGINX will fail to load the configuration and report an error.
+Lines preceded by a # character are comments and not interpreted by NGINX. Lines containing directives must end with a ; or NGINX will fail to load the configuration and report an error.
 
 The file starts with 5 irectives:`user`,`worker_processes`,`error_log`, and`pid`. These are outside any specific block or context, so they’re said to exist in the`main`context. See [the NGINX docs](https://nginx.org/en/docs/ngx_core_module.html) for explanations of these directives and others available in the `main`context.
 
 The`events`and`http`blocks are areas for additional directives, and they also exist in the`main`context.
 
 * **The http Block :**The http block contains directives for handling web traffic. These directives are often referred to as universal because they are passed on to to all website configurations NGINX serves.See [the NGINX docs](https://nginx.org/en/docs/ngx_core_module.html) for a list of available directives for the http block.
-* **Server Blocks :** The`http`block above contains an`include`directive which tells NGINX where website Configuration files are located.
+* **Server Blocks : **The`http`block above contains an`include`directive which tells NGINX where website Configuration files are located.
 
-If we installed from the official NGINX repository, or RedHat, this line will say`include /etc/nginx/conf.d/*.conf;`as it does in the`http`block above. Each website we host with NGINX should have its own configuration file in`etc/nginx/conf.d/`, with the name formatted as`example.com.conf`. Sites which are disabled \(not being served by NGINX\) should be named `xample.com.conf.disabled`.
+If we installed from the official NGINX repository, or RedHat, this line will say`include /etc/nginx/conf.d/*.conf;`as it does in the`http`block above. Each website we host with NGINX should have its own configuration file in`etc/nginx/conf.d/`, with the name formatted as`example.com.conf`. Sites which are disabled (not being served by NGINX) should be named `xample.com.conf.disabled`.
 
 If we installed NGINX from the Debian or Ubuntu repositories, this line will say`include /etc/nginx/sites-enabled/*;`. The`../sites-enabled/`folder contains symlinks to the site configuration files stored in`/etc/nginx/sites-available/`. Sites in`sites-available`can be disabled by removing the symlink to`sites-enabled`.
 
-```text
+```
 root@server1:/etc/nginx# cd sites-enabled/
 root@server1:/etc/nginx/sites-enabled# ls -l
 total 0
@@ -402,12 +402,12 @@ server {
 #}
 ```
 
-Regardless of the installation source, server configuration files will contain as`server`block \(or blocks\) for a website.
+Regardless of the installation source, server configuration files will contain as`server`block (or blocks) for a website.
 
-* **Listening ports :** The `listen`directive tells NGINX the hostname/IP and the TCP port where it should listen for HTTP connections. The argument `default_server` means this virtual host will answer requests on port 80 that don’t specifically match another virtual host’s listen statement. The second statement listens over IPv6 and behaves similarly.
-* **Name-based virtual Hosting :** The `server_name` directive allows multiple domains to be served from a single IP address. The server decides which domain to serve based on the request header it receives.
+* **Listening ports : **The `listen`directive tells NGINX the hostname/IP and the TCP port where it should listen for HTTP connections. The argument `default_server` means this virtual host will answer requests on port 80 that don’t specifically match another virtual host’s listen statement. The second statement listens over IPv6 and behaves similarly.
+* **Name-based virtual Hosting : **The `server_name` directive allows multiple domains to be served from a single IP address. The server decides which domain to serve based on the request header it receives.
 
-```text
+```
      #examples: 
               #process requests for two addresses:
               serve_name       example.com www.example.com;
@@ -422,19 +422,19 @@ NGINX allows us to specify server names that are not valid domain names. NGINX u
 
 Using non-domain hostnames is useful if our server is on a LAN, or if we already know all of the clients that will be making requests of the server.
 
-* **Location Blocks :** The `location`setting lets we configure how NGINX will respond to requests for resources within the server. Just like the `server_name`directive tells NGINX how to process requests for the domain, `location`directives cover requests for specific files and folders, such as `http://example.com/blog/`.  `location`also supports regular expressions:
+* **Location Blocks : **The `location`setting lets we configure how NGINX will respond to requests for resources within the server. Just like the `server_name`directive tells NGINX how to process requests for the domain, `location`directives cover requests for specific files and folders, such as `http://example.com/blog/`.  `location`also supports regular expressions:
 
-```text
+```
     ~* : matches to be case-insensitive
     ^~ :tells NGINX, if it matches a particular string, to stop searching for more specific matches and use the directives here instead. Other than that, these directives work like the literal string matches in the first group. Even if there’s a more specific match later, if a request matches one of these directives, the settings here will be used. See below for more information about the order and priority of location directive processing.
     =  : this forces an exact match with the path requested and then stops searching for more specific matches.
 ```
 
-* **Location Root and Index:** The`location`setting is another variable that has its own block of arguments.
+*   **Location Root and Index: **The`location`setting is another variable that has its own block of arguments.
 
-  Once NGINX has determined which`location`directive best matches a given request, the response to this request is determined by the contents of the associated`location`directive block. Here’s an example:
+    Once NGINX has determined which`location`directive best matches a given request, the response to this request is determined by the contents of the associated`location`directive block. Here’s an example:
 
-```text
+```
 location / {
     root html;
     index index.html index.htm;
@@ -447,7 +447,7 @@ In this example, the document root is located in the`html/`directory. Under the 
 
 The default public web root in NGNIX is `/usr/share/ngnix/html` how ever, here in ubuntu16.04 the default web root is:
 
-```text
+```
 root@server1:/etc/nginx/sites-available# cat default | grep root
     root /var/www/html;
     # deny access to .htaccess files, if Apache's document root
@@ -460,7 +460,7 @@ total 4
 
 Lets create ourselves index.html :
 
-```text
+```
 root@server1:/var/www/html# mv index.nginx-debian.html index.nginx-debian.bak
 root@server1:/var/www/html# vim index.html
 root@server1:/var/www/html# cat index.html 
@@ -470,7 +470,7 @@ root@server1:/var/www/html# systemctl restart nginx.service
 
 and lets chek the results:
 
-```text
+```
 root@server1:/var/www/html# telnet localhost 80
 Trying 127.0.0.1...
 Connected to localhost.
@@ -484,7 +484,7 @@ Connection closed by foreign host.
 
 nginx deamon has a handy command tool `nginx`which can help us save more time, see some of switches:
 
-```text
+```
 root@server1:~# nginx -?
 nginx version: nginx/1.10.3 (Ubuntu)
 Usage: nginx [-?hvVtTq] [-s signal] [-c filename] [-p prefix] [-g directives]
@@ -514,7 +514,7 @@ The most significant beneit of using proxies in our networks is server abstaract
 
 Working as a ReverseProxy is what ngnix is famous for and configuring it is so simple.It is configured as like as a virtual host.So lets start, we use Ubuntu and use previous basic web server. we have setup to proxy example.com:
 
-```text
+```
 root@server1:~# vim /etc/hosts
 root@server1:~# cat /etc/hosts
 127.0.0.1    localhost
@@ -539,7 +539,7 @@ rtt min/avg/max/mdev = 0.017/0.063/0.098/0.035 ms
 
 Now we want to proxy request for example.com to the google.com, for that we need some configurations.
 
-```text
+```
 root@server1:~# cd /etc/nginx/
 root@server1:/etc/nginx# ls -l
 total 56
@@ -561,7 +561,7 @@ drwxr-xr-x 2 root root 4096 Jun 30 03:17 snippets
 
 The simplest and minimal configuration which are requred for setting up a reverse proxy using nginx is inside `proxy_param` :
 
-```text
+```
 root@server1:/etc/nginx# cat proxy_params 
 proxy_set_header Host $http_host;
 proxy_set_header X-Real-IP $remote_addr;
@@ -571,7 +571,7 @@ proxy_set_header X-Forwarded-Proto $scheme;
 
 We need weather copy these configuration inside our virtual host or as we do here, include it.
 
-```text
+```
 root@server1:/etc/nginx# cd sites-available/
 root@server1:/etc/nginx/sites-available# ls -l
 total 4
@@ -591,7 +591,7 @@ server {
 
 Now lets make it enable and restart the nginx service:
 
-```text
+```
 root@server1:/etc/nginx/sites-available# cd ../sites-enabled/
 root@server1:/etc/nginx/sites-enabled# ln -s ../sites-available/example.com .
 root@server1:/etc/nginx/sites-enabled# ls -l
@@ -619,9 +619,8 @@ Jul 01 22:52:04 server1 systemd[1]: Started A high performance web server and a 
 
 Now it is time to check the results:
 
-```text
+```
 root@server1:/etc/nginx/sites-enabled# elinks http://example.com
 ```
 
 and see what will happend.
-

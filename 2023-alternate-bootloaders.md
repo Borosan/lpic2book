@@ -1,6 +1,6 @@
 # 202.3. Alternate Bootloaders
 
-1. [ ] **202.3 Alternate Bootloaders**
+* [ ] **202.3 Alternate Bootloaders**
 
 **Weight:** 2
 
@@ -27,9 +27,9 @@ Description: Candidates should be aware of other bootloaders and their major fea
 
 ### Linux Boot Loader
 
-The grandfather of all linux boot loaders is LiLo \(Linux boot Loader\). LiLo has its configuration file in /etc/lilo.conf which was compiled to binary and reside on first sectors of hard disk. But all those good days of simplicity have been passed.
+The grandfather of all linux boot loaders is LiLo (Linux boot Loader). LiLo has its configuration file in /etc/lilo.conf which was compiled to binary and reside on first sectors of hard disk. But all those good days of simplicity have been passed.
 
-```text
+```
 #sample lilo.conf of system configured to boot 2 operating system.
 boot=/dev/hda
 map=/boot/map
@@ -52,17 +52,17 @@ other=/dev/hda1
 
 LiLo has some shortages which is way grub and grub2 has developed. But beside these Boot Loaders there are some other Boot Loaders which are not leaders but have been developed for specific purposes. As not all system has ext file system, we might need to load linux from inside of other files systems or partitions:
 
-| Boor Loader | Supported File System\(s\) | Used Media |
-| :--- | :--- | :--- |
-| syslinux | ms-dos \(FAT32\) | USB |
-| ext linux | FAT32 , ext3, ext4 | usually used on Hard Disk |
-| iso linux | create .iso files | CD/DVD |
+| Boor Loader | Supported File System(s) | Used Media                |
+| ----------- | ------------------------ | ------------------------- |
+| syslinux    | ms-dos (FAT32)           | USB                       |
+| ext linux   | FAT32 , ext3, ext4       | usually used on Hard Disk |
+| iso linux   | create .iso files        | CD/DVD                    |
 
 ## syslinux
 
 Lets try syslinux , we want to make a bootable usb disk using syslinux on 8 gig flash with FAT32 file system:
 
-```text
+```
 root@server1:~# lsblk
 NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 sdb      8:16   1  7.5G  0 disk 
@@ -87,19 +87,19 @@ Disk identifier: 0x00000000
 
 Lets install syslinux in our system:
 
-```text
+```
 root@server1:~# apt install syslinux syslinux-utils
 ```
 
 And install syslinux on the flash:
 
-```text
+```
 root@server1:~# syslinux -maf /dev/sdb1
 ```
 
 This command copy tiny file /usr/lib/syslinux/mbr/mbr.bin on the first 512 bytes of flash disk and make it bootbale.
 
-```text
+```
 root@server1:~# mount /dev/sdb1 /media/myflash/
 root@server1:~# mkdir /media/myflash/syslinux
 root@server1:~# cp /usr/lib/syslinux/modules/bios/{libcom32.c32,libutil.c32,vesamenu.c32} /media/myflash/syslinux/
@@ -107,14 +107,14 @@ root@server1:~# cp /usr/lib/syslinux/modules/bios/{libcom32.c32,libutil.c32,vesa
 
 make a folder in order to put linux sources there:
 
-```text
+```
 root@server1:~# mkdir /media/myflash/iso
 root@server1:~# mkdir /media/myflash/iso/ubuntu_1604
 ```
 
 syslinux configuration file is syslinux.cfg, create like this:
 
-```text
+```
 DEFAULT Ubuntu_1604
 PROMPT 0
 allowoptions 0
@@ -140,7 +140,7 @@ append
 
 Now make desired folder in /syslinux/iso/... and copy source files:
 
-```text
+```
 root@server1:~# mkdir /media/myflash/syslinux/iso
 root@server1:~# mkdir /media/myflash/syslinux/iso/ubuntu_1404
 root@server1:~# mkdir /media/ubuntu1404
@@ -159,7 +159,7 @@ as we are using FAT32 file system symbolic links are not supported so that right
 
 extlinux is another member of syslinux family, lets install and use it intead of grub in our system:
 
-```text
+```
 root@server1:~# apt install extlinux syslinux-common
 root@server1:~# extlinux --install /boot/extlinux/
 /boot/extlinux/ is device /dev/sda1
@@ -172,7 +172,7 @@ root@server1:~# cp /usr/lib/syslinux/modules/bios/{libcom32.c32,libutil.c32,vesa
 
 and create syslinux.cfg in /boot/extlinux/ directory like this:
 
-```text
+```
 PROMPT 0
 TIMEOUT 100
 UI vesamenu.c32
@@ -189,7 +189,7 @@ and enjoy the result:
 
 ## isolinux
 
-```text
+```
 root@server1:~# wget https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.gz
 root@server1:~# tar -xvf syslinux-6.03.tar.gz 
 root@server1:~# ls -l
@@ -212,7 +212,7 @@ root@server1:~# cp /boot/initrd.img-4.10.0-28-generic  cdroot/initrd
 
 now create isolinux.cfg file insode cdroot/ directory :
 
-```text
+```
 PROMPT 0
 TIMEOUT 100
 UI vesamenu.c32
@@ -225,7 +225,7 @@ label Ubuntu
 
 Lets create bootable media from folder that we have made:
 
-```text
+```
 root@server1:~# cp syslinux-6.03/bios/core/isolinux.bin .
 root@server1:~# mkisofs -o bootcd.iso -b isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -input-charset utf8 cdroot
 Size of boot image is 4 sectors -> No emulation
@@ -249,9 +249,9 @@ you can see that the system will be booted up using initrd and vmlinuz that we h
 
 ## uefi/shim.efi & uefi/grubx64.efi
 
-As we have talked uefi runs everything which we have put inside EFI System Partition, special FAT32 partition. So from security perspective its some how dangerous. Because boot loaders might be changed or manipulated.To avoid that we can digitally sign boot loaders. But the problem is that boot loaders update! They are changed time to time. Using a tiny fix boot loader before main boot bootloader which loads before main bootloader\(grub\) and run it in sub sequence. So in case of update or upgrade this tiny boot loader remains safe and secure and just watch for grub folder changes in order to refer to it. this tine bootloader is shim.efi.
+As we have talked uefi runs everything which we have put inside EFI System Partition, special FAT32 partition. So from security perspective its some how dangerous. Because boot loaders might be changed or manipulated.To avoid that we can digitally sign boot loaders. But the problem is that boot loaders update! They are changed time to time. Using a tiny fix boot loader before main boot bootloader which loads before main bootloader(grub) and run it in sub sequence. So in case of update or upgrade this tiny boot loader remains safe and secure and just watch for grub folder changes in order to refer to it. this tine bootloader is shim.efi.
 
-```text
+```
 root@server3:/boot/efi/EFI/ubuntu# pwd
 /boot/efi/EFI/ubuntu
 root@server3:/boot/efi/EFI/ubuntu# tree
@@ -272,7 +272,7 @@ shim-signed: /usr/lib/shim/shimx64.efi.signed
 
 lets take a look at inside and verify if its calling grub:
 
-```text
+```
 root@server3:/boot/efi/EFI/ubuntu# hexdump -C shimx64.efi | egrep -i -C 2 'grub|g.r.u.b'
 000ab900  74 00 20 00 4d 00 6f 00  6b 00 49 00 67 00 6e 00  |t. .M.o.k.I.g.n.|
 000ab910  6f 00 72 00 65 00 44 00  42 00 3a 00 20 00 25 00  |o.r.e.D.B.:. .%.|
@@ -295,7 +295,7 @@ root@server3:/boot/efi/EFI/ubuntu# hexdump -C shimx64.efi | egrep -i -C 2 'grub|
 
 and to see what is inside grubx64.efi:
 
-```text
+```
 root@server3:/boot/efi/EFI/ubuntu# strings grubx64.efi | grep grub.cfg 
 %s/grub.cfg
 
@@ -313,4 +313,3 @@ Up to now we have booted up our system with Hard Disk, USB drive and CD/DVD ROM.
 ![](.gitbook/assets/pxelinux.jpg)
 
 When Client boots up it starts asking for an ip address, DHCP server receives its requests and as our client is pxe-support, DHCP gives it an IP Address and the IP address of TFTP server and required files. Now taht client has an IP address goes for TFTP server and download boot loader and the kernel stuff form TFTP server. Kernel and its modules are downloaded by the client trough the network and they are loaded into RAM. And part of kernel loading process it Tries to mount root partition by mounting it from a NFS server. and system boots up .
-
