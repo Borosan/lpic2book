@@ -406,3 +406,5 @@ Keep this information in your mind for lpic 3 course.
 that's all folks!
 
 ## Congratulation we have done lpic2-202 !!! do not forget to give a [star](https://github.com/Borosan) and [donate](http://linuxcert.ir/donation.html) :-)
+
+## You can start studying my LPIC-3 book: [https://borosan.gitbook.io/lpic3-exam-guide/](https://borosan.gitbook.io/lpic3-exam-guide/)
