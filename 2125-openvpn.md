@@ -2,7 +2,7 @@
 
 **Weight:** 2
 
-**Description: **Candidates should be able to configure a VPN (Virtual Private Network) and create secure point-to-point or site-to-site connections.
+**Description:** Candidates should be able to configure a VPN (Virtual Private Network) and create secure point-to-point or site-to-site connections.
 
 **Key Knowledge Areas:**
 
@@ -19,11 +19,11 @@ In this light weight lesson we talk about OpenVPN but before that lets talk abou
 
 Imagine that your are working for a company. And you have been asked to provide secure access to the company lan for another user or remote company branch. The problem is that our traffic shoud be transfer over the internet, which is routed and untrusted. The solution is VPN.
 
-A **Virtual Private Network ** (**VPN**) is a technology solution used to provide privacy and security for network connections.
+A **Virtual Private Network** (**VPN**) is a technology solution used to provide privacy and security for network connections.
 
-* It's ** Virtual**...because it's as if we have a private connection directly to another computer we connect to.
-* It's ** Private**...because all our traffic is encrypted and no one can recognize what is really transfered.
-* It's a ** Network**...because we're using a special network of VPN servers that covers the entire globe.
+* It's **Virtual**...because it's as if we have a private connection directly to another computer we connect to.
+* It's **Private**...because all our traffic is encrypted and no one can recognize what is really transfered.
+* It's a **Network**...because we're using a special network of VPN servers that covers the entire globe.
 
 ![](.gitbook/assets/openvpn-vpnoverview.jpg)
 
@@ -31,8 +31,8 @@ Typically an encryption is added and that is SSL/TLS, which uses certificates to
 
 As its shown above there are two types of vpn connections:
 
-* **Point to Point : ** the most commonly used VPN. PPTP VPNs are used by remote users to connect them to the VPN network using their existing internet connection. This is a useful VPN for both business users and home users.
-* **Site to Site : **is mostly used in corporate based operations. The fact that many companies have offices located both nationally and internationally, a Site-to-Site VPN is used to connect the network of the main office location to multiple offices. This is also known as an Intranet based VPN.
+* **Point to Point :** the most commonly used VPN. PPTP VPNs are used by remote users to connect them to the VPN network using their existing internet connection. This is a useful VPN for both business users and home users.
+* **Site to Site :** is mostly used in corporate based operations. The fact that many companies have offices located both nationally and internationally, a Site-to-Site VPN is used to connect the network of the main office location to multiple offices. This is also known as an Intranet based VPN.
 
 ## OpenVPN
 
@@ -405,4 +405,4 @@ Keep this information in your mind for lpic 3 course.
 
 that's all folks!
 
-## Congratulation we have done lpic2-202 !!! do not forget to give a [start](https://github.com/Borosan) and [donate](https://payping.ir/@borosan) :-)
+## Congratulation we have done lpic2-202 !!! do not forget to give a [star](https://github.com/Borosan) and [donate](http://linuxcert.ir/donation.html) :-)
