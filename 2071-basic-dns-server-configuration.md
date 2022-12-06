@@ -4,7 +4,7 @@
 
 **Weight:** 3
 
-**Description: **Candidates should be able to configure BIND to function as a caching-only DNS server. This objective includes the ability to managing a running server and configuring logging.
+**Description:** Candidates should be able to configure BIND to function as a caching-only DNS server. This objective includes the ability to managing a running server and configuring logging.
 
 **Key Knowledge Areas:**
 
@@ -903,7 +903,7 @@ In order to prevent unauthorized access to the named daemon, BIND uses a shared 
 
 The name server control utility, rndc, sends named digitally signed commands over a TCP connection. The configuration file for rndc is ‘/etc/rndc.conf’. This configuration file stores configuration information such as the name server to connect to and which key to use for the digital signature. The rndc utility is started when named is started using the initialization script. An rndc.conf file can be generated with a random key with the rndc-confgen commandline utility. rndc related files are like this:
 
-![](.gitbook/assets/rndc.jpg)
+<figure><img src=".gitbook/assets/rndc.jpg" alt=""><figcaption></figcaption></figure>
 
 lets takea look at rndc.key file:
 
