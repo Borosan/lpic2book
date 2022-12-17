@@ -309,7 +309,7 @@ There are three types of SSH port forwarding:
 
 Okey after this log explanation, lets go back to sshd_config file options .
 
-**X11Forwarding : **It lets us to run graphical programs remotely from the linux server. X11 forwarding needs to be enabled on both the client side and the server side. on the server side, On the server side,`X11Forwarding yes`must specified in `/etc/ssh/sshd_config` . On the client side, the`-X`(capital X) option to`ssh`enables X11 forwarding, and you can make this the default (for all connections or for a specific conection) with`ForwardX11 yes`in `~/.ssh/config`.
+**X11Forwarding : **It lets us to run graphical programs remotely from the linux server. X11 forwarding needs to be enabled on both the client side and the server side. On the server side,`X11Forwarding yes`must specified in `/etc/ssh/sshd_config` . On the client side, the`-X`(capital X) option to`ssh`enables X11 forwarding, and you can make this the default (for all connections or for a specific conection) with`ForwardX11 yes`in `~/.ssh/config`.
 
 ## /etc/ssh_config
 
