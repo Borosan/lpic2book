@@ -2,7 +2,7 @@
 
 ## **202.1 Customizing SysV-init system startup**
 
-**Weight:** 3
+**Weight: **3
 
 **Description:** Candidates should be able to query and modify the behaviour of system services at various targets / run levels. A thorough understanding of the systemd, SysV Init and the Linux boot process is required. This objective includes interacting with systemd targets and SysV init run levels.
 
@@ -10,7 +10,7 @@
 
 * Systemd
 * SysV init
-* Linux Standard Base Specification \(LSB\)
+* Linux Standard Base Specification (LSB)
 
 **Terms and Utilities:**
 
@@ -32,38 +32,38 @@ During the previous lessons we talked about initrd/initramfs. When the kernel co
 
 /sbin/init can be linked to upstart or systemd. to check which system you are running, check each directory existence:
 
-| Directpry | Description \[if exist\] |
-| :--- | :--- |
-| /etc/init.d | Shows you have SysV in your linux box |
-| /usr/share/upstart | You are on a Upstart Based system |
-| /usr/lib/systemd | You are using Systemd-Based system |
+| Directpry          | Description \[if exist]               |
+| ------------------ | ------------------------------------- |
+| /etc/init.d        | Shows you have SysV in your linux box |
+| /usr/share/upstart | You are on a Upstart Based system     |
+| /usr/lib/systemd   | You are using Systemd-Based system    |
 
 also try stat /proc/1/exe
 
-| link | Description |
-| :--- | :--- |
-| File: ‘/proc/1/exe’ -&gt; ‘/sbin/init’ | in SysV and upstart system |
-| File: '/proc/1/exe' -&gt; '/lib/systemd/systemd' | in Systemd box |
+| link                                          | Description                |
+| --------------------------------------------- | -------------------------- |
+| File: ‘/proc/1/exe’ -> ‘/sbin/init’           | in SysV and upstart system |
+| File: '/proc/1/exe' -> '/lib/systemd/systemd' | in Systemd box             |
 
 ### Sys v
 
-System "5" or Sys "v" is an ancient method of handling system services from unix world back to 1980s. SysV uses serial loading of services, in another word each service must be loaded in sequence \(after each other\). SysV uses runlevels concept to define which stat the server should boot in. In each runlevel specific amount of shell scripts is processed to reach the state we desire.
+System "5" or Sys "v" is an ancient method of handling system services from unix world back to 1980s. SysV uses serial loading of services, in another word each service must be loaded in sequence (after each other). SysV uses runlevels concept to define which stat the server should boot in. In each runlevel specific amount of shell scripts is processed to reach the state we desire.
 
 runlevels start from 0 upto 6 and they are different in Redhat based and Debian based systems.
 
-| runlevel | Redhat | Debian |
-| :--- | :--- | :--- |
-| 0 | System Halt \(do not set as default\) | System Halt \(do not use as default\) |
-| 1 | Single User Mode | Single User Mode |
-| 2 | Multi User without NFS | Full multi User mode with GUI\(default\) |
-| 3 | Full Multi User Mode | --same as 2-- --unused-- |
-| 4 | ---unused-- | --same as 2-- --unused-- |
-| 5 | X11/Full Multi user Mode\(default\) | --same as 2-- --unused-- |
-| 6 | reboot \(Do not set as initdefault\) | rebbot \(do not set as default\) |
+| runlevel | Redhat                              | Debian                                 |
+| -------- | ----------------------------------- | -------------------------------------- |
+| 0        | System Halt (do not set as default) | System Halt (do not use as default)    |
+| 1        | Single User Mode                    | Single User Mode                       |
+| 2        | Multi User without NFS              | Full multi User mode with GUI(default) |
+| 3        | Full Multi User Mode                | --same as 2-- --unused--               |
+| 4        | ---unused--                         | --same as 2-- --unused--               |
+| 5        | X11/Full Multi user Mode(default)   | --same as 2-- --unused--               |
+| 6        | reboot (Do not set as initdefault)  | rebbot (do not set as default)         |
 
 /etc/inittab is SysV configuration file where default runlevel can be set, We use CentOS 5 for demonstration :
 
-```text
+```
 #
 # inittab       This file describes how the INIT process should set up
 #               the system in a certain run-level.
@@ -125,19 +125,19 @@ By modifying id:5:initdefault: we can change the run level for the next time boo
 
 init and telinit commands are the same.how ever telinit is recommended. They are both used to change current system runlevel
 
-```text
+```
 [root@centos5 ~]# telinit 3
 ```
 
 and for come back to previous run level:
 
-```text
+```
 [root@centos5 ~]# telinit 5
 ```
 
 and to see previous runlevel and current runlevel use runlevel command:
 
-```text
+```
 [root@centos5 ~]# runlevel
 3 5
 ```
@@ -148,7 +148,7 @@ as you can see 3 was our previous runlevel and we have switched from it to 5.
 
 as we said SysV runs scripts in sequence to start services. But how and where they are managed? its simple but implementation is some how complicated.
 
-![](.gitbook/assets/sysvscripts.jpg)
+![](.gitbook/assets/SysVScripts.jpg)
 
 all scripts are inside /etc/rc.d/init.d but there are symbolic links to desired rc folder. each rc folder specify one runlevel. so if you want to manually start a service in a run level you can create a symbolic link inside desired rc folder from init.d folder and put a name with sequence for that. "K" for Kill the service and "S" to Start it.
 
@@ -156,7 +156,7 @@ all scripts are inside /etc/rc.d/init.d but there are symbolic links to desired 
 
 Exploring rc folders, creating symbolic links is a hard job. chkconfig is a great tool which let us turn on or off specific service or services in desired runlevel.lets start:
 
-```text
+```
 [root@centos5 ~]# chkconfig 
 chkconfig version 1.3.30.2 - Copyright (C) 1997-2000 Red Hat, Inc.
 This may be freely redistributed under the terms of the GNU Public License.
@@ -240,18 +240,18 @@ yum-updatesd    0:off   1:off   2:on    3:on    4:on    5:on    6:off
 
 to change see some usefull examples:
 
-| command | description |
-| :--- | :--- |
-| chkconfig &lt;service name&gt; on | start service on any unspecial run level\(3,4,5 centOS\) |
-| chkconfig &lt;service name&gt; off | turn service off in all runlevels |
-| chkconfig  --list &lt;service name&gt; | List service condition in all unlevels |
-| chkconfig --level  345 &lt;service name&gt; on/off | Turn serve on/off in runlevel 3,4 and 5 |
+| command                                       | description                                            |
+| --------------------------------------------- | ------------------------------------------------------ |
+| chkconfig \<service name> on                  | start service on any unspecial run level(3,4,5 centOS) |
+| chkconfig \<service name> off                 | turn service off in all runlevels                      |
+| chkconfig  --list \<service name>             | List service condition in all unlevels                 |
+| chkconfig --level  345 \<service name> on/off | Turn serve on/off in runlevel 3,4 and 5                |
 
 ### update-rc.d
 
 in Debian based systems like ubuntu update-rc.d used as a command instead of chkconfig command
 
-```text
+```
 root@ubuntu:/etc# update-rc.d
 usage: update-rc.d [-n] [-f] <basename> remove
        update-rc.d [-n] <basename> defaults [NN | SS KK]
@@ -277,7 +277,7 @@ The first serious attempt to replace systemV was upstart, created by ubuntu. ups
 
 upstart keeps all previous SysV Folders and uses it, We use Ubuntu 14 machine :
 
-```text
+```
 root@server1:/etc# cd /etc/init.d/ && ls
 acpid          dns-clean          procps      single
 anacron        friendly-recovery  pulseaudio  skeleton
@@ -309,7 +309,7 @@ lrwxrwxrwx 1 root root  16 Dec  9 02:07 S90reboot -> ../init.d/reboot
 
 The configuration files of native upstart services are in /etc/init/ directory :
 
-```text
+```
 root@server1:/etc/init# ls 
 acpid.conf                   mtab.sh.conf
 alsa-restore.conf            networking.conf
@@ -365,7 +365,7 @@ mountnfs-bootclean.sh.conf   whoopsie.conf
 
 as an example let take a look at inside of ufw.conf:
 
-```text
+```
 # ufw - Uncomplicated Firewall
 #
 # The Uncomplicated Firewall is a front-end for iptables, to make managing a
@@ -388,7 +388,7 @@ post-stop exec /lib/ufw/ufw-init stop
 
 How upstart keeps backward compatibility and live beside old SysV? the secret is inside /etc/init/rcS.conf :
 
-```text
+```
 # rcS - System V single-user mode compatibility
 #
 # This task handles the old System V-style single-user mode, this is
@@ -429,7 +429,7 @@ In Systemd world we have tragets and unit files, targets is like our goal which 
 * mount : replace the mount in /etc/fstab
 * timer : replacement for cron 
 * automount : mount a directory when needed
-* target : as we said a bunch of unit files :\), target is an end point, tragets can be used as runlevel .
+* target : as we said a bunch of unit files :), target is an end point, tragets can be used as runlevel .
 * path :observ activities on a path and start a service associated with that
 * ... 
 
@@ -437,7 +437,7 @@ In Systemd world we have tragets and unit files, targets is like our goal which 
 
 Orginal systemd ubit files are in /usr/lib/systemd/system directory but they should not be modified by administrators. Modification should be done in /etc/systemd/system and its good to know that they are linked. Inorde to do any modification we should copy service files from /usr/lib/systemd/system to /etc/systemd/system and then set our settings, we use Ubuntu 16:
 
-```text
+```
 [root@server1 system]# cd /usr/lib/systemd/system && ls 
 abrt-ccpp.service                        plymouth-poweroff.service
 abrtd.service                            plymouth-quit.service
@@ -675,44 +675,43 @@ drwxr-xr-x. 2 root root   29 Oct 28 11:20 vmtoolsd.service.requires
 
 As you have probably seen Systemd works with different dependencies:
 
-| Dependency | Description |
-| :--- | :--- |
-| Requires | define unit files must beloaded, if not load it |
-| wants | \[seen in targets\], specify unit files which must be loaded but if not, takes it easy and continue |
-| requisite | must be already loaded, if not loaded fails |
-| confilicts | unit files which never be activated with current unit file |
-| before | current unit files activated before listed unit files |
-| after | current unit file activated after listed unit file |
+| Dependency | Description                                                                                        |
+| ---------- | -------------------------------------------------------------------------------------------------- |
+| Requires   | define unit files must beloaded, if not load it                                                    |
+| wants      | \[seen in targets], specify unit files which must be loaded but if not, takes it easy and continue |
+| requisite  | must be already loaded, if not loaded fails                                                        |
+| confilicts | unit files which never be activated with current unit file                                         |
+| before     | current unit files activated before listed unit files                                              |
+| after      | current unit file activated after listed unit file                                                 |
 
 ### systemctl
 
 systemctl is systemd magic command to work with services:
 
-| systemctl useful commands |  |
-| :--- | :--- |
-| systemctl start &lt;ServiceName&gt; | to start a service |
-| systemctl stop &lt;ServiceName&gt; | to stop |
-| systemctl disable &lt;ServiceName&gt; | disable it, won't be activated even after reboot |
-| systemctl enable &lt;ServiceName&gt; | enable a service |
-| systemctl relaod &lt;ServiceName&gt; | reload a service by reading its conf file,\[might not work\] |
-| systemctl restart &lt;ServiceName&gt; | stop and start a service |
-| systemctl list-unit-files --type=service | same as chkconf --list but in systemd environment |
-| systemctl daemon-reload | Reload systemd Daemon, used after unit files modification |
-| systemctl list-depencencies | List targets and services dependencies |
+| systemctl useful commands                |                                                             |
+| ---------------------------------------- | ----------------------------------------------------------- |
+| systemctl start \<ServiceName>           | to start a service                                          |
+| systemctl stop \<ServiceName>            | to stop                                                     |
+| systemctl disable \<ServiceName>         | disable it, won't be activated even after reboot            |
+| systemctl enable \<ServiceName>          | enable a service                                            |
+| systemctl relaod \<ServiceName>          | reload a service by reading its conf file,\[might not work] |
+| systemctl restart \<ServiceName>         | stop and start a service                                    |
+| systemctl list-unit-files --type=service | same as chkconf --list but in systemd environment           |
+| systemctl daemon-reload                  | Reload systemd Daemon, used after unit files modification   |
+| systemctl list-depencencies              | List targets and services dependencies                      |
 
 ### For the History:
 
-| Distro | Pre 2006 | 2006 \(14.04\)-2019 | 2015\(15.10\)-???? |
-| :--- | :--- | :--- | :--- |
-| ubuntu | SysV | Upstart | Systemd |
+| Distro | Pre 2006 | 2006 (14.04)-2019 | 2015(15.10)-???? |
+| ------ | -------- | ----------------- | ---------------- |
+| ubuntu | SysV     | Upstart           | Systemd          |
 
-|  | 2007 | 2011-2020 | 2014-???? |
-| :--- | :--- | :--- | :--- |
-| centOS | SysV \(centOS 5\) | Upstart \(centOS6\) | systemd \(centOS 7\) |
-
-.
+|        | 2007            | 2011-2020         | 2014-????          |
+| ------ | --------------- | ----------------- | ------------------ |
+| centOS | SysV (centOS 5) | Upstart (centOS6) | systemd (centOS 7) |
 
 .
 
 .
 
+.

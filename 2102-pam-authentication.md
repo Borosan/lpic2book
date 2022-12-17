@@ -4,7 +4,7 @@
 
 **Weight:** 3
 
-**Description:** The candidate should be able to configure PAM to support authentication using various available methods. This includes basic SSSD functionality.
+**Description: **The candidate should be able to configure PAM to support authentication using various available methods. This includes basic SSSD functionality.
 
 **Key Knowledge Areas:**
 
@@ -17,28 +17,28 @@
 * /etc/pam.d/
 * pam.conf
 * nsswitch.conf
-* pam\_unix, pam\_cracklib, pam\_limits, pam\_listfile, pam\_sss
+* pam_unix, pam_cracklib, pam_limits, pam_listfile, pam_sss
 * sssd.conf
 
 Having Control over users and Authenticatios and auditing is so important. But there is not just one Authentication source which alway we use. There are different authentication sources like traditionamunix shadow file, LDAP servers, old Nis.
 
-## PAM \(Pluggable Authentication Modules\)
+## PAM (Pluggable Authentication Modules)
 
 PAM is a kind of abstaraction layer which seats between programs and different kinds of Authentication sources, and handles the process of negotiating with authentication source and take the result back to the program.
 
-![](.gitbook/assets/pam-pam.jpg)
+![](.gitbook/assets/PAM-PAM.jpg)
 
 This way developers do not need to find out how to design their programs to deal with different authentication sources and they just concentrate on their programs and use pam. From another perspective when a new authentication source implemented, there is no need to change programs, just implement a new pammodule and use it again and again, this way pam bring kind of mobilabilty for programs too.
 
 ### PAM Architecure
 
-![](.gitbook/assets/pam-arch.jpg)
+![](.gitbook/assets/PAM-Arch.jpg)
 
-Any program like passwd, or su which deal with username and password use pam. To do that, the program should work with pam library file pam\_lib . PAM by itself is using configuration files /etc/pam.d. PAM is modular and uses differnt modules which are placed in /lib/security .
+Any program like passwd, or su which deal with username and password use pam. To do that, the program should work with pam library file pam_lib . PAM by itself is using configuration files /etc/pam.d. PAM is modular and uses differnt modules which are placed in /lib/security .
 
-For example lets check login tool to findout if it uses pam or not\(CentOS 7\) :
+For example lets check login tool to findout if it uses pam or not(CentOS 7) :
 
-```text
+```
 [root@centos7-1 ~]# ldd $(which login)
     linux-vdso.so.1 =>  (0x00007fff3cdfe000)
     libpam.so.0 => /lib64/libpam.so.0 (0x00007f1b30124000)
@@ -59,7 +59,7 @@ For example lets check login tool to findout if it uses pam or not\(CentOS 7\) :
 
 The /etc/pam.d/ directory contains the PAM configuration files for each PAM-aware application. In earlier versions of PAM, the /etc/pam.conf file was used, but this file is now deprecated and is only used if the /etc/pam.d/ directory does not exist:
 
-```text
+```
 [root@centos7-1 ~]# cd /etc/
 [root@centos7-1 etc]# cat pam.conf
 cat: pam.conf: No such file or directory
@@ -83,13 +83,13 @@ gdm-password            postlogin         sssd-shadowutils
 
 Every binary which has some thing to do with pam need to have a configuration file.There are some generic configuration files also. Configuration files define what should exactly happen. PAM Configuration File Format is like this :
 
-```text
+```
 <service>    <module-interface>    <control-flag>    <module-name>    <module-arguments>
 ```
 
 1-Service: It defines what service, this line of configuration is about. Like ssh, or FTP. This way /etc/pam.conf file becomes a one huge file with many lines, that doesn't seem so good which is why in many moder linux distrobutions each service has its own configuration file with its name inside /etc/pam.d directory, as you can see above. Lets take a look at one of them before countinue:
 
-```text
+```
 [root@centos7-1 pam.d]# cat login 
 #%PAM-1.0
 auth [user_unknown=ignore success=ok ignore=ignore default=bad] pam_securetty.so
@@ -113,7 +113,7 @@ session    include      postlogin
 
 system-auth is a generic configuration file that is included almost in every process that do some thing with authentication.
 
-```text
+```
 [root@centos7-1 pam.d]# cat system-auth
 #%PAM-1.0
 # This file is auto-generated.
@@ -154,7 +154,8 @@ There are several simple flags, which use only a keyword to set the configuratio
 
 * requisite : The module result must be successful for authentication to continue. However, if a test fails at this point, the user is notified immediately with a message reflecting the first failed`required`_or_`requisite`module test.
 * required :The module result must be successful for authentication to continue. If the test fails at this point, the user is not notified until the results of all module tests that reference that interface are complete.
-* sufficient : The module result is ignored if it fails. However, if the result of a module flagged `sufficient`is successful_and_ no previous modules flagged`required`have failed, then no other results are required and the user is authenticated to the service.
+* sufficient : The module result is ignored if it fails. However, if the result of a module flagged `sufficient`is successful_and_\
+  no previous modules flagged`required`have failed, then no other results are required and the user is authenticated to the service.
 * optional : The module result is ignored. A module flagged as `optional`only becomes necessary for successful authentication when no other modules reference the interface.
 * include : Unlike the other controls, this does not relate to how the module result is handled. This flag pulls in all lines in the configuration file which match the given parameter and appends them as an argument to the module.
 
@@ -162,7 +163,7 @@ There are several simple flags, which use only a keyword to set the configuratio
 
 5- module arguments : PAM uses \_arguments \_to pass information to a pluggable module during authentication for some modules. For example:
 
-```text
+```
 auth    required    pam_userdb.so db=/path/to/MyDB_file
 ```
 
@@ -170,7 +171,7 @@ Invalid arguments are generally ignored and do not otherwise affect the success 
 
 Now that we now the format of PAM configuration file lets take a look at another one:
 
-```text
+```
 [root@centos7-1 pam.d]# cat sshd 
 #%PAM-1.0
 auth       required    pam_sepermit.so
@@ -200,7 +201,7 @@ As you can see there are some generic configuration files like password-auth wic
 
 There is a place for pam modules itself:
 
-```text
+```
 [root@centos7-1 pam.d]# cd /lib64/security/
 [root@centos7-1 security]# ls
 pam_access.so     pam_gdm.so               pam_permit.so          pam_time.so
@@ -221,21 +222,21 @@ pam_fprintd.so    pam_nologin.so           pam_systemd.so
 pam_ftp.so        pam_oddjob_mkhomedir.so  pam_tally2.so
 ```
 
-If new way of authentication has been invented\(Like finger print reader\), there is a place which requied module should be placed and integrated with pam configuration files.
+If new way of authentication has been invented(Like finger print reader), there is a place which requied module should be placed and integrated with pam configuration files.
 
 For lPIC2 exam we are required to know some of these modules:
 
-* pam\_unix
-* pam\_cracklib
-* pam\_limits
-* pam\_listfile
-* pam\_sss
+* pam_unix
+* pam_cracklib
+* pam_limits
+* pam_listfile
+* pam_sss
 
-**pam\_unix:** This module configures authentication via /etc/passwd and /etc/shadow.
+**pam_unix:** This module configures authentication via /etc/passwd and /etc/shadow.
 
-The pam\_unix.so module supports the following management groups:
+The pam_unix.so module supports the following management groups:
 
-```text
+```
 account
     The type “account” does not authenticate the user but checks other things such as the expiration date of the password and might force the user to change his password based on the contents of the files /etc/passwd and /etc/shadow.
 
@@ -313,9 +314,9 @@ session
     The “session” type does not support any options.
 ```
 
-Most of services which need authentication include pam\_unix.so . As an example we can add options to that inorder to remember last 3 user's password and dose not let user to set them again.
+Most of services which need authentication include pam_unix.so . As an example we can add options to that inorder to remember last 3 user's password and dose not let user to set them again.
 
-```text
+```
 [root@centos7-1 ~]# cd /etc/pam.d/
 [root@centos7-1 pam.d]# vim system-auth
 
@@ -348,9 +349,9 @@ session     required      pam_unix.so
 
 And fortunatley there is no need to do any thing else. Test it by creating a user and set different passwords for that 3 times and on forth effort try to set the first password which you have used, it won't let you.
 
-**pam\_cracklib :** This plugin provides strength-checking for passwords. This is done by performing a number of checks to ensure passwords are not too weak. It checks the password against dictonaries, the previous password\(s\) and rules about the use of numbers, upper and lowercase and other characters. Based on your distro `pam_cracklib` name might be name different.
+**pam_cracklib :** This plugin provides strength-checking for passwords. This is done by performing a number of checks to ensure passwords are not too weak. It checks the password against dictonaries, the previous password(s) and rules about the use of numbers, upper and lowercase and other characters. Based on your distro `pam_cracklib` name might be name different.
 
-```text
+```
 Options
 debug
 
@@ -399,9 +400,9 @@ dictpath=/path/to/dict
     Path to the cracklib dictionaries.
 ```
 
-For example we can set minimum charachters wich are required for a password, by the way you can see the name of```_``pam**cracklib.so\`** _**has been changed here in CentOS7 and that is**_ **pam\**\_pwquality.so :
+For example we can set minimum charachters wich are required for a password, by the way you can see the name of`` `_ ``pam**cracklib.so\`**_** has been changed here in CentOS7 and that is**_** pam\\**\_pwquality.so :
 
-```text
+```
 [root@centos7-1 pam.d]# vim system-auth
 [root@centos7-1 pam.d]# cat system-auth
 #%PAM-1.0
@@ -430,9 +431,9 @@ session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet 
 session     required      pam_unix.so
 ```
 
-**pam\_limits** : The pam\_limits PAM module sets limits on the system resources that can be obtained in a user-session. Users of uid=0 are affected by this limits, too. By default limits are taken from the `/etc/security/limits.conf`config file. Then ndividual files from the`/etc/security/limits.d/`directory are read.
+**pam_limits** : The pam_limits PAM module sets limits on the system resources that can be obtained in a user-session. Users of uid=0 are affected by this limits, too. By default limits are taken from the `/etc/security/limits.conf`config file. Then ndividual files from the`/etc/security/limits.d/`directory are read.
 
-```text
+```
 [root@centos7-1 pam.d]# grep pam_limits *
 fingerprint-auth:session     required      pam_limits.so
 fingerprint-auth-ac:session     required      pam_limits.so
@@ -456,7 +457,7 @@ session    required     pam_limits.so
 
 As you can see pam\_\_limists.so is used in session module, so instead of manipulating that module which would have effects on other services we put our setting inside /etc/security/limits.conf :
 
-```text
+```
 [root@centos7-1 pam.d]# cd /etc/security/
 [root@centos7-1 security]# ls
 access.conf       console.perms    limits.d        opasswd         time.conf
@@ -529,22 +530,22 @@ console.handlers  limits.conf      namespace.init  sepermit.conf
 
 For example, adding line below at the end of `/etc/security/limits.conf` can avoid `pooruser` from loging more than once :
 
-```text
+```
 @pooruser    hard    maxlogins    1
 ```
 
 For testing, create pooruser and try to ssh to the system more than once, see the results.
 
-**pam\_listfile :** This module allows or denies an action based on the presence of the item in a listfile. A listfile is a textfile containing a list of usernames, one username per line. The type of item can be set via the configuration parameter item and can have the value of user, tty, rhost, ruser, group, or shell. The _sense_  configuration parameter determines whether the entries in the list are allowed. Possible values are allow and deny.
+**pam_listfile :** This module allows or denies an action based on the presence of the item in a listfile. A listfile is a textfile containing a list of usernames, one username per line. The type of item can be set via the configuration parameter item and can have the value of user, tty, rhost, ruser, group, or shell. The _sense _ configuration parameter determines whether the entries in the list are allowed. Possible values are allow and deny.
 
-```text
+```
 [root@centos7-1 security]# cd /etc/pam.d/
 [root@centos7-1 pam.d]# grep pam_listfile.so *
 ```
 
-Right now no package or service is currently using pam\_list file, for testing lets install a FTP server:
+Right now no package or service is currently using pam_list file, for testing lets install a FTP server:
 
-```text
+```
 [root@centos7-1 pam.d]# yum install vsftpd
 
 [root@centos7-1 pam.d]# grep pam_listfile.so *
@@ -563,7 +564,7 @@ session    include    password-auth
 
 The thing that it does is denying every user which his name/ her name is inside /etc/vsftpd/ftpusers. see:
 
-```text
+```
 [root@centos7-1 pam.d]# cat /etc/vsftpd/ftpusers 
 # Users that are not allowed to login via ftp
 root
@@ -586,9 +587,9 @@ For testing , start vsftp service, create a pooruser and add it to this list, th
 
 #### sssd
 
-sssd is a centeral service in the authentication process, that determines how exactly the authentication is going to happen. sssd can authenticate us against LDAP, ActiveDirectory, Nis , ... . sssd is especialy developed to do that. Lets just take a look at it inorder to have a better understanding of pam\_sss. Here we just chek the service and read sample configuration file:
+sssd is a centeral service in the authentication process, that determines how exactly the authentication is going to happen. sssd can authenticate us against LDAP, ActiveDirectory, Nis , ... . sssd is especialy developed to do that. Lets just take a look at it inorder to have a better understanding of pam_sss. Here we just chek the service and read sample configuration file:
 
-```text
+```
 root@centos7-1 ~]# systemctl status sssd
 ● sssd.service - System Security Services Daemon
    Loaded: loaded (/usr/lib/systemd/system/sssd.service; disabled; vendor preset: disabled)
@@ -654,13 +655,13 @@ services = nss, pam
 
 We need to configure and start sssd serviceif have a plan to use it but leave it for now.
 
-**pam\_sss.so :**  is the PAM interface to the System Security Services daemon \(SSSD\). Errors and results are logged through syslog.
+**pam_sss.so : ** is the PAM interface to the System Security Services daemon (SSSD). Errors and results are logged through syslog.
 
 ## nsswitch.conf
 
-nsswitch determines the order that files or services are used to perform either Authentication or Authorative responses to some thing on the system. We typically nsswitch.conf is edited when we are dealing with DNS entries. \(We have talked about nsswitch when we talked about BIND DNS in previous course\).
+nsswitch determines the order that files or services are used to perform either Authentication or Authorative responses to some thing on the system. We typically nsswitch.conf is edited when we are dealing with DNS entries. (We have talked about nsswitch when we talked about BIND DNS in previous course).
 
-```text
+```
 [root@centos7-1 ~]# cat /etc/nsswitch.conf
 #
 # /etc/nsswitch.conf
@@ -730,4 +731,3 @@ aliases:    files nisplus
 The Authentication order and nsswitch can effect how authentication takes place on our system, including wehther pam any modules are involved ,since they are files. So one way for troubleshooting pam if it not applied, is by controlling nsswitch and the see the order of files.
 
 That is all.
-

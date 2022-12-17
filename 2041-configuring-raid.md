@@ -19,16 +19,16 @@
 
 ### What is RAID?
 
-RAID \(redundant array of independent disks; originally redundant array of inexpensive disks\) is a way of storing the same data in different places on multiple hard disks to protect data in the case of a drive failure. However, not all RAID levels provide redundancy.
+RAID (redundant array of independent disks; originally redundant array of inexpensive disks) is a way of storing the same data in different places on multiple hard disks to protect data in the case of a drive failure. However, not all RAID levels provide redundancy.
 
 ### How RAID Works?
 
-RAID works by placing data on multiple disks and allowing input/output \(I/O\) operations to overlap in a balanced way, improving performance. Because the use of multiple disks increases the mean time between failures \(MTBF\), storing data redundantly also increases fault tolerance.
+RAID works by placing data on multiple disks and allowing input/output (I/O) operations to overlap in a balanced way, improving performance. Because the use of multiple disks increases the mean time between failures (MTBF), storing data redundantly also increases fault tolerance.
 
-RAID arrays appear to the operating system \(OS\) as a single logical hard disk. RAID employs the techniques of disk mirroring or disk striping.
+RAID arrays appear to the operating system (OS) as a single logical hard disk. RAID employs the techniques of disk mirroring or disk striping.
 
 * Mirroring copies identical data onto more than one drive.
-* Striping partitions each drive's storage space into units ranging from a sector \(512 bytes\) up to several megabytes\(designed based on needs of a system\). The stripes of all the disks are interleaved and addressed in order.
+* Striping partitions each drive's storage space into units ranging from a sector (512 bytes) up to several megabytes(designed based on needs of a system). The stripes of all the disks are interleaved and addressed in order.
 
 Parity is a concept, which is also streamlined into RAID technology as another way of storage method. It involves saving of information across the disk arrays, so that, the same information can be used to recreate or reconstruct the affected data, which is otherwise filled with errors or data loss, when disk drive fails.
 
@@ -49,27 +49,27 @@ Data is distributed across the drives in one of several ways, referred to as RAI
 
 * When RAID was introduced first in 1988 six different RAID Levels were introduced, known as "standrad RAID levels".
 
-![](.gitbook/assets/raid0-m.gif)![](.gitbook/assets/raid1-m.gif)
+![](.gitbook/assets/RAID0-m.gif)![](.gitbook/assets/RAID1-m.gif)
 
-![](.gitbook/assets/raid5-m.gif)![](.gitbook/assets/raid6-m.gif)
+![](.gitbook/assets/RAID5-m.gif)![](.gitbook/assets/RAID6-m.gif)
 
 * As time passes "Nested RAID Levels" are created based on a combination of "Standard RAID Levels"
 
-![](.gitbook/assets/raid10-m.gif)
+![](.gitbook/assets/RAID10-m.gif)
 
 * and then there are some " Nonstandard RAID levels". Like RAID7 that are not popular and we don't talk about here.
 
 ## RAID levels comparison chart:
 
-| RAID LEVELS | RAID0 | RAID1 | RAID5 | RAID6 | RAID10 |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| Min \# of Disks | 2 | 2 | 3 | 4 | 4 |
-| Fault Tolerance | None | 1 disk | 1 disk | 2 disks | Up to one disk failure in each sub-array |
-| Disk Space Over-Head | None | 50% | 1 disk | 2 disks | 50% |
-| Read Speed | fast | fast | slow | slow | fast |
-| Write Speed | fast | fair | slow | slow | fair |
-| Cost | cheap | high\(disks\) | high | very high | high\(disks\) |
-| Usage | High End Workstations, data logging, real-time rendering, very transitory data | Operating System, transaction databases | Data warehousing, web serving, archiving | Data archive, backup to disk, high availability solutions, servers with large capacity requirements | Fast databases, application servers |
+| RAID LEVELS          | RAID0                                                                          | RAID1                                   | RAID5                                    | RAID6                                                                                               | RAID10                                   |
+| -------------------- | ------------------------------------------------------------------------------ | --------------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Min # of Disks       | 2                                                                              | 2                                       | 3                                        | 4                                                                                                   | 4                                        |
+| Fault Tolerance      | None                                                                           | 1 disk                                  | 1 disk                                   | 2 disks                                                                                             | Up to one disk failure in each sub-array |
+| Disk Space Over-Head | None                                                                           | 50%                                     | 1 disk                                   | 2 disks                                                                                             | 50%                                      |
+| Read Speed           | fast                                                                           | fast                                    | slow                                     | slow                                                                                                | fast                                     |
+| Write Speed          | fast                                                                           | fair                                    | slow                                     | slow                                                                                                | fair                                     |
+| Cost                 | cheap                                                                          | high(disks)                             | high                                     | very high                                                                                           | high(disks)                              |
+| Usage                | High End Workstations, data logging, real-time rendering, very transitory data | Operating System, transaction databases | Data warehousing, web serving, archiving | Data archive, backup to disk, high availability solutions, servers with large capacity requirements | Fast databases, application servers      |
 
 For lpic2-202 examp we just expected to know about RAID Levels 0,1 and 5. Obviously we do not talk about any hardware-based RAID controller and we talk about software-raid in linux.
 
@@ -77,7 +77,7 @@ For lpic2-202 examp we just expected to know about RAID Levels 0,1 and 5. Obviou
 
 /proc/mdstat provides a way to check the state of the md driver. It also shows information about software RAID Array if exists.
 
-```text
+```
 root@server1:~# cat /proc/mdstat 
 Personalities : 
 unused devices: <none>
@@ -85,7 +85,7 @@ unused devices: <none>
 
 Lets start creating a RAID Array, consist of two disk Drives with RAID level0:
 
-```text
+```
 root@server1:~# ls /dev/sd*
 /dev/sda  /dev/sda1  /dev/sda2  /dev/sda5  /dev/sdb  /dev/sdc
 ```
@@ -94,7 +94,7 @@ root@server1:~# ls /dev/sd*
 
 Each Disk Drive need to be formated with the special partition type 0xFD before play a role in RAID Array. This separating has some benefits, first if these disk drives moved to another system, operating system read this format and realize that its dealing with a RAID Array.
 
-```text
+```
 root@server1:~# fdisk /dev/sdb
 
 Welcome to fdisk (util-linux 2.27.1).
@@ -153,7 +153,7 @@ Syncing disks.
 
 and lets do it for another Disk Drive:
 
-```text
+```
 root@server1:~# fdisk /dev/sdc
 
 Welcome to fdisk (util-linux 2.27.1).
@@ -195,13 +195,13 @@ brw-rw---- 1 root disk 8, 32 Jan  6 22:15 /dev/sdc
 brw-rw---- 1 root disk 8, 33 Jan  6 22:15 /dev/sdc1
 ```
 
-okey time to use Multiple Devices\(Disk\) administration tool to create RAID Array.
+okey time to use Multiple Devices(Disk) administration tool to create RAID Array.
 
 ## mdadm
 
-Linux Software RAID devices are implemented through the md \(Multiple Devices\) device driver. mdadm is a tool for creating, managing, and monitoring RAID devices using the md driver in Linux. based on your distro you might need to install mdadm:
+Linux Software RAID devices are implemented through the md (Multiple Devices) device driver. mdadm is a tool for creating, managing, and monitoring RAID devices using the md driver in Linux. based on your distro you might need to install mdadm:
 
-```text
+```
 root@server1:~# apt install mdadm 
 
 root@server1:~# mdadm --create --verbose /dev/md0 --level=0 --raid-devices=2 /dev/sdb1 /dev/sdc1
@@ -212,7 +212,7 @@ mdadm: array /dev/md0 started.
 
 Now /dev/md0 is created, consist of two 10 Gigabytes Disk Drives with RAID level 0.
 
-```text
+```
 root@server1:~# ls /dev/md*
 /dev/md0
 root@server1:~# lsblk
@@ -259,7 +259,7 @@ Syncing disks.
 
 lets take a look at mdstat:
 
-```text
+```
 root@server1:~# cat /proc/mdstat 
 Personalities : [linear] [multipath] [raid0] [raid1] [raid6] [raid5] [raid4] [raid10] 
 md0 : active raid0 sdc1[1] sdb1[0]
@@ -270,12 +270,12 @@ unused devices: <none>
 
 some usefull switches of mdadm
 
-| mdadm switch | Description |
-| :--- | :--- |
-| -v | --verbose |
-| -C /dev/md01 | --create /dev/md01 |
-| -l2 | --level=2 |
-| -n2 | --raid-devices=2 |
+| mdadm switch                       | Description                                    |
+| ---------------------------------- | ---------------------------------------------- |
+| -v                                 | --verbose                                      |
+| -C /dev/md01                       | --create /dev/md01                             |
+| -l2                                | --level=2                                      |
+| -n2                                | --raid-devices=2                               |
 | -x 3 /dev/sdX1 /dev/sdY1 /dev/sdZ1 | --spare-device=3 /dev/sdX1 /dev/sdY1 /dev/sdZ1 |
 
 ## mdadm.conf
@@ -284,14 +284,14 @@ Normally Linux system doesn’t automatically remember all the components that a
 
 Following command scan the availbe RAID levels on the system:
 
-```text
+```
 root@server1:~# mdadm --detail --scan 
 ARRAY /dev/md0 metadata=1.2 name=server1:0 UUID=f34215ab:8f1bf031:5597e3ff:02303fc7
 ```
 
 and for more details about specific RAID Array:
 
-```text
+```
 root@server1:~# mdadm --detail /dev/md0 
 /dev/md0:
         Version : 1.2
@@ -322,7 +322,7 @@ Working Devices : 2
 
 and finally lets add configuration to mdadm.conf:
 
-```text
+```
 root@server1:~# mdadm --detail --scan >> /etc/mdadm/mdadm.conf 
 root@server1:~# cat /etc/mdadm/mdadm.conf 
 # mdadm.conf
@@ -355,32 +355,31 @@ and thats all our seetings have become persistent. Some other usefull mdadm comm
 
 #### Remove a Disk From Array
 
-We can’t remove a disk directly from the array, unless it is failed, so we first have to fail it\( if its not Failed normally\):
+We can’t remove a disk directly from the array, unless it is failed, so we first have to fail it( if its not Failed normally):
 
-```text
+```
 mdadm --fail /dev/md0 /dev/sdb1
 mdadm --remove /dev/md0 /dev/sdb1
 ```
 
 #### Add a Disk to an Existing Array
 
-```text
+```
 mdadm --add /dev/md0 /dev/sdb1
 ```
 
 #### Stop and Delete a Raid Array
 
-```text
+```
 mdadm --stop /dev/md0
 mdadm --remove /dev/md0
 ```
 
 and finally we can even delete the superblock from each drive
 
-```text
+```
 mdadm --zero-superblock /dev/sdb
 mdadm --zero-superblock /dev/sdc
 ```
 
 that all people.
-

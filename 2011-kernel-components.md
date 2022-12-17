@@ -22,19 +22,19 @@
 
 Linux Kernel as heart of Linux Operating System was numbered from its beginning. The rule rule of version numbering was like this:
 
-| 2 | 5 | 75 | 3 |
-| :---: | :---: | :---: | :---: |
+|        2       |        5       |       75       |         3        |
+| :------------: | :------------: | :------------: | :--------------: |
 | Version Number | Major Revision | Minor Revision | Correction/Patch |
 
 where the "odd" or "even" revision number had different concepts. "odd" numbers was used for "development versions" and this showed they where some how unstable and weren't suitable for production environment. On the other hand "even" reversion number showed "stable" version and so it gave hope for Reliability. But this story is for past. When Kernel 2.6 arrived they decided to release just "stable" kernels and so they stick to version 2.6.X. So all versions after 2.6 , weather they have "odd" or "even" numbers, they are all "stable. Kernel 2.6.X was alive till version number 2.6.39.4 , that is a long number huh ? Finally Linus Trovalds accepted to using version 3 and so on . and changed the rule:
 
-| 3 | 0 | X |
-| :---: | :---: | :---: |
+|        3       |        0        |        X        |
+| :------------: | :-------------: | :-------------: |
 | Version Number | Major Reversion | Minor Reversion |
 
 and we don't need to be worried about correction/patch number. 3.19 is last version and version 4 is active now. Lets Check :
 
-```text
+```
 root@server1:~# uname -a
 Linux server1 4.10.0-40-generic #44~16.04.1-Ubuntu SMP Thu Nov 9 15:37:44 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux
 root@server1:~# uname -r
@@ -44,13 +44,13 @@ root@server1:~#
 
 as you can see we are on version "4", Major release "10" and ubuntu specified patch "0-40-generic"
 
-To learn How Linux Kernels and its components how placed in different places of linux tree, think of octopus :\). This way you will have enough insight to work with kernel, upgrade it and troubleshoot linux system. Lets start learning theme little by little:
+To learn How Linux Kernels and its components how placed in different places of linux tree, think of octopus :). This way you will have enough insight to work with kernel, upgrade it and troubleshoot linux system. Lets start learning theme little by little:
 
-### initial Ram Disk / initial Ram File System \(/boot/\)
+### initial Ram Disk / initial Ram File System (/boot/)
 
-After Bios/UEFI done his job and pass the control to boot loader, boot loader tries to load the kernel. But loading kernel is not that much easy. Kernel need some drivers to be loaded. How Linux achieve that ? initrd. initrd \(initial ramdisk\)/initramfs is a scheme for loading a temporary root file system into memory, which may be used as part of the Linux startup process. initrd and initramfs refer to two different methods of achieving this but do the same thing. Both are commonly used to make preparations before the real root file system can be mounted.
+After Bios/UEFI done his job and pass the control to boot loader, boot loader tries to load the kernel. But loading kernel is not that much easy. Kernel need some drivers to be loaded. How Linux achieve that ? initrd. initrd (initial ramdisk)/initramfs is a scheme for loading a temporary root file system into memory, which may be used as part of the Linux startup process. initrd and initramfs refer to two different methods of achieving this but do the same thing. Both are commonly used to make preparations before the real root file system can be mounted.
 
-```text
+```
 root@server1:~# cd /boot/
 root@server1:/boot# ls -l
 total 107160
@@ -82,11 +82,11 @@ During old days Computers where in lack of enough memory, so there should be a w
 
 Little by little as kernel grows and memories get bigger, 512k wasn't enough. So bzImage come across and if you have more than 512k zImage, is called "Big zImage". Nowadays zImage just might be seen in some embedded linux systems and bzImage might used more.bzImag dosn't refer to special compression tool like bzip2, bzImage under the hood might used different tool for compressing .Keep it for now and we will back to this topic in next lessnons.
 
-## Kernel Modules \(/lib/modules/\)
+## Kernel Modules (/lib/modules/)
 
 in /lib/modules/ you can see Folders contains each kernel's modules:
 
-```text
+```
 root@server1:~# cd /lib/modules
 root@server1:/lib/modules# ls -l
 total 8
@@ -111,11 +111,11 @@ drwxr-xr-x 14 root root    4096 Nov 29 00:14 kernel
 drwxr-xr-x  3 root root    4096 Nov 29 00:14 vdso
 ```
 
-## Kernel \(/usr/src/\)
+## Kernel (/usr/src/)
 
 And Finally where is the Kernel itself ?
 
-```text
+```
 root@server1:~# cd /usr/src/
 root@server1:/usr/src# ls -l
 total 16
@@ -124,4 +124,3 @@ drwxr-xr-x  7 root root 4096 Aug  1 04:23 linux-headers-4.10.0-28-generic
 drwxr-xr-x 27 root root 4096 Nov 29 00:14 linux-headers-4.10.0-40
 drwxr-xr-x  7 root root 4096 Nov 29 00:14 linux-headers-4.10.0-40-generic
 ```
-

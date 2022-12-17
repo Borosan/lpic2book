@@ -4,7 +4,7 @@
 
 **Weight:** 4
 
-**Description:** Candidates should be able to manage and/or query a 2.6.x, 3.x or 4.x kernel and its loadable modules. Candidates should be able to identify and correct common boot and run time issues. Candidates should understand device detection and management using udev. This objective includes troubleshooting udev rules.
+**Description: **Candidates should be able to manage and/or query a 2.6.x, 3.x or 4.x kernel and its loadable modules. Candidates should be able to identify and correct common boot and run time issues. Candidates should understand device detection and management using udev. This objective includes troubleshooting udev rules.
 
 **Key Knowledge Areas:**
 
@@ -48,7 +48,7 @@ Linux Kernel is modular since version 2.0. Being modular make simplicity and eff
 
 To list Kernel Loaded modules use lsmod
 
-```text
+```
 root@server1:~# lsmod
 Module                  Size  Used by
 bnep                   20480  2
@@ -122,14 +122,14 @@ fjes                   77824  0
 
 lets try to load and unloaded module " jfs " that old journaling file system. for loading an unloaded but compiled module there are two solutions. An old solution is insmod , lets try it first
 
-```text
+```
 root@server1:~# insmod jfs
 insmod: ERROR: could not load module jfs: No such file or directory
 ```
 
-But it doesn't work :\(\( so let get more information about "jfs" module with modinfo:
+But it doesn't work :(( so let get more information about "jfs" module with modinfo:
 
-```text
+```
 root@server1:~# modinfo jfs
 filename:       /lib/modules/4.10.0-40-generic/kernel/fs/jfs/jfs.ko
 alias:          fs-jfs
@@ -147,7 +147,7 @@ parm:           commit_threads:Number of commit threads (int)
 
 modinfo shows a bunch of information about a module. Like its filename, dependencies and possible parameters.Till now we have realize that "jfs" module has been compiled and its available but it is not loaded. inorder to load a module with insmod we have to specify the full patch of module:
 
-```text
+```
 root@server1:~# insmod /lib/modules/4.10.0-40-generic/kernel/fs/jfs/jfs.ko
 root@server1:~# lsmod | grep jfs
 jfs                   184320  0
@@ -155,7 +155,7 @@ jfs                   184320  0
 
 Haha its loaded now, Lets remove it by using rmmod:
 
-```text
+```
 root@server1:~# lsmod | grep jfs
 jfs                   184320  0
 root@server1:~# 
@@ -165,7 +165,7 @@ root@server1:~# lsmod | grep jfs
 
 But as you see using insmod is not that much easy, insmod has another problem and that is dependencies. "jfs" module has no dependency so we were able to load it very easily, if a module has some dependencies, insmod dosn't load those required dependencies automatically. So it would be administrator task. All these shortages cause we come to this conclusion that insmod is not perfect and we need a modern tool, which automatically know the patch and load required dependencies, that is modprobe.
 
-```text
+```
 root@server1:~# lsmod | grep lp
 lp                     20480  0
 glue_helper            16384  1 aesni_intel
@@ -212,7 +212,7 @@ drm                   352256  6 vmwgfx,ttm,drm_kms_helper
 
 also for removing use modprobe -r lp. But how modprobe realize module dependencies and act such a smart tool? modules.dep
 
-```text
+```
 root@server1:~# cd /lib/modules/
 root@server1:/lib/modules# ls
 4.10.0-28-generic  4.10.0-40-generic
@@ -225,9 +225,9 @@ modules.alias  modules.dep          modules.softdep
 root@server1:/lib/modules/4.10.0-40-generic# depmod -a
 ```
 
-we can use depmod -a to create and update modules.dep with all new modules and dependencies. Now that we have learned alot of tools, let play game with cdrom parameters \[in ubunto cdrom is not a module, so use other distro\]:
+we can use depmod -a to create and update modules.dep with all new modules and dependencies. Now that we have learned alot of tools, let play game with cdrom parameters \[in ubunto cdrom is not a module, so use other distro]:
 
-```text
+```
 [root@server1 ~]# lsmod | grep cdrom
 cdrom                  42556  1 sr_mod
 [root@server1 ~]# modinfo cdrom
@@ -252,7 +252,7 @@ parm:           mrw_format_restart:bool
 
 We as users like modules to load automatically, mean while parameters should be loaded automatically, to make parameters persistence create a file in /etc/modprobe.d :
 
-```text
+```
  root@server1:~# cd /etc/modprobe.d/
 root@server1:/etc/modprobe.d# ls
 alsa-base.conf           blacklist-framebuffer.conf   blacklist-watchdog.conf
@@ -264,13 +264,13 @@ root@server1:/etc/modprobe.d# vi cdroom-lookdoor.conf
 
 and insert:
 
-```text
+```
 options cdroom lookdoor=1
 ```
 
 If you have noticed there is blacklist.conf file in /etc/modfprobe.d , if you don't wana let a specific module be loaded use it:
 
-```text
+```
 # This file lists those modules which we don't want to be loaded by
 # alias expansion, usually so some other driver will be loaded for the
 # device instead.
@@ -328,7 +328,7 @@ blacklist pcspkr
 blacklist amd76x_edac
 ```
 
-go to /sys/module/&lt;module name&gt; directory to see current running environment parameters.
+go to /sys/module/\<module name> directory to see current running environment parameters.
 
 ### sysctl
 
@@ -336,7 +336,7 @@ We discussed that by manipulating /proc/sys/kernel we can change some current ru
 
 sysctl -a to show all tuneables.
 
-```text
+```
 root@server1:~# sysctl -a | wc
 sysctl: reading key "net.ipv6.conf.all.stable_secret"
 sysctl: reading key "net.ipv6.conf.default.stable_secret"
@@ -347,7 +347,7 @@ sysctl: reading key "net.ipv6.conf.lo.stable_secret"
 
 that is a large file you can see.To set a new value to a parameter use sysctl -w :
 
-```text
+```
 root@server1:~# sysctl -a | grep swap
 sysctl: reading key "net.ipv6.conf.all.stable_secret"
 sysctl: reading key "net.ipv6.conf.default.stable_secret"
@@ -366,7 +366,7 @@ vm.swappiness = 80
 
 Before quit lets take a look at sysctl.conf :
 
-```text
+```
 # /etc/sysctl.conf - Configuration file for setting system variables
 # See /etc/sysctl.d/ for additional system variables.
 # See sysctl.conf (5) for information.
@@ -428,7 +428,7 @@ Before quit lets take a look at sysctl.conf :
 #net.ipv4.ip_forwarding = 1
 ```
 
-as you can see includes /etc/sysctl.d/ directory setting files but don't for get that setting in sysctl.conf file always over write /etc/sysctl.d/ directory and Win :\) You can uncomment or add setting weather in sysctl.conf or go and create custom file in /etc/sysctl.d/ directory but Take care of contrasts.
+as you can see includes /etc/sysctl.d/ directory setting files but don't for get that setting in sysctl.conf file always over write /etc/sysctl.d/ directory and Win :) You can uncomment or add setting weather in sysctl.conf or go and create custom file in /etc/sysctl.d/ directory but Take care of contrasts.
 
 ### udev
 
@@ -444,7 +444,7 @@ After Finishing boot process udev is active and receive kernel messages an ueven
 
 udev has a monitoring tool, and it monitor and shows event received from the kernel after hardware initializing and uevent which are udev events after processing udev rules, lets attach a usb and monitor what it shows:
 
-```text
+```
 root@server1:~# udevadm monitor 
 monitor will print the received events for:
 UDEV - the event which udev sends out after rule processing
@@ -488,7 +488,7 @@ UDEV  [3523.066143] add      /module/nls_iso8859_1 (module)
 
 You can see both kernel messages and udev events. And finally our usb flash is mounted as sdb. For having more readable data:
 
-```text
+```
 root@server1:~# udevadm info --query=all --name=/dev/sdb
 P: /devices/pci0000:00/0000:00:11.0/0000:02:03.0/usb1/1-1/1-1:1.0/host33/target33:0:0/33:0:0:0/block/sdb
 N: sdb
@@ -531,9 +531,9 @@ E: TAGS=:systemd:
 E: USEC_INITIALIZED=3522768898
 ```
 
-use udevadm info attribute-walk --name=/dev/sdb \| less to have summary of device attributes:
+use udevadm info attribute-walk --name=/dev/sdb | less to have summary of device attributes:
 
-```text
+```
 root@server1:~# udevadm info --attribute-walk --name=/dev/sdb
 
 Udevadm info starts with the device specified by the devpath and then
@@ -738,15 +738,15 @@ and the attributes from one single parent device.
 
 Oh. That is a long long list of attributes, but we notice that udev consider all of these attributes when it checks it rules!
 
-Thanks udev, but udev dose another great job for us, can you remember? udev populate /dev/ and create Hardware Abstraction, which is used my other programs. Udev has made world easier place for us and other programs.Thank you udev :\)
+Thanks udev, but udev dose another great job for us, can you remember? udev populate /dev/ and create Hardware Abstraction, which is used my other programs. Udev has made world easier place for us and other programs.Thank you udev :)
 
 ### dmesg
 
-In LPIC1 Course we discussed that during boot process \(when operating system hasn't been started yet\) dmesg logs kernel ring buffer. Let go deeper, during the boot process kernel is loaded into RAM. At this stage there is a Device Driver presents in kernel which set up to drive relevant hardware. As any other elements of kernel, device driver produce messages. These messages have information about modules presents and value of any parameters. As booting process is so fast, dmesg help us to review what has happened during boot process.
+In LPIC1 Course we discussed that during boot process (when operating system hasn't been started yet) dmesg logs kernel ring buffer. Let go deeper, during the boot process kernel is loaded into RAM. At this stage there is a Device Driver presents in kernel which set up to drive relevant hardware. As any other elements of kernel, device driver produce messages. These messages have information about modules presents and value of any parameters. As booting process is so fast, dmesg help us to review what has happened during boot process.
 
 Even after booting kernel might generate some messages, for example when an I/O devicefacing the problem, or a hot-pluggable device like USB is attached to system. Again dmesg can be used to review what kernel has generated during doing its jobs.
 
-```text
+```
 tion="profile_load" profile="unconfined" name="/usr/lib/lightdm/lightdm-guest-session" pid=638 comm="apparmor_parser"
 [    5.013133] audit: type=1400 audit(1512370178.278:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/lightdm/lightdm-guest-session//chromium" pid=638 comm="apparmor_parser"
 [    5.032577] audit: type=1400 audit(1512370178.302:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/bin/evince" pid=640 comm="apparmor_parser"
@@ -793,9 +793,8 @@ result above is abstracted, how ever you can see that dmesg dosn't workout well 
 
 There are some user space commands from lpic1, lets just review:
 
-| command | Description |
-| :--- | :--- |
-| lspci | List PCi devices on the computer |
-| lsusb | Shows Connected USB Devices |
-| lsdev | List all Devices and Device Information |
-
+| command | Description                             |
+| ------- | --------------------------------------- |
+| lspci   | List PCi devices on the computer        |
+| lsusb   | Shows Connected USB Devices             |
+| lsdev   | List all Devices and Device Information |

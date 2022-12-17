@@ -4,12 +4,12 @@
 
 **Weight:** 2
 
-**Description:** Candidates should be able to implement client e-mail management software to filter, sort and monitor incoming user e-mail.
+**Description: **Candidates should be able to implement client e-mail management software to filter, sort and monitor incoming user e-mail.
 
 **Key Knowledge Areas:**
 
 * Understanding of Sieve functionality, syntax and operators
-* Use Sieve to filter and sort mail with respect to sender, recipient\(s\), headers and size
+* Use Sieve to filter and sort mail with respect to sender, recipient(s), headers and size
 * Awareness of procmail
 
 **Terms and Utilities:**
@@ -22,13 +22,13 @@ In previous lesson we understand that the postfix store e-mails in /var/spool/ma
 
 ## procmail ![](.gitbook/assets/mail-delivery-procmail.gif)
 
-Most of MTAs \(Mail Transfer Agents / Mail Servers\) work with procmail or at leased they are enabled to work with procmail.
+Most of MTAs (Mail Transfer Agents / Mail Servers) work with procmail or at leased they are enabled to work with procmail.
 
 ![](.gitbook/assets/mail-delivery-procmail-concept.jpg)
 
-procmail, a mail delivery agent \(MDA\), can sort incoming mail into various directories and filter out spam messages. Procmail is stable, but no longer maintained, and a number of security vulnerabilities have been discovered since its last release. Users who wish to use a maintained program are advised by procmail's author, Philip Guenther, to use an alternative tool\(like maildrop or sieve\), because it has not been updated since 2001.Any how,as we are preparing for lpic2 exam lets continue.
+procmail, a mail delivery agent (MDA), can sort incoming mail into various directories and filter out spam messages. Procmail is stable, but no longer maintained, and a number of security vulnerabilities have been discovered since its last release. Users who wish to use a maintained program are advised by procmail's author, Philip Guenther, to use an alternative tool(like maildrop or sieve), because it has not been updated since 2001.Any how,as we are preparing for lpic2 exam lets continue.
 
-postfix stores users emails in /var/spool/mail/&lt;user name&gt; . It creates a file and append every user's e-mail to the end of that big text file! Mean while it takes space from system /var directory.
+postfix stores users emails in /var/spool/mail/\<user name> . It creates a file and append every user's e-mail to the end of that big text file! Mean while it takes space from system /var directory.
 
 procmail lets us to store e-mails in one of specified user's directories, usually `/home/<user name>/mail/` directory and sort it.
 
@@ -40,7 +40,7 @@ mbox is the older mail storage system. While mbox places all messages in the sam
 
 #### Mbox format
 
-Mbox is the traditional email storage format. In this format there is only one regular text file which serves as the user’s mailbox.Typically, the name of this file is /var/spool/mail/&lt;user name&gt;. Mbox locks the mailbox when an operation is performed on the mailbox. After the operation the mailbox is unlocked.
+Mbox is the traditional email storage format. In this format there is only one regular text file which serves as the user’s mailbox.Typically, the name of this file is /var/spool/mail/\<user name>. Mbox locks the mailbox when an operation is performed on the mailbox. After the operation the mailbox is unlocked.
 
 Advantages:
 
@@ -62,7 +62,7 @@ Advantages:
 * Locating, retrieving and deleting a specific email is fast, particularly when a email folder contains hundreds of messages
 * Minimal to no file locking needed
 * Can be used on a network file system
-* Immune to mailbox corruption \(assuming the hardware will not fail\)
+* Immune to mailbox corruption (assuming the hardware will not fail)
 
 Disadvantages:
 
@@ -71,17 +71,17 @@ Disadvantages:
 
 procmail might has been installed on your distro, other wise install it:
 
-```text
+```
 [root@localhost ~]# yum install procmail
 ```
 
 with that procmail just install some binary files which would be used by postfix. procmail dosen't have any services! And it doesn't have any configuration files!
 
-Procmail can be invoked in several different ways. As email is placed on your email spool file, Procmail can be configured to start up, filter the email to locations configured for use with your MUA, and quit. Or, your MUA could be configured to bring up Procmail any time a message is received so that messages are moved into their correct mailboxes\(as we do here\).
+Procmail can be invoked in several different ways. As email is placed on your email spool file, Procmail can be configured to start up, filter the email to locations configured for use with your MUA, and quit. Or, your MUA could be configured to bring up Procmail any time a message is received so that messages are moved into their correct mailboxes(as we do here).
 
 So what we need to do is configuring postfix to use procmail by setting up `mailbox_command = procmail` in main.cf configuration file.
 
-```text
+```
 [root@localhost ~]# cd /etc/postfix/
 [root@localhost postfix]# ls
 access     generic        main.cf    relocated  virtual
@@ -103,15 +103,15 @@ Now postfix sends every thing which delivers localy to the procmail, how ever ou
 There are two layers of prcmail configuration files:
 
 1. Global Configuration : /etc/procmailrc
-2. User specified configuration \(Recipes\) : ~/.procmailrc
+2. User specified configuration (Recipes) : \~/.procmailrc
 
 When Procmail starts, it reads the email message and separates the body from the header information. Next, Procmail looks for the /etc/procmailrc file and rc files in the /etc/procmailrcs directory for default, system-wide, Procmail environmental variables and recipes. Then, Procmail looks for a .procmailrc file in the user's home directory to find rules specific to that user. Many users also create additional rc files of their own for Procmail that are referred to by their .procmailrc file but may be turned on or off quickly if a mail filtering problem develops.
 
-Be careful using the system-wide /etc/procmailrc. It is usually read and processed as root. This fact means that a poorly designed recipe in that file could do serious damage. For instance, a typo could cause Procmail to overwrite an important system binary rather than use that binary to process a message. For this reason, you should keep system-wide Procmail processing to a minimum and instead focus on using ~/.procmailrc to process email using individual accounts.
+Be careful using the system-wide /etc/procmailrc. It is usually read and processed as root. This fact means that a poorly designed recipe in that file could do serious damage. For instance, a typo could cause Procmail to overwrite an important system binary rather than use that binary to process a message. For this reason, you should keep system-wide Procmail processing to a minimum and instead focus on using \~/.procmailrc to process email using individual accounts.
 
 Okey lets start with Global Configuration. By default the Global configuration file does not exit and we should create `procmailrc` file under `/etc` directory:
 
-```text
+```
 [root@localhost postfix]# cd /etc/
 [root@localhost etc]# vim procmailrc
 [root@localhost etc]# cat procmailrc 
@@ -129,14 +129,14 @@ DEFAULT=$HOME/mail/inbox
 
 Please notice that "/" changes the behaviour! Now let stick to mbox and check it:
 
-```text
+```
 [user1@localhost ~]$ ls
 dead.letter
 [user1@localhost ~]$ mkdir mail
 [user1@localhost ~]$ ls mail/
 ```
 
-```text
+```
 [user2@localhost ~]$ mail -s "test mbox for user 1" user1@localhost
 Hi this is my first message for testing mbox
 .
@@ -147,7 +147,7 @@ Hi this is my second message for testing mbox
 EOT
 ```
 
-```text
+```
 [user1@localhost ~]$ ls -l mail/
 total 4
 -rw-------. 1 user1 user1 1327 May 23 03:36 inbox
@@ -192,7 +192,7 @@ Hi this is my second message for testing mbox
 
 it concatenate emails after each other.it would be much easier to use `mail` utility but we need to specify the folder in which mails exist by usinf `-f` option:
 
-```text
+```
 [user1@localhost mail]$ mail -f ~/mail/inbox 
 Heirloom Mail version 12.5 7/5/10.  Type ? for help.
 "/home/user1/mail/inbox": 2 messages 2 new
@@ -203,13 +203,13 @@ Heirloom Mail version 12.5 7/5/10.  Type ? for help.
 
 ### Recipes
 
-As we said Procmail allows us to filter email as it is received from a remote email server, or placed in our spool file on a local or remote email server. Filtering is done by using Recipes\( user specified configurations\). Recipes are configured by creating `.procmailrc` in the home directory of user.
+As we said Procmail allows us to filter email as it is received from a remote email server, or placed in our spool file on a local or remote email server. Filtering is done by using Recipes( user specified configurations). Recipes are configured by creating `.procmailrc` in the home directory of user.
 
 The construction of recipes is the most difficult part of learning to use Procmail, beacause recipes do their message matching using regular expressions. However, regular expressions are not very difficult to construct and even less difficult to understand when read. the problem is understanding of Procmail recipe structure.
 
 Procmail recipes take the following form:
 
-```text
+```
 :0 [flags] [: lockfile-name ]
 * [ condition_1_special-condition-character condition_1_regular_expression ]
 * [ condition_2_special-condition-character condition-2_regular_expression ]
@@ -218,15 +218,15 @@ Procmail recipes take the following form:
         action-to-perform
 ```
 
-The first two characters in a Procmail recipe are a colon and a zero. Various flags can be placed after the zero to control how Procmail processes the recipe. A colon after the `flags`_\_section specifies that a lockfile is created for this message. If a lockfile is created, the name can be specified by replacing_ `lockfile-name`\_ .
+The first two characters in a Procmail recipe are a colon and a zero. Various flags can be placed after the zero to control how Procmail processes the recipe. A colon after the `flags`_\_section specifies that a lockfile is created for this message. If a lockfile is created, the name can be specified by replacing _`lockfile-name`\_ .
 
-A recipe can contain several conditions to match against the message. If it has no conditions, every message matches the recipe. Regular expressions are placed in some conditions to facilitate message matching. If multiple conditions are used, they must all match for the action to be performed. Conditions are checked based on the flags set in the recipe's first line. Optional special characters placed after the asterisk character \( `*`\) can further control the condition.
+A recipe can contain several conditions to match against the message. If it has no conditions, every message matches the recipe. Regular expressions are placed in some conditions to facilitate message matching. If multiple conditions are used, they must all match for the action to be performed. Conditions are checked based on the flags set in the recipe's first line. Optional special characters placed after the asterisk character ( `*`) can further control the condition.
 
 The `action-to-perform` argument specifies the action taken when the message matches one of the conditions. There can only be one action per recipe. In many cases, the name of a mailbox is used here to direct matching messages into that file, effectively sorting the email. Special action characters may also be used before the action is specified.
 
 For now lets take a look at simple recipe which take e-mails with "lpi" subject and throw them into "linuxcert" file:
 
-```text
+```
 :0:
 * ^Subject:.lpi
 linuxcert
@@ -234,7 +234,7 @@ linuxcert
 
 Lets test:
 
-```text
+```
 [user1@localhost mail]$ pwd
 /home/user1/mail
 
@@ -274,7 +274,7 @@ From: user1@centos7.example.com
 
 And lets try another subject to make sure if our Recipe is working:
 
-```text
+```
 [user1@localhost ~]$ mail -s "Nothing" user1@localhost
 nothing
 EOT
@@ -339,7 +339,7 @@ nothing
 
 Now that we have seen mbox format lets see maldir format too lets remove inbox file which mbox format has made:
 
-```text
+```
 [user1@localhost ~]$ ls mail/
 inbox  linuxcert
 [user1@localhost ~]$ rm mail/inbox mail/linuxcert
@@ -347,7 +347,7 @@ inbox  linuxcert
 
 next lets edit systemwide promailrc :
 
-```text
+```
 [root@localhost mail]# vim /etc/procmailrc 
 [root@localhost mail]# cat /etc/procmailrc 
 ### Define where we want to emails be stored
@@ -364,7 +364,7 @@ DEFAULT=$HOME/mail/inbox/
 
 Now lets send an email to user1 :
 
-```text
+```
 [user2@localhost ~]$ mail -s "test maildir format" user1@localhost
 Hi this a test message! .
 .
@@ -373,7 +373,7 @@ EOT
 
 and see the maildir format for stroing mail:
 
-```text
+```
 [user1@localhost ~]$ tree mail/
 mail/
 └── inbox
@@ -391,7 +391,7 @@ cur  new  tmp
 
 good news is that mail tool works with both mbox and maildir format:
 
-```text
+```
 [user1@localhost ~]$ mail -f mail/inbox/
 Heirloom Mail version 12.5 7/5/10.  Type ? for help.
 "mail/inbox/": 1 message 1 new
@@ -401,4 +401,3 @@ Heirloom Mail version 12.5 7/5/10.  Type ? for help.
 ```
 
 Okey that was all, surf the net and learn more about recipes if you like!
-

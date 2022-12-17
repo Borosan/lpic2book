@@ -2,9 +2,9 @@
 
 ## **201.2 Compiling a kernel**
 
-## **Weight:** 3
+## **Weight: **3
 
-**Description:** Candidates should be able to properly configure a kernel to include or disable specific features of the Linux kernel as necessary. This objective includes compiling and recompiling the Linux kernel as needed, updating and noting changes in a new kernel, creating an initrd image and installing new kernels.
+**Description: **Candidates should be able to properly configure a kernel to include or disable specific features of the Linux kernel as necessary. This objective includes compiling and recompiling the Linux kernel as needed, updating and noting changes in a new kernel, creating an initrd image and installing new kernels.
 
 **Key Knowledge Areas:**
 
@@ -24,7 +24,7 @@
 * mkinitrd
 * mkinitramfs
 * make
-* make targets \(all, config, xconfig, menuconfig, gconfig, oldconfig, mrproper, zImage, bzImage, modules, modules\_install, rpm-pkg, binrpm-pkg, deb-pkg\)
+* make targets (all, config, xconfig, menuconfig, gconfig, oldconfig, mrproper, zImage, bzImage, modules, modules_install, rpm-pkg, binrpm-pkg, deb-pkg)
 * gzip
 * bzip2
 * module tools
@@ -43,11 +43,11 @@ Upgrading kernel and compiling it is very distro specific. The way that we trave
 
 First go to [https://kernel.org](https://kernel.org) inorder to get the desired kernel version:
 
-![](.gitbook/assets/kernelorg.jpg)
+![](.gitbook/assets/KernelOrg.jpg)
 
 We chose latest stable kernel version, do not forget we have to be in /usr/src/ and from now on work in this directory only, in this demonstartion we use CentOS7 machine:
 
-```text
+```
 [root@server1 ~]# cd /usr/src/
 [root@server1 src]# ls -l
 total 0
@@ -74,7 +74,7 @@ drwxr-xr-x. 2 root root         6 Nov  5  2016 kernels
 
 Now lets extract .xz file. Also we should make a symbolic link as linux which point to downloaded kernel:
 
-```text
+```
 [root@server1 src]# tar -Jxvf linux-4.14.3.tar.xz 
 ********
 ******
@@ -98,7 +98,7 @@ drwxrwxr-x. 24 root root      4096 Nov 30 03:41 linux-4.14.3
 
 Before continue there is document folder inside downloaded kernel, There are amazing help text file:
 
-```text
+```
 [root@server1 src]# cd linux/Documentation/
 [root@server1 Documentation]# ls 
 00-INDEX                    gpio                         parport-lowlevel.txt
@@ -180,14 +180,14 @@ gcc-plugins.txt             parisc
 
 Before continue there are some Development tools which is need to compile the kernel lets install them first:
 
-```text
+```
 [root@server1 linux]# yum groupinstall "Development tools"
 [root@server1 ~]# yum install  elfutils-libelf-devel
 ```
 
 Next step is making kernel with modules that we like, compile it and make other kernel required components. to do do that we use make. make is a command that make a program from the source code. Make can do somany thing and is used for many targets.
 
-```text
+```
 [root@server1 ~]# cd /usr/src/linux
 [root@server1 linux]# make help
 ./scripts/gcc-version.sh: line 26: gcc: command not found
@@ -334,40 +334,40 @@ For further info see the ./README file
 
 Lets classified each target with it usefull commands:
 
-| Cleaning Targets \(used if you have tried to compile before\) | Description |
-| :--- | :--- |
-| clean | Remove partially Generated Files From Previous compile and refresh the code but keeps config file |
-| mrproper | clean everything + config + backup |
+| Cleaning Targets (used if you have tried to compile before) | Description                                                                                       |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| clean                                                       | Remove partially Generated Files From Previous compile and refresh the code but keeps config file |
+| mrproper                                                    | clean everything + config + backup                                                                |
 
-| Configuration Targets\(To configure desired kernel modules\) | Description |
-| :--- | :--- |
-| config | line oriented program, take days \(very hard tool\) |
-| nconfig | ncurses based menu program \(hard tool\) \[need to nstall ncurses-devel\] |
-| menuconfig | menu base program \(recommanded tool\) |
-| xconfig | QT-Based menu program, like menu config \[need to install qt-devel\] |
-| oldconfig | use the current setting of current kernel for the next one |
+| Configuration Targets(To configure desired kernel modules) | Description                                                            |
+| ---------------------------------------------------------- | ---------------------------------------------------------------------- |
+| config                                                     | line oriented program, take days (very hard tool)                      |
+| nconfig                                                    | ncurses based menu program (hard tool) \[need to nstall ncurses-devel] |
+| menuconfig                                                 | menu base program (recommanded tool)                                   |
+| xconfig                                                    | QT-Based menu program, like menu config \[need to install qt-devel]    |
+| oldconfig                                                  | use the current setting of current kernel for the next one             |
 
-The thing we are going to do is making kernel image \(zImage / BigzImage if you remember :\) \)and we need to make modules that should be available in the kernel. Final step is installation process. Because we need to put what we have made in proper place. Let take a look at make xconfig , make menuconfig:
+The thing we are going to do is making kernel image (zImage / BigzImage if you remember :) )and we need to make modules that should be available in the kernel. Final step is installation process. Because we need to put what we have made in proper place. Let take a look at make xconfig , make menuconfig:
 
-![](.gitbook/assets/makemenuconfig.jpg)
+![](.gitbook/assets/MakeMenuConfig.jpg)
 
 No matter what you choose, a module can have different states:
 
-| Condition To choose | Description |
-| :--- | :--- |
-| &lt;&gt;:Not Available | not even  compiled to the kernel |
-| &lt;M&gt;:Loadable as module | compiled with the new kernel, but not loaded as default |
-| &lt;\*&gt;:available | Compiled and loaded , Built into the kernel |
+| Condition To choose     | Description                                             |
+| ----------------------- | ------------------------------------------------------- |
+| <>:Not Available        | not even  compiled to the kernel                        |
+| \<M>:Loadable as module | compiled with the new kernel, but not loaded as default |
+| <\*>:available          | Compiled and loaded , Built into the kernel             |
 
 We are happy with current kernel configuration so lets try:
 
-```text
+```
 [root@server1 src]#make oldconfig
 ```
 
 Wow after answering tons of questions finall:
 
-```text
+```
 #
 # configuration written to .config
 #
@@ -375,7 +375,7 @@ Wow after answering tons of questions finall:
 
 ## Make bzImage
 
-```text
+```
 [root@server1 linux]# make bzImage
 scripts/kconfig/conf  --silentoldconfig Kconfig
 
@@ -456,13 +456,13 @@ make: *** [scripts] Error 2
 
 ops we encounter a problem, lets resolve it:
 
-```text
+```
 [root@server1 linux]# yum install openssl-devel
 ```
 
 And Finally our bzImage is ready:
 
-```text
+```
 .....
 ...
 ..
@@ -476,7 +476,7 @@ Kernel: arch/x86/boot/bzImage is ready  (#1)
 
 Modules need to be compiled too, so do the same thing for them:
 
-```text
+```
 [root@server1 linux]# make modules
 ........
 ....
@@ -491,11 +491,11 @@ Modules need to be compiled too, so do the same thing for them:
   LD [M]  virt/lib/irqbypass.ko
 ```
 
-### make modules\_install
+### make modules_install
 
 Now that every thing is prepared, its time to put all part to the their right places, First let put compiled modules to /lib/modules/
 
-```text
+```
 ......
 ....
 ..
@@ -523,7 +523,7 @@ Now that every thing is prepared, its time to put all part to the their right pl
 
 to confirm what has been done:
 
-```text
+```
 [root@server1 linux]# ls -lrth /lib/modules
 total 8.0K
 drwxr-xr-x. 7 root root 4.0K Oct 28 11:25 3.10.0-693.el7.x86_64
@@ -534,7 +534,7 @@ drwxr-xr-x. 3 root root 4.0K Dec  5 07:14 4.14.3
 
 make install write required files into the /boot and modified grub and set everything for us
 
-```text
+```
 [root@server1 linux]# make install
 sh ./arch/x86/boot/install.sh 4.14.3 arch/x86/boot/bzImage \
     System.map "/boot"
@@ -544,7 +544,7 @@ sh ./arch/x86/boot/install.sh 4.14.3 arch/x86/boot/bzImage \
 
 and reboot and enjoy your new kernel!
 
-```text
+```
 [root@server1 ~]# uname -r
 4.14.3
 ```
@@ -553,11 +553,11 @@ and reboot and enjoy your new kernel!
 
 As we have seen kernel needs RAM to be populated with some drivers and modules.In old days each distro tries to implement its own taste of initrd/initramfs. It made hard for users and developers to work with each distro. dracut is a tool which has tried to standardize the process of making initrd/initramfs.
 
-dracut uses udev deamon events \(uevents\) and based on them create general purpose initramfs. All we need to know is that dracut is a program wich is used behind kernel installation process to create initrd/initramfs. It considers current kernel and settings and generates desired initramfs/initrd base on them and put initramfs/initrd on the right place and modified grub.
+dracut uses udev deamon events (uevents) and based on them create general purpose initramfs. All we need to know is that dracut is a program wich is used behind kernel installation process to create initrd/initramfs. It considers current kernel and settings and generates desired initramfs/initrd base on them and put initramfs/initrd on the right place and modified grub.
 
 dracut also can be used to just modifying initrd/initramfs:
 
-```text
+```
 ###in ubuntu
 root@server1:~# dracut
 The program 'dracut' is currently not installed. You can install it by typing:
@@ -567,11 +567,11 @@ root@server1:~# apt install dracut-core
 
 dracut reads its configurations from /etc/dracut.conf :
 
-```text
+```
 [root@server1 ~]# vi /etc/dracut.conf
 ```
 
-```text
+```
 # PUT YOUR CONFIG HERE OR IN separate files named *.conf
 # in /etc/dracut.conf.d
 # SEE man dracut.conf(5)
@@ -632,4 +632,3 @@ in dracut.conf you can commented out module/driver that you like and then run dr
 .
 
 .
-

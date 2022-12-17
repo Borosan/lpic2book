@@ -31,7 +31,7 @@ This lesson is almost theory, first lets review some concepts and then we will s
 
 ![](.gitbook/assets/apache-ssl-encryption1.jpg)
 
-Plaintext can be every thing a message, a file, a document , ... . Then it is encrypted using and Encryption Key and we would have Ciphertext. After transfer it would be Decrypted using Decryption Key \(the same same key for Encryption\) and as a result we would have the original plain text. The simplest for of Encryption\( as above\) use the same key for Encryption and Decryption is known as Symmetric Encryption. But the security is tied up to the security of the key, if some one get access to the key the whole afforts would be useless !
+Plaintext can be every thing a message, a file, a document , ... . Then it is encrypted using and Encryption Key and we would have Ciphertext. After transfer it would be Decrypted using Decryption Key (the same same key for Encryption) and as a result we would have the original plain text. The simplest for of Encryption( as above) use the same key for Encryption and Decryption is known as Symmetric Encryption. But the security is tied up to the security of the key, if some one get access to the key the whole afforts would be useless !
 
 A Symmetric Encryption uses a public and private key pairs. Data Encrypted with either key can be Decrypted with the other.
 
@@ -56,19 +56,19 @@ Combining Public and private key with hashes create Digital Signatures. These Di
 
 One thing to notice about all of this, is we are asuming here, that the publickey we have obtained really is the public key of the creator who originate the document whith signature we trying to check.
 
-### The Secure Socket Layer \(SSL\)
+### The Secure Socket Layer (SSL)
 
 Digital Signatures are used in Secure Sockets Layer, which is a Layer in protocol stack, it seats above the transfor Layer, and it verifies the server identity and negotiates asymmetric session key that will be used to encrypt all the traffic between the browser and the server.
 
 ![](.gitbook/assets/apache-ssl-ssl.jpg)
 
-In this diagram the browser and the server first communicate trough the regular TCP/IP protocol stack and that communication is not encrypetd\(Insecure path\).
+In this diagram the browser and the server first communicate trough the regular TCP/IP protocol stack and that communication is not encrypetd(Insecure path).
 
 SSL is a Layer above the transport Layer at the both client and server end and the hand shake is preformed when the SSL connection is made, it verifies the server identity and negotiate the asymmatric session key that gives us a secure path between the browser and the server
 
 SSL relies on the use of Digital Certificates. And basically a Digital Certificates is a collection of information identifying a site, signed by some trusted tird party certification authority. Digital certificates contain:
 
-* The issuer'd identity Certification Authority \(CA\)
+* The issuer'd identity Certification Authority (CA)
 * The site's domain name and public key 
 * expiry date
 * The signature of the CA
@@ -89,37 +89,37 @@ The openssl command can be used for:
 
 * Creation and management of public and private keys
 * Creation of X509 certificates and certificate request
-* Calculation of message digests \(hashes\)
+* Calculation of message digests (hashes)
 * Encryption and decryption
 
-## The mod\_ssl Module
+## The mod_ssl Module
 
 ![](.gitbook/assets/apache-ssl-modssl.jpg)
 
-The mod\_ssl module provides SSL support for Apache.
+The mod_ssl module provides SSL support for Apache.
 
 package include:
 
-1. The module itself \(mod\_ssl.so\)
+1. The module itself (mod_ssl.so)
 2. A config file added to /etc/httpd/conf.d
 
 #### Apache Directives for SSL
 
-The mod\_ssl module supports serveral SSL-specific directives:
+The mod_ssl module supports serveral SSL-specific directives:
 
-| Directive | Meaning |
-| :--- | :--- |
-| SSLCertificateFile | The name of the file containing the site's digital certificate |
-| SSLCertificateKeyFile | The name of the file containing the site's private key |
-| SSLCipherSuite | Specifies the ciphers \(encryption algorithms\) that the browser may use |
-| SSLEngine \(on/off\) | Enable or Disable SSL \(usually within VirtualHost\) |
-| SSLRequire | Supports access control based on multiple server variables, time of day, ... |
+| Directive             | Meaning                                                                      |
+| --------------------- | ---------------------------------------------------------------------------- |
+| SSLCertificateFile    | The name of the file containing the site's digital certificate               |
+| SSLCertificateKeyFile | The name of the file containing the site's private key                       |
+| SSLCipherSuite        | Specifies the ciphers (encryption algorithms) that the browser may use       |
+| SSLEngine (on/off)    | Enable or Disable SSL (usually within VirtualHost)                           |
+| SSLRequire            | Supports access control based on multiple server variables, time of day, ... |
 
-Okey enough theory, Lets Demonstrate how to make our web site secure using SSL connection. For that we could either generate private key and then create a certificate signing request \(.csr\) from that and then send it to a real CA to sign it\(which is impossible to demostrate here\), or as we would do we will create a self signed certificate and then configure apache to use that.
+Okey enough theory, Lets Demonstrate how to make our web site secure using SSL connection. For that we could either generate private key and then create a certificate signing request (.csr) from that and then send it to a real CA to sign it(which is impossible to demostrate here), or as we would do we will create a self signed certificate and then configure apache to use that.
 
 We will use Cent OS in this example because in ubuntu sort of setting are done. Lets quicky install apache and setup example.com:
 
-```text
+```
 ###Lets install and start apache service
 Complete!
 [root@localhost ~]# systemctl start httpd
@@ -172,7 +172,7 @@ ServerName www.example.com:80
 
 Okey lets start with generating self signed certificates:
 
-```text
+```
 [root@localhost ~]# mkdir /etc/httpd/ssl
 [root@localhost ~]# openssl req -x509 -nodes -days 365 \
 > -newkey rsa:2048 -keyout /etc/httpd/ssl/example.key \
@@ -198,9 +198,9 @@ Common Name (eg, your name or your server's hostname) []:example.com
 Email Address []:nowhere@example.com
 ```
 
--nodes option means that we are not going to encrypt private key, -days 365 define expiry date. rsa stands for tha asymmetric algorithem that we are used here. And now the certificate and the key should be created:
+\-nodes option means that we are not going to encrypt private key, -days 365 define expiry date. rsa stands for tha asymmetric algorithem that we are used here. And now the certificate and the key should be created:
 
-```text
+```
 [root@localhost ~]# cd /etc/httpd/ssl/
 [root@localhost ssl]# ls -l
 total 8
@@ -289,9 +289,9 @@ sXcb4X/GAyaP2f9CzhGlGoZ20I2IHxI9lexg4QZt7eSeXyaesEkBU+Dj3A==
 -----END CERTIFICATE-----
 ```
 
-Now we install apache module mod\_ssl:
+Now we install apache module mod_ssl:
 
-```text
+```
 [root@localhost ssl]# yum install mod_ssl
 ......
 ....
@@ -309,9 +309,9 @@ Complete!
 /var/cache/httpd/ssl
 ```
 
-Now lets go and see mod\_ssl main configuration file:
+Now lets go and see mod_ssl main configuration file:
 
-```text
+```
 [root@localhost ssl]#  cd /etc/httpd/conf.d/
 [root@localhost conf.d]# cat ssl.conf 
 #
@@ -534,7 +534,7 @@ CustomLog logs/ssl_request_log \
 
 Bellow the SSL Virtual Host Content we edit our Name Virtual Host Directive :
 
-```text
+```
 ##
 ## SSL Virtual Host Context
 ##
@@ -550,7 +550,7 @@ ServerName www.example.com:443
 
 Now lets tell apache where the Certificate File and key are :
 
-```text
+```
 #   Server Certificate:
 # Point SSLCertificateFile at a PEM encoded certificate.  If
 # the certificate is encrypted, then you will be prompted for a
@@ -568,7 +568,7 @@ SSLCertificateKeyFile /etc/httpd/ssl/example.key
 
 Now every thing seems fine Lets checks the configuration for syntax errors :
 
-```text
+```
 [root@localhost ~]# httpd -V
 AH00548: NameVirtualHost has no effect and will be removed in the next release /etc/httpd/conf.d/ssl.conf:56
 AH00526: Syntax error on line 96 of /etc/httpd/conf.d/ssl.conf:
@@ -577,7 +577,7 @@ Invalid command 'i', perhaps misspelled or defined by a module not included in t
 
 ops we got an error lets fix it and restrat the service:
 
-```text
+```
 [root@localhost ~]# vim /etc/httpd/conf.d/ssl.conf 
 [root@localhost ~]# httpd -V
 AH00548: NameVirtualHost has no effect and will be removed in the next release /etc/httpd/conf.d/ssl.conf:56
@@ -634,7 +634,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
 
 Finally check our web site in a secure manner:
 
-```text
+```
 [root@localhost ~]# elinks https://example.com
 ```
 
@@ -648,15 +648,14 @@ Using name-based virtual hosts with SSL adds another layer of complication. With
 
 The problem with using named virtual hosts over SSL is that named virtual hosts rely on knowing what hostname is being requested, and the request can't be read until the SSL connection is established. The ordinary behavior, then, is that the SSL connection is set up using the configuration in the default virtual host for the address where the connection was received.
 
-While Apache can renegotiate the SSL connection later after seeing the hostname in the request \(and does\), that's too late to pick the right server certificate to use to match the request hostname during the initial handshake, resulting in browser warnings/errors about certificates having the wrong hostname in them.
+While Apache can renegotiate the SSL connection later after seeing the hostname in the request (and does), that's too late to pick the right server certificate to use to match the request hostname during the initial handshake, resulting in browser warnings/errors about certificates having the wrong hostname in them.
 
 And while it's possible to put multiple hostnames in a modern certificate and just use that one certificate in the default vhost, there are many hosting providers who are hosting far too many sites on a single address for that to be practical for them.
 
-### Server Name Indication \(SNI\)
+### Server Name Indication (SNI)
 
-The solution is an extension to the SSL protocol called Server Name Indication \(RFC 4366\), which allows the client to include the requested hostname in the first message of its SSL handshake \(connection setup\). This allows the server to determine the correct named virtual host for the request and set the connection up accordingly from the start.
+The solution is an extension to the SSL protocol called Server Name Indication (RFC 4366), which allows the client to include the requested hostname in the first message of its SSL handshake (connection setup). This allows the server to determine the correct named virtual host for the request and set the connection up accordingly from the start.
 
-With SNI, we can have many virtual hosts sharing the same IP address and port, and each one can have its own unique certificate \(and the rest of the configuration\).
+With SNI, we can have many virtual hosts sharing the same IP address and port, and each one can have its own unique certificate (and the rest of the configuration).
 
 That seems enough for LPIC2 exam.
-

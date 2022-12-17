@@ -2,9 +2,9 @@
 
 ## **211.3 Managing Remote E-Mail Delivery**
 
-**Weight:** 2
+**Weight: **2
 
-**Description:** Candidates should be able to install and configure POP and IMAP daemons.
+**Description: **Candidates should be able to install and configure POP and IMAP daemons.
 
 **Key Knowledge Areas:**
 
@@ -19,17 +19,17 @@
 * doveconf
 * doveadm
 
-POP3 and IMAP are two famous protocols which are used to let us check our mail box remotly. There some deamons which seat beside Mail servers\(MTAs\) and provide these two protocols such as:
+POP3 and IMAP are two famous protocols which are used to let us check our mail box remotly. There some deamons which seat beside Mail servers(MTAs) and provide these two protocols such as:
 
 * Courier
 * Dovecot
 
 ## POP3 vs IMAP
 
-| POP3 \(**Post Office Protocol**\) | IMAP\(Internet Message Access Protocol\) |
-| :--- | :--- |
-| Downloads e-mails\(could be configured to leave a copy on server\) | e-mails stay on the server |
-| Mails are stored on the clients | Clients read e-mail remotely |
+| POP3 (**Post Office Protocol**)                                  | IMAP(Internet Message Access Protocol) |
+| ---------------------------------------------------------------- | -------------------------------------- |
+| Downloads e-mails(could be configured to leave a copy on server) | e-mails stay on the server             |
+| Mails are stored on the clients                                  | Clients read e-mail remotely           |
 
 The main advantage of IMAP over POP3 is the ability to keep the original e-mail stored on the mail server and the ability to access the same account from multiple locations. Unlike POP3 where e-mail is downloaded to the computer or device checking for mail and completely removed from the mail server, IMAP simply downloads a copy of the e-mail. This is much more convenient as the e-mail account can be set up on multiple computers and devices using IMAP and the original e-mail will always remain on the mail server.
 
@@ -45,11 +45,11 @@ Courier is one of the oldest MTAs in the open source world and consequently it i
 
 Parts of Courier, such as the maildrop filtering system, the webmail and IMAP server, can also be installed as independent packages which can be used with other mail servers. It is best known for its IMAP server component.
 
-Courier-IMAP is a particularly popular combination with Qmail, Exim, and Postfix servers that are configured to use **maildirs**.
+Courier-IMAP is a particularly popular combination with Qmail, Exim, and Postfix servers that are configured to use** maildirs**.
 
-Here we use Ubuntu to have a quick look at courier, \(Unfortunately there are no rpm packages for Courier-IMAP, Courier-Authlib, and Maildrop, therefore we have to build them \) :
+Here we use Ubuntu to have a quick look at courier, (Unfortunately there are no rpm packages for Courier-IMAP, Courier-Authlib, and Maildrop, therefore we have to build them ) :
 
-```text
+```
 root@server1:~# apt-cache search courier | grep courier
 courier-authdaemon - Courier authentication daemon
 courier-authlib - Courier authentication library
@@ -87,7 +87,7 @@ root@server1:~# apt-get install courier-imap courier-pop
 
 during installtion if it ask for configuring web-based Administration say "no" and lets make our hands dirty with the command line:
 
-```text
+```
  ┌───────────────────────┤Configuring courier-base ├────────────────────────┐
  │                                                                           │ 
  │ Courier uses several configuration files in /etc/courier. Some of these   │ 
@@ -106,7 +106,7 @@ during installtion if it ask for configuring web-based Administration say "no" a
 
 it makse two configuration files:
 
-```text
+```
 root@server1:~# cd /etc/courier/
 root@server1:/etc/courier# ls -l
 total 28
@@ -118,7 +118,7 @@ drwxr-xr-x 2 daemon daemon  4096 May 27 04:23 shared
 
 Lets take a look at imapd configuration file:
 
-```text
+```
   root@server1:/etc/courier# cat imapd 
 ##VERSION: $Id: imapd.dist.in 159 2011-11-14 02:07:00Z mrsam $
 #
@@ -566,7 +566,7 @@ MAILDIRPATH=Maildir
 
 define the same setting in `pop3d` file for POP3 protocol.
 
-```text
+```
 root@server1:/etc/courier# cat pop3d | grep -v "^#"
 
 PIDFILE=/var/run/courier/pop3d.pid
@@ -617,7 +617,7 @@ MAILDIRPATH=mail/inbox
 
 and do not forget to restart teh services:
 
-```text
+```
 root@server1:/etc/courier# systemctl restart courier-imap.service 
 root@server1:/etc/courier# systemctl restart courier-pop.service
 ```
@@ -628,7 +628,7 @@ time to check the result with an e-mail client, we used Mozilla thunder bird her
 
 check it with both imap and pop3 and make sure it is working.
 
-## Dovecot ![](.gitbook/assets/dovecot-logo.png)
+## Dovecot ![](.gitbook/assets/Dovecot-logo.png)
 
 Dovecot is an open-source IMAP and POP3 server for Linux/UNIX-like systems, written primarily with security in mind.Timo Sirainen originated Dovecot and first released it in July 2002. Dovecot developers primarily aim to produce a lightweight, fast and easy-to-set-up open-source mailserver.
 
@@ -636,9 +636,9 @@ Primary purpose of dovecot is to act as mail storage server. Mail is delivered t
 
 According to Openemailsurvey Dovecot has an installed base of more than 3 million email servers and a global market share of 68% of all IMAP servers. While Dovecot software can be used commercially without any license fees, a commercial version is also available as Dovecot Pro. The commercial version is provided by Dovecot Oy along with support and enterprise add-ons such as the object storage and full-text search plugins. Since March 2015, Dovecot Oy has been part of the Open-Xchange Family.
 
-good news about **dovecot** is that it supports both mail store formats, **mbox** and **maildir**.
+good news about **dovecot **is that it supports both mail store formats, **mbox** and **maildir**.
 
-```text
+```
 root@server1:~# apt-cache search dovecot | grep dovecot
 dovecot-core - secure POP3/IMAP server - core files
 dovecot-dbg - secure POP3/IMAP server - debug symbols
@@ -663,9 +663,9 @@ fusiondirectory-plugin-dovecot-schema - LDAP schema for FusionDirectory dovecot 
 mysqmail-dovecot-logger - real-time logging system in MySQL - Dovecot traffic-logger
 ```
 
-dovecot has a long list of packages but here we just focus on packages for e-mail access.\( Do not forget to remove any other e-mail access software before devecot installation inorder to avoid confilicts `apt-get purge courier*` \).
+dovecot has a long list of packages but here we just focus on packages for e-mail access.( Do not forget to remove any other e-mail access software before devecot installation inorder to avoid confilicts `apt-get purge courier*` ).
 
-```text
+```
 root@server1:~# apt-get install dovecot-imapd dovecot-pop3d
 ```
 
@@ -675,7 +675,7 @@ for providing secure imap and pop3 dovecot generates its own self-signed certifi
 
 The configuration of Dovecot can be found in /etc/dovecot.conf
 
-```text
+```
 root@server1:~# cd /etc/dovecot/
 root@server1:/etc/dovecot# ls -l
 total 36
@@ -725,7 +725,7 @@ root@server1:/etc/dovecot# tree
 
 it is consist of the mail configuration file `dovecot.conf` and many other configuration files in `conf.d` directory which are included.
 
-```text
+```
 root@server1:/etc/dovecot# grep include dovecot.conf 
 !include_try /usr/share/dovecot/protocols.d/*.protocol
 # Most of the actual configuration gets included below. The filenames are
@@ -738,7 +738,7 @@ please note that `!include` means "include" and the "!" doesn't make negative me
 
 ### dovecot.conf
 
-```text
+```
 root@server1:/etc/dovecot# cat dovecot.conf 
 ## Dovecot configuration file
 
@@ -846,7 +846,7 @@ dict {
 
 for configuring dovecot we go through conf.d directory:
 
-```text
+```
 root@server1:/etc/dovecot# cd conf.d/
 root@server1:/etc/dovecot/conf.d# ls
 10-auth.conf        15-mailboxes.conf            auth-dict.conf.ext
@@ -859,9 +859,9 @@ root@server1:/etc/dovecot/conf.d# ls
 15-lda.conf         auth-deny.conf.ext
 ```
 
-We just need to define which directory mails are stored in 10-mail.conf file \(For configuring dovecot inorder to allow special mail clients like outlook modify 20-pop3.conf or 20-imap.conf which are not part of LPIC exam\) :
+We just need to define which directory mails are stored in 10-mail.conf file (For configuring dovecot inorder to allow special mail clients like outlook modify 20-pop3.conf or 20-imap.conf which are not part of LPIC exam) :
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# cat 10-mail.conf | grep mail_location
 # path given in the mail_location setting.
 #   mail_location = maildir:~/Maildir
@@ -871,11 +871,11 @@ mail_location = mbox:~/mail:INBOX=/var/mail/%u
   # mail_location, which is also the default for it.
 ```
 
-set mail\_location value to `mail_location = maildir:~/mail/inbox` .
+set mail_location value to `mail_location = maildir:~/mail/inbox` .
 
 dovecot does not have seperate services for imap and pop3, it has just one deamon and we need tor restart that inorder to our changes take effect:
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# systemctl restart dovecot.s
 dovecot.service  dovecot.socket   
 root@server1:/etc/dovecot/conf.d# systemctl restart dovecot.service
@@ -883,7 +883,7 @@ root@server1:/etc/dovecot/conf.d# systemctl restart dovecot.service
 
 to make wheather dovecot is working properly:
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# lsof -i | grep dovecot
 dovecot   9805     root   24u  IPv4  55915      0t0  TCP *:pop3 (LISTEN)
 dovecot   9805     root   25u  IPv6  55916      0t0  TCP *:pop3 (LISTEN)
@@ -901,7 +901,7 @@ tcp6       0      0 :::110                  :::*                    LISTEN      
 
 okey this time we use tell to test what we have done :
 
-```text
+```
 user1@server1:~$ telnet localhost 110
 Trying 127.0.0.1...
 Connected to localhost.
@@ -941,13 +941,13 @@ Connection closed by foreign host.
 
 doveconf reads and parses Dovecot's configuration files and converts them into a simpler format used by the rest of Dovecot. :
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# doveconf | less
 ```
 
 Most of them are defualt values but some of them are customized values. `-n` Show only settings with non-default values.
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# doveconf -n
 # 2.2.22 (fe789d2): /etc/dovecot/dovecot.conf
 # Pigeonhole version 0.4.13 (7b14904)
@@ -987,7 +987,7 @@ userdb {
 
 Dovecot is now automatically configured to use SSL. It uses the package ssl-cert which provides a self signed certificate. Wecan edit the file /etc/dovecot/conf.d/10-ssl.conf .
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# cat 10-ssl.conf 
 ##
 ## SSL settings
@@ -1055,14 +1055,14 @@ ssl = no
 
 By default the certificate is created to /etc/ssl/certs/dovecot.pem and the private key file is created to /etc/ssl/private/dovecot.pem.We can edit following lines if we want to set up a custom certificate:
 
-```text
+```
 ssl_cert = </etc/dovecot/dovecot.pem
 ssl_key = </etc/dovecot/private/dovecot.key
 ```
 
 We can get the SSL certificate from a Certificate Issuing Authority or we can create self signed SSL certificate. Once we create the certificate, we will have a key file and a certificate file that we want to make known in the config shown above.
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# openssl req -new -x509 -days 1000 -nodes -out "/etc/dovecot/dovecot.pem" -keyout "/etc/dovecot/private/dovecot.key"
 Generating a 2048 bit RSA private key
 .......+++
@@ -1095,7 +1095,7 @@ root@server1:/etc/dovecot# ls -l | grep pem
 
 Now lets edit 10-ssl.conf and restart dovecot daemon:
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# vim 10-ssl.conf 
 root@server1:/etc/dovecot/conf.d# systemctl restart dovecot.service 
 root@server1:/etc/dovecot/conf.d# lsof -i | grep dovecot
@@ -1109,9 +1109,9 @@ dovecot   12447     root   40u  IPv4  77013      0t0  TCP *:imaps (LISTEN)
 dovecot   12447     root   41u  IPv6  77014      0t0  TCP *:imaps (LISTEN)
 ```
 
-now lets get connected our server over pop3s\(995\) and imaps\(993\) protocols using open ssl utility:
+now lets get connected our server over pop3s(995) and imaps(993) protocols using open ssl utility:
 
-```text
+```
 user1@server1:~$ openssl s_client -connect server1:995
 CONNECTED(00000003)
 depth=0 C = us, ST = wc, O = mycompany, OU = IT, CN = example.com, emailAddress = nowhere@example.com
@@ -1277,7 +1277,7 @@ SSL-Session:
 
 doveadm is the Dovecot administration tool. It can be used to manage various parts of Dovecot, as well as access users' mailboxes.Execute doveadm help, for a command usage listing.
 
-```text
+```
 root@server1:/etc/dovecot/conf.d# doveadm help
 usage: doveadm [-Dv] [-f <formatter>] <command> [<args>]
 
@@ -1326,4 +1326,3 @@ usage: doveadm [-Dv] [-f <formatter>] <command> [<args>]
 try `man doveadm` too !
 
 that's all!
-

@@ -43,20 +43,20 @@ RAM is like a gateway of a town, everything goes through RAM. If we have a proce
 
 As it seeam RAM is pretty busy and always in need.Linux uses some Techniques to over come problem, to make it simple lets explain Memory Terminology
 
-| Item | Description |
-| :--- | :--- |
-| Page | The blocks that are used in memory, Ususally 4K size |
-| Paging | Used to get memory from secondary storage to primary storage |
-| Swap | emulated memory  on HDD |
-| Virtual Memory | Total allocatable  memory, \[known as process address space\]Linux supports Tera Bytes of virtual memory and use TLB to allocate physial memory. |
-| Translation Look aside Buffer\(TLB\) | Kind of cache which speedup translation between RAM and virtual memory, stored in RAM |
-| Page cache | Recently used  memory pages are stored here\(not cpu cache \) Used for parked data |
-| Dirty Cache | Data which are waiting to go to HDD from RAM\(Works Like a buffer\) |
-| Buffers | Used for some Block devices and cache file system metadata.not really important |
+| Item                               | Description                                                                                                                                     |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Page                               | The blocks that are used in memory, Ususally 4K size                                                                                            |
+| Paging                             | Used to get memory from secondary storage to primary storage                                                                                    |
+| Swap                               | emulated memory  on HDD                                                                                                                         |
+| Virtual Memory                     | Total allocatable  memory, \[known as process address space]Linux supports Tera Bytes of virtual memory and use TLB to allocate physial memory. |
+| Translation Look aside Buffer(TLB) | Kind of cache which speedup translation between RAM and virtual memory, stored in RAM                                                           |
+| Page cache                         | Recently used  memory pages are stored here(not cpu cache ) Used for parked data                                                                |
+| Dirty Cache                        | Data which are waiting to go to HDD from RAM(Works Like a buffer)                                                                               |
+| Buffers                            | Used for some Block devices and cache file system metadata.not really important                                                                 |
 
 Lets explorer whats going inside with some tools and commands.
 
-```text
+```
 root@server1:~# vmstat
 procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
@@ -65,7 +65,7 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 
 the command vmstat show virtual memory status and some other information. For periodic check with interval you can use `vmstat 2 5`. Lets try free command:
 
-```text
+```
 root@server1:~# free -h
               total        used        free      shared  buff/cache   available
 Mem:           971M        637M         93M         36M        241M        116M
@@ -80,9 +80,9 @@ as you can see 241M is allocated to buff/cache. to clear buff/cache:
 
 this system just has 1 GigaByte of Ram, so obviously it starts using swap, Whats swappiness?
 
-Swappiness is the kernel parameter that defines how much \(and how often\) your Linux kernel will copy RAM contents to swap. This parameter's default value is “60” and it can take anything from “0” to “100”. The higher the value of the swappiness parameter, the more aggressively your kernel will swap.
+Swappiness is the kernel parameter that defines how much (and how often) your Linux kernel will copy RAM contents to swap. This parameter's default value is “60” and it can take anything from “0” to “100”. The higher the value of the swappiness parameter, the more aggressively your kernel will swap.
 
-```text
+```
 root@server1:~# cd /proc/sys/vm/
 root@server1:/proc/sys/vm# cat swappiness 
 60
@@ -93,20 +93,20 @@ root@server1:/proc/sys/vm# echo 90 > swappiness
 
 Monitor and measure the load that you have put on your system by uptime command:
 
-```text
+```
 root@server1:~# uptime
  06:05:24 up  7:02,  1 user,  load average: 0.85, 1.04, 1.08
 ```
 
-uptime command shows uptime obviously :\), number of current logged users, and Load average in last 1 min, Last 5 min and last 15 min.The way that uptime calculate system load average is base on CPU Load average and Disk I/O.But the way it shows Load Average is base on \# of CPU cores. So to find out % of Real System Load we need some calculations:
+uptime command shows uptime obviously :), number of current logged users, and Load average in last 1 min, Last 5 min and last 15 min.The way that uptime calculate system load average is base on CPU Load average and Disk I/O.But the way it shows Load Average is base on # of CPU cores. So to find out % of Real System Load we need some calculations:
 
-```text
+```
 (Load average / number of cpu cores) x 100 ===> %real load average in our system
 ```
 
 so if you are going beyond your CPU capability.You need to investigate more. Sometimes CPU is the bottleneck and some times Disk is bottleneck. top command is here to help us :
 
-```text
+```
 top - 05:06:59 up  6:04,  1 user,  load average: 0.44, 0.16, 0.05
 Tasks: 239 total,   3 running, 236 sleeping,   0 stopped,   0 zombie
 %Cpu(s): 98.9 us,  1.1 sy,  0.0 ni,  0.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
@@ -135,23 +135,23 @@ KiB Swap:  1045500 total,   571124 free,   474376 used.   180436 avail Mem
 
 top command gives us information about system uptime, load avarage, and detailed info about processes. top also has some tricks:
 
-| Key | Description |
-| :--- | :--- |
-| press "1" | shows all cpu cores load |
-| "shift" + "&lt;" or "&gt;" | sort top based on different culoms |
-| "shift" + "p" | sort based CPU usage |
-| "shift" + "m" | sort based memory usage |
-| press "c" | shows absolute patch of process |
-| press "z" | will running process in color |
-| press "d" and then delay number | by default top command runs every 3.0 second |
-| press "k" and insetr PID of process | Kill the process by using PID |
-| press "r"  and PID of process | to renice a process |
-| "shift" + "w" | ro write top command results |
-| press "q" | to exit |
+| Key                                 | Description                                  |
+| ----------------------------------- | -------------------------------------------- |
+| press "1"                           | shows all cpu cores load                     |
+| "shift" + "<" or ">"                | sort top based on different culoms           |
+| "shift" + "p"                       | sort based CPU usage                         |
+| "shift" + "m"                       | sort based memory usage                      |
+| press "c"                           | shows absolute patch of process              |
+| press "z"                           | will running process in color                |
+| press "d" and then delay number     | by default top command runs every 3.0 second |
+| press "k" and insetr PID of process | Kill the process by using PID                |
+| press "r"  and PID of process       | to renice a process                          |
+| "shift" + "w"                       | ro write top command results                 |
+| press "q"                           | to exit                                      |
 
 So top command is usefull for monitoring both CPU and RAM and also show us I/O wait processes.For more detailed lets take a look at third line of top command result. Linux has two Spaces from OS point of view, User space and System space , top command classified process this way :
 
-```text
+```
 us:% CPU time spent in user space #####Linux has two Spaces from OS point of view, User space and Kernel space 
 sy:% CPU time spent in kernel space####
 ni:% CPU time spent on low priority processes
@@ -162,13 +162,13 @@ si:% CPU time spent servicing/handling software interrupts
 st:% CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor
 ```
 
-did you see wa? it shows IO wait processes and it happens when the bottleneck is Disk. In this condition a process needs some data to be read from the Hard Disk, but Hard Disk is pretty busy and can not read Data When is needed. So poor process must be waited till Disk dose its jobs. Process is I/O Blocked and sleep :\) from CPU point of view process goes in an "Unintrruptable Sleep".This Condition is so bad because we can't even kill that process :\( so monitor processes with top command and always make sure that % of I/O waited process is Zero.
+did you see wa? it shows IO wait processes and it happens when the bottleneck is Disk. In this condition a process needs some data to be read from the Hard Disk, but Hard Disk is pretty busy and can not read Data When is needed. So poor process must be waited till Disk dose its jobs. Process is I/O Blocked and sleep :) from CPU point of view process goes in an "Unintrruptable Sleep".This Condition is so bad because we can't even kill that process :( so monitor processes with top command and always make sure that % of I/O waited process is Zero.
 
 ## Measure disk I/O
 
-If finally we have detected that the problem is Disk speed, We should monitor Disk I/O, top command is amazing but we need to know what program has caused the problem. we use iotop \[need to be installed based on your distro, kernel &gt;= 2.6 \]:
+If finally we have detected that the problem is Disk speed, We should monitor Disk I/O, top command is amazing but we need to know what program has caused the problem. we use iotop \[need to be installed based on your distro, kernel >= 2.6 ]:
 
-```text
+```
 Total DISK READ :     805.10 B/s | Total DISK WRITE :      43.24 K/s
 Actual DISK READ:     805.10 B/s | Actual DISK WRITE:      34.59 K/s
    TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO>    COMMAND         
@@ -195,9 +195,9 @@ Actual DISK READ:     805.10 B/s | Actual DISK WRITE:      34.59 K/s
     18 be/0 root        0.00 B/s    0.00 B/s  0.00 %  0.00 % [kworker/1:0H
 ```
 
-There is another tool which gives us less info but its quick and handy, Like vmstat that we have talked about, we have iostat which gives us a snap shot of current situation of Disk I/O: \[iostat is a part of sysstat package and need to be installed\]:
+There is another tool which gives us less info but its quick and handy, Like vmstat that we have talked about, we have iostat which gives us a snap shot of current situation of Disk I/O: \[iostat is a part of sysstat package and need to be installed]:
 
-```text
+```
 root@server1:~# iostat
 Linux 4.10.0-28-generic (server1)     11/29/2017     _x86_64_    (4 CPU)
 
@@ -208,9 +208,9 @@ Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn
 sda             126.67      2487.11      5265.57    3756449    7952952
 ```
 
-There is another tool which is sar, yes that is funny because that is the name of a bird in Farsi :\) but here it is acronym for "System Activity Report". For running sar command you should define delay and time for it:
+There is another tool which is sar, yes that is funny because that is the name of a bird in Farsi :) but here it is acronym for "System Activity Report". For running sar command you should define delay and time for it:
 
-```text
+```
 root@server1:~# sar 1 7
 Linux 4.10.0-28-generic (server1)     11/29/2017     _x86_64_    (4 CPU)
 
@@ -227,7 +227,7 @@ Average:        all      0.54      0.00      0.43      0.00      0.00     99.03
 
 Some times we need to know what files are opened in out system. Weather we have performance issue or just for monitoring whats going on before rebooting the computer. lsof gives us " LiSt of Open Files" :
 
-```text
+```
 COMMAND     PID  TID             USER   FD      TYPE             DEVICE SIZE/OFF       NODE NAME
 systemd       1                  root  cwd       DIR                8,1     4096          2 /
 systemd       1                  root  rtd       DIR                8,1     4096          2 /
@@ -260,7 +260,7 @@ By spreading Internet and growth of personal Networks, the importance of Network
 
 Let add another member to top series commands, iftop. iftop gives you info about Sessions on your NIC and sort them based on transfer rate.
 
-```text
+```
                 12.5Kb          25.0Kb          37.5Kb          50.0Kb    62.5Kb
 └───────────────┴───────────────┴───────────────┴───────────────┴───────────────
 192.168.10.131             => ec2-52-35-5-132.us-west-2   444b   1.76Kb   450b
@@ -287,13 +287,13 @@ RX:                    28.0KB           62.1Kb           1.10Kb  20.4Kb  5.46Kb
 TOTAL:                 39.8KB           82.6Kb           1.53Kb  28.2Kb  7.70Kb
 ```
 
-Like top, you can use &lt; &gt; keys to sort based on different columns, and you can prees 1 or 2 or 3 inorder to sort based on last 2secs, 10 secs or 40 secs network activities. also you can pick specific Interface by using iftop -i eth1
+Like top, you can use < > keys to sort based on different columns, and you can prees 1 or 2 or 3 inorder to sort based on last 2secs, 10 secs or 40 secs network activities. also you can pick specific Interface by using iftop -i eth1
 
 ### nload
 
 Networl Load nload is another Handy tool, this time for monitoring current bandwidth.
 
-```text
+```
 Device ens33 [192.168.10.131] (1/2):
 ================================================================================
 Incoming:
@@ -318,7 +318,7 @@ If you have enjoyed then try ifstat for yourself.
 
 For Testing Connection between two nodes of network we have nice iperf tool.
 
-```text
+```
 ### MAchine A 192.168.10.131 ### as server###
 root@server1:~# iperf -s
 ------------------------------------------------------------
@@ -341,13 +341,13 @@ TCP window size: 85.0 KByte (default)
 [  3]  0.0-10.0 sec  3.44 GBytes  2.96 Gbits/sec
 ```
 
-as both of nodes in my example are virtual machines, you can see amazing 2.95 Gbits/sec bandwidth. Who knows some day in future this might happened in real world :\)
+as both of nodes in my example are virtual machines, you can see amazing 2.95 Gbits/sec bandwidth. Who knows some day in future this might happened in real world :)
 
 And finally, lets introduce a tiny tool to check you internet speed from command line:
 
 apt install speedtest-cli
 
-```text
+```
 root@server1:~# speedtest
 Retrieving speedtest.net configuration...
 Retrieving speedtest.net server list...
@@ -365,4 +365,3 @@ Upload: 3.23 Mbit/s
 .
 
 .
-

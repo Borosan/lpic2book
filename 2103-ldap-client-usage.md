@@ -21,7 +21,7 @@ This course is about LDAP Client utilities and their usage. Obviously we need an
 
 ## We recommend you to study 210.4 course before start reading this course :-o
 
- **note**:LDAP client utilities usage might be different based on OpenLDAP server versions. To get the best results and covering LPIC2 exam objectives, we have used OpenLDAP v2.3.x on CentOS 5 in this course.
+** note**:LDAP client utilities usage might be different based on OpenLDAP server versions. To get the best results and covering LPIC2 exam objectives, we have used OpenLDAP v2.3.x on CentOS 5 in this course.
 
 ## ldapsearch
 
@@ -29,7 +29,7 @@ ldapsearch opens a connection to an LDAP server, binds, and performs a search us
 
 Now that some LDAP configuration has been added, lets check the results using ldapsearch command:
 
-```text
+```
 [root@centos5-1 openldap]# ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
 # extended LDIF
 #
@@ -57,7 +57,7 @@ The ldapadd command is an LDAP add-entry tool. Here we use ldapadd command which
 
 Create OU inorder to give structure to our Directory Server, again we need to required ldif file:
 
-```text
+```
 [root@centos5-1 openldap]# vi myou.ldif
 [root@centos5-1 openldap]# cat myou.ldif 
 dn: ou=managers,dc=example,dc=com
@@ -68,17 +68,17 @@ objectclass: organizationalunit
 
 and lets run ldapadd commands :
 
-```text
+```
 [root@centos5-1 openldap]# ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f myou.ldif
 Enter LDAP Password: 
 adding new entry "ou=managers,dc=example,dc=com"
 ```
 
-`-x` means use simple authentication,`-D`says that the admin account is setup here to adding things to our configuration, `-W` Prompt for simple authentication \(This is used instead of specifying the password on the command line\).`-f` specify ldif file.
+`-x` means use simple authentication,`-D`says that the admin account is setup here to adding things to our configuration, `-W` Prompt for simple authentication (This is used instead of specifying the password on the command line).`-f` specify ldif file.
 
 Use slapcat command to see the results:
 
-```text
+```
 [root@centos5-1 openldap]# slapcat
 dn: dc=example,dc=com
 dc: example
@@ -109,7 +109,7 @@ modifyTimestamp: 20180828105120Z
 
 Now that we have "managers" ou we can add a record to it:
 
-```text
+```
 [root@centos5-1 openldap]# vi myuser.ldif
 [root@centos5-1 openldap]# cat myuser.ldif
 dn: cn=Bob Smith,ou=managers,dc=example,dc=com
@@ -131,7 +131,7 @@ ou: IT Department
 
 For more info about objectClass "inetOrgperson" try cat schema/inetorgperson.schema .
 
-```text
+```
 [root@centos5-1 openldap]# ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f myuser.ldif 
 Enter LDAP Password:
 adding new entry "cn=Bob Smith,ou=managers,dc=example,dc=com"
@@ -139,7 +139,7 @@ adding new entry "cn=Bob Smith,ou=managers,dc=example,dc=com"
 
 and check:
 
-```text
+```
 [root@centos5-1 openldap]# slapcat
 dn: dc=example,dc=com
 dc: example
@@ -170,7 +170,7 @@ modifyTimestamp: 20180828105120Z
 
 lets add more users and OUs to our LDAP server:
 
-```text
+```
 [root@centos5-1 openldap]# cat moreusers.ldif 
 dn: cn=James Smith,ou=managers,dc=example,dc=com
 objectclass: inetOrgPerson
@@ -201,7 +201,7 @@ mail: maria.garcia@example.com
 ou: managers
 ```
 
-```text
+```
 [root@centos5-1 openldap]# ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f moreusers.ldif
 Enter LDAP Password: 
 adding new entry "cn=James Smith,ou=managers,dc=example,dc=com"
@@ -209,7 +209,7 @@ adding new entry "cn=James Smith,ou=managers,dc=example,dc=com"
 adding new entry "cn=Maria Garcia,ou=managers,dc=example,dc=com"
 ```
 
-```text
+```
 [root@centos5-1 openldap]# cat moreou.ldif 
 ### Add Users OU
 dn: ou=users,dc=example,dc=com
@@ -225,7 +225,7 @@ description: Sales group OU
 objectclass: organizationalunit
 ```
 
-```text
+```
 [root@centos5-1 openldap]# ldapadd -x -D "cn=ldapadm,dc=example,dc=com" -W -f moreou.ldif
 Enter LDAP Password: 
 adding new entry "ou=users,dc=example,dc=com"
@@ -235,7 +235,7 @@ adding new entry "ou=sales,dc=example,dc=com"
 
 and see current Directory Structure in our LDAP server:
 
-```text
+```
 [root@centos5-1 openldap]# slapcat
 dn: dc=example,dc=com
 dc: example
@@ -331,7 +331,7 @@ modifyTimestamp: 20180828110103Z
 
 Check the result using ldapsearch :
 
-```text
+```
 [root@centos5-1 openldap]# ldapsearch -x -b 'ou=managers,dc=example,dc=com' '(objectclass=inetorgperson)' uid
 # extended LDIF
 #
@@ -359,7 +359,7 @@ result: 0 Success
 
 lets request for passwords to see wether it gives us or not:
 
-```text
+```
 [root@centos5-1 openldap]# ldapsearch -x -b 'ou=managers,dc=example,dc=com' '(objectclass=inetorgperson)' password
 # extended LDIF
 #
@@ -385,7 +385,7 @@ result: 0 Success
 
 it won't give us the password, no matter which user is performing this request. We can just see hashed passwords using slapcat command:
 
-```text
+```
 [root@centos5-1 openldap]# slapcat
 dn: dc=example,dc=com
 dc: example
@@ -481,7 +481,7 @@ modifyTimestamp: 20180828110103Z
 
 another example of ldapsearch for searching for a specific user:
 
-```text
+```
 [root@centos5-1 openldap]# ldapsearch -x -b 'ou=managers,dc=example,dc=com' '(cn=Maria Garcia)' uid
 # extended LDIF
 #
@@ -505,7 +505,7 @@ result: 0 Success
 
 But that is lots of information. By using `-L` switche Search results are display in LDAP Data Interchange Format detailed in ldif. A single `-L` restricts the output to LDIFv1. A second`-L` disables comments. A third`-L` disables printing of the LDIF version. The default is to use an extended version of LDIF.
 
-```text
+```
 [root@centos5-1 openldap]# ldapsearch -L -x -b 'ou=managers,dc=example,dc=com' '(cn=Maria Garcia)' uid
 version: 1
 
@@ -526,7 +526,7 @@ uid: mgarcia
 # numEntries: 1
 ```
 
-```text
+```
 [root@centos5-1 openldap]# ldapsearch -LL -x -b 'ou=managers,dc=example,dc=com' '(cn=Maria Garcia)' uid
 version: 1
 
@@ -534,7 +534,7 @@ dn: cn=Maria Garcia,ou=managers,dc=example,dc=com
 uid: mgarcia
 ```
 
-```text
+```
 [root@centos5-1 openldap]# ldapsearch -LLL -x -b 'ou=managers,dc=example,dc=com' '(cn=Maria Garcia)' uid
 dn: cn=Maria Garcia,ou=managers,dc=example,dc=com
 uid: mgarcia
@@ -544,7 +544,7 @@ uid: mgarcia
 
 We have used ldappasswd to generat hashed password for LDAP Admin user but we can use it to restart users passwords too:
 
-```text
+```
 [root@centos5-1 openldap]# ldappasswd -x -D "cn=ldapadm,dc=example,dc=com" -s UserNewPassword -W "cn=Maria Garcia,ou=managers,dc=example,dc=com"
 Enter LDAP Password: 
 Result: Success (0)
@@ -552,7 +552,7 @@ Result: Success (0)
 
 `-x` for simple authentication , `-D` say this is the user that has the authorizationon on this particular directory server inorder to make these kind of changes, `-s` to set what ever password we like, -w for getting prompted for rootdn password, and finally secify who we are quering for. Now lets check th old password hash `QWExMjM0NQ==` with the new one:
 
-```text
+```
 [root@centos5-1 openldap]# slapcat
 dn: dc=example,dc=com
 dc: example
@@ -648,7 +648,7 @@ modifyTimestamp: 20180828111845Z
 
 To avoid setting password in the command use `-S` option:
 
-```text
+```
 [root@centos5-1 openldap]# ldappasswd -x -D "cn=ldapadm,dc=example,dc=com" -S -W "cn=Maria Garcia,ou=managers,dc=example,dc=com"
 New password: 
 Re-enter new password: 
@@ -662,14 +662,14 @@ and check the previous password hash with the new one using slapcat command.
 
 lapdelete using similar information like ldapadd, ldapsearch and ldappasswd. It allows us to delete a record. Lets delete "Maria Garcia"
 
-```text
+```
 [root@centos5-1 openldap]# ldapdelete "cn= Maria Garcia,ou=managers,dc=example,dc=com" -x -D "cn=ldapadm,dc=example,dc=com" -W
 Enter LDAP Password:
 ```
 
 to make sure that the record has been deleted try to delete it again:
 
-```text
+```
 [root@centos5-1 openldap]# ldapdelete "cn= Maria Garcia,ou=managers,dc=example,dc=com" -x -D "cn=ldapadm,dc=example,dc=com" -W
 Enter LDAP Password: 
 ldap_delete: No such object (32)
@@ -679,4 +679,3 @@ ldap_delete: No such object (32)
 and it will bark that the object does not exist.
 
 Now we are able to use lapadd, lapsearch and lapdelete both on the client and the server.
-

@@ -4,7 +4,7 @@
 
 **Weight:** 3
 
-**Description:** Candidates should be able to configure a network device to be able to connect to a local, wired or wireless, and a wide-area network. This objective includes being able to communicate between various subnets within a single network including both IPv4 and IPv6 networks.
+**Description: **Candidates should be able to configure a network device to be able to connect to a local, wired or wireless, and a wide-area network. This objective includes being able to communicate between various subnets within a single network including both IPv4 and IPv6 networks.
 
 **Key Knowledge Areas:**
 
@@ -27,17 +27,17 @@ In this course we spend some time on Networking tools and review what we has lea
 
 Network Configuration in Linux can be pretty confusing. In linux, Network setting can be done in different levels and each level has different tools.
 
-![](.gitbook/assets/networkconfiguration.jpg)
+![](.gitbook/assets/NetworkConfiguration.jpg)
 
 here we mostly talk about run time configuration tools although some times we say where to save configs to make it persistence.
 
 ## ifconfig
 
-ifconfig \(interface configuration\) is a utility to configure, manage and query network interface parameters via command line interface or in a system configuration scripts.
+ifconfig (interface configuration) is a utility to configure, manage and query network interface parameters via command line interface or in a system configuration scripts.
 
 The ifconfig command is used for displaying current network configuration information, setting up an ip address, netmask or broadcast address to an network interface, creating an alias for network interface, setting up hardware address and enable or disable network interfaces.
 
-```text
+```
 root@server1:~# ifconfig 
 ens33     Link encap:Ethernet  HWaddr 00:0c:29:03:64:0d  
           inet addr:192.168.10.152  Bcast:192.168.10.255  Mask:255.255.255.0
@@ -60,25 +60,25 @@ lo        Link encap:Local Loopback
 
 Now let have a review over ifconfig command family:
 
-| ifconfig command | Description |
-| :--- | :--- |
-| ifconfig | Display all Active Network Interfaces. |
-| ifconfig -a | Display all Network Interfaces \(weather Enable or Disable\) |
-| ifconfig eth0 | Network Settings of specific Interface |
-| ifconfig eth0 \[up/down\] | Enable or Disable a Network Interface |
-| ifconfig eth0 192.168.10.63 | Assign an IP Address   to Network Interface |
-| ifconfig eth0 netmask 255.255.255.0 | Assign a Networkmask  to Network Interface |
-| ifconfig broadcast  192.168.10.255 | Assign a Broadcast to Network Interface |
-| ifconfig eth0 192.168.10.63 netmask 255.255.255.0 | Set both IP Address and netmask at the |
-| ifconfig  eth0 hw ether AA:BB:CC:DD:EE:FF | Change the mac Address of Network  Interface |
+| ifconfig command                                  | Description                                                |
+| ------------------------------------------------- | ---------------------------------------------------------- |
+| ifconfig                                          | Display all Active Network Interfaces.                     |
+| ifconfig -a                                       | Display all Network Interfaces (weather Enable or Disable) |
+| ifconfig eth0                                     | Network Settings of specific Interface                     |
+| ifconfig eth0 \[up/down]                          | Enable or Disable a Network Interface                      |
+| ifconfig eth0 192.168.10.63                       | Assign an IP Address   to Network Interface                |
+| ifconfig eth0 netmask 255.255.255.0               | Assign a Networkmask  to Network Interface                 |
+| ifconfig broadcast  192.168.10.255                | Assign a Broadcast to Network Interface                    |
+| ifconfig eth0 192.168.10.63 netmask 255.255.255.0 | Set both IP Address and netmask at the                     |
+| ifconfig  eth0 hw ether AA:BB:CC:DD:EE:FF         | Change the mac Address of Network  Interface               |
 
 ### mapping multiple IP addresses to a single NIC:
 
-When we setup a system's network, we usually assign one IP address per network interface\(NIC\).This serves as the primary address.But in some situations we might require set multiple IP addresses on a machine. Good news is that we don not need one NIC per IP Address. Linux is capable of mapping multiple IP addresses to a single NIC by using IP aliasing
+When we setup a system's network, we usually assign one IP address per network interface(NIC).This serves as the primary address.But in some situations we might require set multiple IP addresses on a machine. Good news is that we don not need one NIC per IP Address. Linux is capable of mapping multiple IP addresses to a single NIC by using IP aliasing
 
 note that alias network address in same sub-net mask. For example, if your eth0 network ip address is 192.168.10.63, then alias ip address must be 192.168.10.64
 
-```text
+```
 root@server1:~# ifconfig ens33:0 192.168.10.153
 root@server1:~# ifconfig ens33:0
 ens33:0   Link encap:Ethernet  HWaddr 00:0c:29:03:64:0d  
@@ -88,7 +88,7 @@ ens33:0   Link encap:Ethernet  HWaddr 00:0c:29:03:64:0d
 
 and to remove alias
 
-```text
+```
 root@server1:~# ifconfig ens33:0 down
 root@server1:~# ifconfig ens33:0
 ens33:0   Link encap:Ethernet  HWaddr 00:0c:29:03:64:0d  
@@ -101,7 +101,7 @@ note that alias network address in same sub-net mask. For example, if your eth0 
 
 In normal mode, when a packet received by a network card, it verifies that the packet belongs to itself. If not, it drops the packet normally, but in the promiscuous mode is used to accept all the packets that flows through the network card.
 
-```text
+```
 root@server1:~# ifconfig ens33 promisc    ### to enable promiscuous
 root@server1:~# ifconfig ens33 -promisc    ###to disable promiscuous
 ```
@@ -110,11 +110,11 @@ root@server1:~# ifconfig ens33 -promisc    ###to disable promiscuous
 
 The mtu argument set the maximum transmission unit to an interface. The MTU allows us to set the limit size of packets that are transmitted on an interface. The MTU able to handle maximum number of octets to an interface in one single transaction. Not all network interfaces supports MTU settings.
 
-![](.gitbook/assets/mtu.jpg)
+![](.gitbook/assets/MTU.jpg)
 
 to set mtu:
 
-```text
+```
 root@server1:~# ifconfig ens33
 ens33     Link encap:Ethernet  HWaddr 00:0c:29:03:64:0d  
           inet addr:192.168.10.152  Bcast:192.168.10.255  Mask:255.255.255.0
@@ -135,7 +135,7 @@ root@server1:~# ifconfig ens33 | grep -i mtu
 
 As we said ifconfig is deprecated and it is replaced with ip command. ip command can show, manipulate routing, devices, policy routing and tunnels.
 
-```text
+```
 root@server1:~# ip
 Usage: ip [ OPTIONS ] OBJECT { COMMAND | help }
        ip [ -force ] -batch filename
@@ -151,20 +151,20 @@ where  OBJECT := { link | address | addrlabel | route | rule | neighbor | ntable
                     -rc[vbuf] [size] | -n[etns] name | -a[ll] | -c[olor]}
 ```
 
-| ip command | Description |
-| :--- | :--- |
-| ip addr show | Display deep  information about all Network Interfaces |
-| ip a show eth0 | Network Settings of specific Network Interface |
-| ip link set eth0 \[up/down\] | Disable / Enbale Network interface |
-| ip addr add 192.168.10.63/24 dev eth0 | Assign IP Address to specific Network Interface |
-| ip addr del 192.168.10.63/24 dev eth0 | Remove IP Address |
-| ip addr add broadcast 192.168.10.255 dev eth0 | Add Broadcast Address to the Network Interface |
-| ip link set mtu 1500 dev eth0 AA:BB:CC:DD:EE:FF | Set mac Address of Network Interface |
-| ip link set mtu 1500 dev eth0 | Set MTU of Network Device |
+| ip command                                      | Description                                            |
+| ----------------------------------------------- | ------------------------------------------------------ |
+| ip addr show                                    | Display deep  information about all Network Interfaces |
+| ip a show eth0                                  | Network Settings of specific Network Interface         |
+| ip link set eth0 \[up/down]                     | Disable / Enbale Network interface                     |
+| ip addr add 192.168.10.63/24 dev eth0           | Assign IP Address to specific Network Interface        |
+| ip addr del 192.168.10.63/24 dev eth0           | Remove IP Address                                      |
+| ip addr add broadcast 192.168.10.255 dev eth0   | Add Broadcast Address to the Network Interface         |
+| ip link set mtu 1500 dev eth0 AA:BB:CC:DD:EE:FF | Set mac Address of Network Interface                   |
+| ip link set mtu 1500 dev eth0                   | Set MTU of Network Device                              |
 
 ### add alias to an Interface
 
-```text
+```
 ip addr add 192.168.10.64/24 dev eth0 label eth0:1
 ip addr del 192.168.10.64/24 dev eth0 label eth0:1
 ```
@@ -173,14 +173,14 @@ Plaese note that if we use ip addr add command to add alias, ifconfig doesn't sh
 
 ### set promiscuous
 
-```text
+```
 ip link set eth0 promisc on
 ip link set eth0 promisc off
 ```
 
 ### Change MTU
 
-```text
+```
 ip link set dev eth0 mtu 1600
 ```
 
@@ -190,7 +190,7 @@ Do not Forget all chnages that we have made are not persistence, To make it pers
 
 route command shows and manipulate ip routing table.
 
-```text
+```
 root@server1:~# route --help
 Usage: route [-nNvee] [-FC] [<AF>]           List kernel routing tables
        route [-v] [-FC] {add|del|flush} ...  Modify routing table for AF.
@@ -219,7 +219,7 @@ link-local      *               255.255.0.0     U     1000   0        0 ens33
 
 By default route command displays the host name in its output. We can request it to display the numerical IP address using -n option:
 
-```text
+```
 root@server1:~# route -n
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
@@ -230,7 +230,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 
 There are two more commands to see routing table:
 
-```text
+```
 root@server1:~# netstat -rn
 Kernel IP routing table
 Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
@@ -246,21 +246,21 @@ default via 192.168.10.2 dev ens33  proto static  metric 100
 
 Some other commands:
 
-| route command | Description |
-| :--- | :--- |
-| route add default gw 192.168.10.2 | Add  Default Gateway, use "del" to Delete |
+| route command                                           | Description                                              |
+| ------------------------------------------------------- | -------------------------------------------------------- |
+| route add default gw 192.168.10.2                       | Add  Default Gateway, use "del" to Delete                |
 | route add -net 192.168.10.0/24 gw 192.168.10.2 dev eth0 | Add Route, use "del" for Deleting , "dev" can be ommited |
-| ip route add 192.168.10.0/24 via 192.168.10.2 | using "ip" command, use "del" for deleting |
+| ip route add 192.168.10.0/24 via 192.168.10.2           | using "ip" command, use "del" for deleting               |
 
 To make route setting persistence, We need to edit /etc/sysconfig/network-scripts/route-eth0 file to define static routes for eth0 interface. In Debian based systems we need to edit /etc/network/interfaces file.
 
 ## arp
 
-In computer networks computers talk to each other with their physical addresses in fact. Address Resolution Protocol \(ARP\) is used to convert ip address to the physical address.![](.gitbook/assets/lookup.jpg)
+In computer networks computers talk to each other with their physical addresses in fact. Address Resolution Protocol (ARP) is used to convert ip address to the physical address.![](.gitbook/assets/lookup.jpg)
 
 How dose it work ? When an incoming packet destined for a host machine on a LAN arrives at a gateway, the gateway asks the ARP program to find a physical host or MAC address that matches the IP address. The ARP program looks in the ARP cache and, if it finds the address, provides it so that the packet can be converted to the right packet length and format and sent to the machine. If no entry is found for the IP address, ARP broadcasts a request packet in a special format to all the machines on the LAN to see if one machine knows that it has that IP address associated with it. A machine that recognizes the IP address as its own returns a reply so indicating. ARP updates the ARP cache for future reference and then sends the packet to the MAC address that replied.
 
-```text
+```
 root@server1:~# arp --help
 Usage:
   arp [-vn]  [<HW>] [-i <if>] [-a] [<hostname>]             <-Display ARP cache
@@ -307,12 +307,12 @@ root@server1:~# arp -a
 
 some usefull switches:
 
-| arp command switches | Description |
-| :--- | :--- |
-| -a | Print All contents of ARP Table |
-| -v | Verbose |
-| -d 00:0c:29:40:b1:ca | Delete mac address from ARP Table |
-| arp -s 192.168.10.151 00:0c:29:40:b1:ca | Add a new Entry to ARP Table |
+| arp command switches                    | Description                       |
+| --------------------------------------- | --------------------------------- |
+| -a                                      | Print All contents of ARP Table   |
+| -v                                      | Verbose                           |
+| -d 00:0c:29:40:b1:ca                    | Delete mac address from ARP Table |
+| arp -s 192.168.10.151 00:0c:29:40:b1:ca | Add a new Entry to ARP Table      |
 
 arp is replace by`ip n` command.
 
@@ -322,15 +322,15 @@ Its good to know that all Network Switches has some thing like MAC Address table
 
 Linux has great tools for working with wireless connections, iw is a new configuration utility for wireless devices which supports all new drivers that have been added to the kernel recently. iw is still under development. The old tool is iwconfig which is deprecated but still exist.
 
-| iw command | iwconfig command | description |
-| :--- | :--- | :--- |
-| iw dev wlp1s0 link | iwconfig wlp1s0 | Getting info about Wir interface |
-| iwlist  wlp1s0 scan | - | Getting List of Avaialble SSIDs |
-| iw wlp1s0 connect BB | iwconfig wlp1s0 essid BB | Connecting to an Open Network |
+| iw command           | iwconfig command         | description                      |
+| -------------------- | ------------------------ | -------------------------------- |
+| iw dev wlp1s0 link   | iwconfig wlp1s0          | Getting info about Wir interface |
+| iwlist  wlp1s0 scan  | -                        | Getting List of Avaialble SSIDs  |
+| iw wlp1s0 connect BB | iwconfig wlp1s0 essid BB | Connecting to an Open Network    |
 
 Lets see what we have in our box:
 
-```text
+```
 root@blackbird:~# ifconfig 
 enp0s31f6 Link encap:Ethernet  HWaddr 50:7b:9d:8e:56:04  
           UP BROADCAST MULTICAST  MTU:1500  Metric:1
@@ -351,13 +351,13 @@ wlp1s0    Link encap:Ethernet  HWaddr e0:94:67:97:3e:2f
 
 Before starting, we stop NetworkManager service, otherwise it doesn't let us work:
 
-```text
+```
 root@blackbird:~# systemctl stop NetworkManager
 ```
 
 And lets start:
 
-```text
+```
 root@blackbird:~# iwconfig wlp1s0 
 wlp1s0    IEEE 802.11  ESSID:off/any  
           Mode:Managed  Access Point: Not-Associated   Tx-Power=22 dBm   
@@ -411,7 +411,7 @@ wlp1s0    Link encap:Ethernet  HWaddr e0:94:67:97:3e:2f
 
 every thing seems okey except IP Address, so lets try to get an ip address:
 
-```text
+```
 root@blackbird:~# dhclient  wlp1s0root@blackbird:~# ifconfig wlp1s0
 wlp1s0    Link encap:Ethernet  HWaddr e0:94:67:97:3e:2f  
           inet addr:192.168.43.196  Bcast:192.168.43.255  Mask:255.255.255.0
@@ -432,4 +432,3 @@ rtt min/avg/max/mdev = 180.731/181.264/181.797/0.533 ms
 ```
 
 and every thing is working.
-

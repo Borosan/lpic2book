@@ -31,21 +31,21 @@ In this lesson we discuss about some other Network tools which help up in networ
 
 ### What is socket?
 
-In computer networking, and more definitely in software terms, a port is a logical entity which acts as a endpoint of communication to identify a given application or process on an Linux operating system. It is a 16-bit number \(0 to 65535\) which differentiates one application from another on end systems. Different categories of ports are:
+In computer networking, and more definitely in software terms, a port is a logical entity which acts as a endpoint of communication to identify a given application or process on an Linux operating system. It is a 16-bit number (0 to 65535) which differentiates one application from another on end systems. Different categories of ports are:
 
 * 0-1023 – the Well Known Ports, also referred to as System Ports.
 * 1024-49151 – the Registered Ports, also known as User Ports.
 * 49152-65535 – the Dynamic Ports, also referred to as the Private Ports.
 
-The two most popular Internet transport protocols, Transmission Control Protocol \(TCP\) and the User Datagram Protocol \(UDP\) and other less known protocols use port numbers for communication sessions.
+The two most popular Internet transport protocols, Transmission Control Protocol (TCP) and the User Datagram Protocol (UDP) and other less known protocols use port numbers for communication sessions.
 
 A combination of an IP address, port and protocol such as TCP/UDP is known as a socket, and every service must have a unique socket.
 
 ## netstat
 
-netstat \(network statistics\)outputs network connections form local host perspective, routing, interface statistics, connections and multicast information. so its pretty handy.
+netstat (network statistics)outputs network connections form local host perspective, routing, interface statistics, connections and multicast information. so its pretty handy.
 
-```text
+```
 root@server1:~# netstat 
 Active Internet connections (w/o servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State      
@@ -121,18 +121,18 @@ unix  3      [ ]         STREAM     CONNECTED     19739    /var/run/dbus/system_
 
 netstat it self give us a log list of network information which might not be useful, so lets try some useful switches:
 
-| useful netstat command switches | Description |
-| :--- | :--- |
-| -s , --statistics | gives summary by protocol type and message type |
-| -i , --interfaces | Display a table of all network interfaces |
-| -r , --route | shows  routing table  information |
-| -a , --all | Show both listening and non-listening sockets |
-| -t , --tcp | Enabales listening of tcp ports |
-| -u , --udp | Enables listening of udp ports |
-| -l , --listening | Prints only listening  sockets |
-| -p , --program | Shows PID and the name of associated program |
-| -e , --extend | Shows additional information, use twice for more info |
-| -n , --numeric | Shows numerical addresses |
+| useful netstat command switches | Description                                           |
+| ------------------------------- | ----------------------------------------------------- |
+| -s , --statistics               | gives summary by protocol type and message type       |
+| -i , --interfaces               | Display a table of all network interfaces             |
+| -r , --route                    | shows  routing table  information                     |
+| -a , --all                      | Show both listening and non-listening sockets         |
+| -t , --tcp                      | Enabales listening of tcp ports                       |
+| -u , --udp                      | Enables listening of udp ports                        |
+| -l , --listening                | Prints only listening  sockets                        |
+| -p , --program                  | Shows PID and the name of associated program          |
+| -e , --extend                   | Shows additional information, use twice for more info |
+| -n , --numeric                  | Shows numerical addresses                             |
 
 netstat supports ipv6.
 
@@ -144,7 +144,7 @@ The ss command gets its information directly from kernel space. The options used
 
 If we use the ss command without any arguments or options, it will return a complete list of TCP sockets with established connections:
 
-```text
+```
 Netid  State      Recv-Q Send-Q Local Address:Port                 Peer Address:Port                
 u_str  ESTAB      0      0       * 23433                 * 27689                
 u_str  ESTAB      0      0       * 19210                 * 19211                
@@ -170,23 +170,23 @@ u_str  ESTAB      0      0       * 28949                 * 30010
 --More--
 ```
 
-| useful ss command | Description |
-| :--- | :--- |
-| -l , --listening | Display only listening sockets |
-| -4 | for IPv4 |
-| -6 | for IPv6 |
-| -a , --all | Display both listening and non-listening \(for TCP this means established connections\) sockets |
-| -t , --tcp | Shows established or CONNECTED tcp connections |
-| -u , --udp | Shows established or CONNECTED tcp connections |
-| -s , --summary | Print summary statistics. |
-| -o , --options | time information of each connection would be displayed |
-| -n , --numeric | Do not try to resoleve service names |
+| useful ss command | Description                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------- |
+| -l , --listening  | Display only listening sockets                                                                |
+| -4                | for IPv4                                                                                      |
+| -6                | for IPv6                                                                                      |
+| -a , --all        | Display both listening and non-listening (for TCP this means established connections) sockets |
+| -t , --tcp        | Shows established or CONNECTED tcp connections                                                |
+| -u , --udp        | Shows established or CONNECTED tcp connections                                                |
+| -s , --summary    | Print summary statistics.                                                                     |
+| -o , --options    | time information of each connection would be displayed                                        |
+| -n , --numeric    | Do not try to resoleve service names                                                          |
 
 ## lsof
 
-To get a list of files which are opened by users and associated processes with them we use lsof \(LiSt Open Files\).
+To get a list of files which are opened by users and associated processes with them we use lsof (LiSt Open Files).
 
-```text
+```
 root@server1:~# lsof | more
 COMMAND    PID  TID             USER   FD      TYPE             DEVICE SIZE/OFF       NODE NAME
 systemd      1                  root  cwd       DIR                8,1     4096          2 /
@@ -206,29 +206,29 @@ systemd      1                  root  mem       REG                8,1    55904 
 systemd      1                  root  mem       REG                8,1   252152     136457 /lib/x86_64-linux-gnu/libseccomp.so.2.2.3
 ```
 
-| lsof useful commmands | Description |
-| :--- | :--- |
-| lsof -n | Do not tries to resolve IP Addresses to DNS |
-| lsof  /var/log/syslog | Shows which processes have opened specific file |
-| lsof +D /var/log | List opened files under a Directory |
-| lsof /home | List processes using a mount point |
-| lsof -u payam | List files opened by a specific user |
-| lsof -p 1357 | all open files by specific process |
-| lsof -c ssh | List opened files based on process names starting with ... |
-| lsof -t /var/log/syslog | list process id of a process which opened /var/log/syslog |
-| lsof -i | list all network connections |
+| lsof useful commmands   | Description                                                |
+| ----------------------- | ---------------------------------------------------------- |
+| lsof -n                 | Do not tries to resolve IP Addresses to DNS                |
+| lsof  /var/log/syslog   | Shows which processes have opened specific file            |
+| lsof +D /var/log        | List opened files under a Directory                        |
+| lsof /home              | List processes using a mount point                         |
+| lsof -u payam           | List files opened by a specific user                       |
+| lsof -p 1357            | all open files by specific process                         |
+| lsof -c ssh             | List opened files based on process names starting with ... |
+| lsof -t /var/log/syslog | list process id of a process which opened /var/log/syslog  |
+| lsof -i                 | list all network connections                               |
 
 ## ping
 
-PING \(Packet INternet Groper\) command is the best way to test connectivity between two nodes. Whether it is Local Area Network \(LAN\) or Wide Area Network \(WAN\).
+PING (Packet INternet Groper) command is the best way to test connectivity between two nodes. Whether it is Local Area Network (LAN) or Wide Area Network (WAN).
 
-How does ping work? Ping use ICMP \(Internet Control Message Protocol\) to communicate to other devices.When a user pings a host on the Internet, a series of ICMP packets are sent to the host, which responds by sending packets in return. The user’s client is then able to compute the round trip time between two points on the Internet.
+How does ping work? Ping use ICMP (Internet Control Message Protocol) to communicate to other devices.When a user pings a host on the Internet, a series of ICMP packets are sent to the host, which responds by sending packets in return. The user’s client is then able to compute the round trip time between two points on the Internet.
 
 ![](.gitbook/assets/fig39a.jpg)
 
 You can ping host name or ip address :
 
-```text
+```
 root@server1:~# ping 8.8.8.8
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=128 time=244 ms
@@ -251,31 +251,31 @@ rtt min/avg/max/mdev = 224.253/235.002/248.218/9.953 ms
 
 In Linux ping command keep executing until we interrupt.
 
-| useful ping switches | Description |
-| :--- | :--- |
-| -v | verbose mode |
-| -V | Show version and exit |
-| -c 5 | Stop after sending 5 ECHO\_REQUEST packets. |
-| -i 0.9 | Increase / decrease pint time interval |
-| -O | Report outstanding ECHO REPLAY before sending next packet |
-| - w 10 | Specify a timeout, in seconds, before ping exits regardless of how many packets have been sent or received |
-| -s 100 | Change the default packet size from 56 to 100 |
-| -R | Record and print route of how ECHO\_REQUEST sent and ECHO\_REPLY received |
-| -a | Audible ping: Give beep when the peer is reachable |
+| useful ping switches | Description                                                                                                |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| -v                   | verbose mode                                                                                               |
+| -V                   | Show version and exit                                                                                      |
+| -c 5                 | Stop after sending 5 ECHO_REQUEST packets.                                                                 |
+| -i 0.9               | Increase / decrease pint time interval                                                                     |
+| -O                   | Report outstanding ECHO REPLAY before sending next packet                                                  |
+| - w 10               | Specify a timeout, in seconds, before ping exits regardless of how many packets have been sent or received |
+| -s 100               | Change the default packet size from 56 to 100                                                              |
+| -R                   | Record and print route of how ECHO_REQUEST sent and ECHO_REPLY received                                    |
+| -a                   | Audible ping: Give beep when the peer is reachable                                                         |
 
 ## ping6
 
-Regular ping command only works with IPv4 address. Use ping6 command to send ICMPv6 ECHO\_REQUEST packets to network hosts from a host or gateway. Try to set IPv6 gateway and test:
+Regular ping command only works with IPv4 address. Use ping6 command to send ICMPv6 ECHO_REQUEST packets to network hosts from a host or gateway. Try to set IPv6 gateway and test:
 
-```text
+```
 ping6 ipv6.google.com
 ```
 
 ## nc
 
-Netcat \(also known as ‘nc’ or ‘Swiss Army knife’\) is a networking utility used for reading or writing from TCP and UDP sockets using an easy interface. Netcat is used by Administrators, Developers and pen testers because of its features.
+Netcat (also known as ‘nc’ or ‘Swiss Army knife’) is a networking utility used for reading or writing from TCP and UDP sockets using an easy interface. Netcat is used by Administrators, Developers and pen testers because of its features.
 
-```text
+```
   .       .       
   \`-"'"-'/       
    } 6 6 {        
@@ -297,15 +297,15 @@ usage: nc [-46bCDdhjklnrStUuvZz] [-I length] [-i interval] [-O length]
       [-x proxy_address[:port]] [destination] [port]
 ```
 
-With netcat \(nc\) we can setup kind of client server connection over a specific port. For demo lets start chatting between two servers, server1 starts listening on port 12345:
+With netcat (nc) we can setup kind of client server connection over a specific port. For demo lets start chatting between two servers, server1 starts listening on port 12345:
 
-```text
+```
 root@server1:~# nc -l 12345
 ```
 
 send text stream from server2 to server1:
 
-```text
+```
 root@server2:~$ su 
 Password: 
 root@server2:/home/payam# su -
@@ -317,25 +317,25 @@ using netcat :)
 
 and see the result on server1:
 
-```text
+```
 Hello!
 I'm here to send some messages over port 80
 using netcat :)
 ```
 
-| netcat useful switches | Description |
-| :--- | :--- |
-| -4 | Forces nc to use IP v4 only |
-| -6 | Forces nc to use IP v6 only |
-| -v | Give more verbose output |
-| -n | Do not DNS Lookup for IP Addresses, Host Name or ports |
-| -k | allow server to  continue listening  after client disconnect |
-| -u | use udp |
-| -w | setting up time out |
+| netcat useful switches | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| -4                     | Forces nc to use IP v4 only                                  |
+| -6                     | Forces nc to use IP v6 only                                  |
+| -v                     | Give more verbose output                                     |
+| -n                     | Do not DNS Lookup for IP Addresses, Host Name or ports       |
+| -k                     | allow server to  continue listening  after client disconnect |
+| -u                     | use udp                                                      |
+| -w                     | setting up time out                                          |
 
 also we can use nc for prt scanning although netcat is not the best tool for the job:
 
-```text
+```
 root@server2:~# nc -v 192.168.10.152 -z 12340-12346
 nc: connect to 192.168.10.152 port 12340 (tcp) failed: Connection refused
 nc: connect to 192.168.10.152 port 12341 (tcp) failed: Connection refused
@@ -346,7 +346,7 @@ Connection to 192.168.10.152 12345 port [tcp/*] succeeded!
 nc: connect to 192.168.10.152 port 12346 (tcp) failed: Connection refused
 ```
 
--z says that nc should just scan for listening daemons, without sending any data to them. can not be used with -l option.
+\-z says that nc should just scan for listening daemons, without sending any data to them. can not be used with -l option.
 
 ## tcpdump
 
@@ -354,7 +354,7 @@ tcpdump is command-line packet sniffers and analyzer tool which is used to captu
 
 tcpdump also give us a option to save captured packets in a file in a pcap format. It is very useful for future analysis and also file can be viewed by tcpdump command or a open source GUI based tool like Wireshark.
 
-```text
+```
 root@server1:~# tcpdump 
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
@@ -391,23 +391,23 @@ listening on ens33, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 watch some usefull tcpdum commands:
 
-| useful tcpdump command | Description |
-| :--- | :--- |
-| tcpdump -D | Display available interfaces |
-| tcpdum -i ens33 | Capture Packets from specific interface |
-| tcpdump -c 10 -i ens33 | Capture only N neumber of packets |
-| tcpdump -w myfile.pcap -i ens33 | Capture and save packets in a file |
-| tcpdump -r myfile.pcap | Read captured packets file |
-| tcpdump -n -i ens33 | Capture IP address Packets |
-| tcpdum -i ens33 tcp | Only TCP Packets are captured |
-| tcpdump -i ens33 port 22 | Capture packets from specific  port |
-| tcpdump -i eth0 src 192.168.10.150 | Capture packets from source IP |
-| tcpdump -i eth0 dst 209.85.144.139 | Capture packets from destination IP |
-| tcpdump -i ens33 ipv6 | Sniffing for IPv6 |
+| useful tcpdump command             | Description                             |
+| ---------------------------------- | --------------------------------------- |
+| tcpdump -D                         | Display available interfaces            |
+| tcpdum -i ens33                    | Capture Packets from specific interface |
+| tcpdump -c 10 -i ens33             | Capture only N neumber of packets       |
+| tcpdump -w myfile.pcap -i ens33    | Capture and save packets in a file      |
+| tcpdump -r myfile.pcap             | Read captured packets file              |
+| tcpdump -n -i ens33                | Capture IP address Packets              |
+| tcpdum -i ens33 tcp                | Only TCP Packets are captured           |
+| tcpdump -i ens33 port 22           | Capture packets from specific  port     |
+| tcpdump -i eth0 src 192.168.10.150 | Capture packets from source IP          |
+| tcpdump -i eth0 dst 209.85.144.139 | Capture packets from destination IP     |
+| tcpdump -i ens33 ipv6              | Sniffing for IPv6                       |
 
 ## nmap
 
-nmap \(Network Mapper\) is a security scanner.It is used to discover hosts and services on a computer network, whith the goal of building a "map" of the network. To accomplish it, Nmap sends specially designed packets to the target host\(s\) and then analyzes the responses. Nmap can adapt to network conditions including latency and congestion during a scan. The Nmap user community continues to develop and refine the tool.
+nmap (Network Mapper) is a security scanner.It is used to discover hosts and services on a computer network, whith the goal of building a "map" of the network. To accomplish it, Nmap sends specially designed packets to the target host(s) and then analyzes the responses. Nmap can adapt to network conditions including latency and congestion during a scan. The Nmap user community continues to develop and refine the tool.
 
 ![](.gitbook/assets/sitelogo-transparent-googleplus.png)
 
@@ -419,21 +419,21 @@ Although usually used for port scanning, Nmap offers many additional features:
 * operating system detection.
 * service version detection.
 * network information about targets, such as DNS names, device types, and MAC addresses.
-* ability to scan for well-known vulnerabilities.
+*   ability to scan for well-known vulnerabilities.
 
-  nmap is not installed by default on most of linux distros and we need to install it:
+    nmap is not installed by default on most of linux distros and we need to install it:
 
-```text
+```
 root@server1:~# apt install  nmap
 ```
 
-Before start scanning please note that Port scanning without authorization is sometimes against the provider's acceptable use policy \(AUP\).
+Before start scanning please note that Port scanning without authorization is sometimes against the provider's acceptable use policy (AUP).
 
 ![](.gitbook/assets/port-scanning.png)
 
 Till the end of war Its better to test it on your own network and do not take the risk. nmap command with no option just prints its long list of switches and options. For our demonstartion we scan scanme.nmap.org :
 
-```text
+```
 root@server1:~# nmap -v scanme.nmap.org
 
 Starting Nmap 7.01 ( https://nmap.org ) at 2018-01-22 03:25 PST
@@ -478,23 +478,23 @@ Nmap done: 1 IP address (1 host up) scanned in 110.55 seconds
 
 The `-v` option enables verbose mode.
 
-| nmap Target selection | Description |
-| :--- | :--- |
-| nmap 192.168.10.151 | scan a single IP |
-| nmap scanme.nmap.org | scan a host |
-| nmap 192.168.10.150-155 | scan a range of IPs |
-| nmap 192.168.10.0/24 | scan a subnet |
+| nmap Target selection     | Description                   |
+| ------------------------- | ----------------------------- |
+| nmap 192.168.10.151       | scan a single IP              |
+| nmap scanme.nmap.org      | scan a host                   |
+| nmap 192.168.10.150-155   | scan a range of IPs           |
+| nmap 192.168.10.0/24      | scan a subnet                 |
 | nmap -iL myserverlist.txt | scan targets from a text file |
-| nmap -6 \[IP-V6-HERE\] | enables IP v6 scanning |
+| nmap -6 \[IP-V6-HERE]     | enables IP v6 scanning        |
 
 okey and ports:
 
-| nmap port selection | Dedscription |
-| :--- | :--- |
-| nmap -p 22 192.168.10.151 | scan a single port |
-| nmap -p 1-100 192.168.10.151 | scan a range of port |
-| nmap -F 192.168.10.151 | Fast-scan 100 most common ports |
-| nmap -p- 192.168.10.151 | scan all 65535 ports |
+| nmap port selection          | Dedscription                    |
+| ---------------------------- | ------------------------------- |
+| nmap -p 22 192.168.10.151    | scan a single port              |
+| nmap -p 1-100 192.168.10.151 | scan a range of port            |
+| nmap -F 192.168.10.151       | Fast-scan 100 most common ports |
+| nmap -p- 192.168.10.151      | scan all 65535 ports            |
 
 Hmm. nmap has different techniques for scanning. But before explaining them we review some fundamentals.
 
@@ -502,45 +502,44 @@ Hmm. nmap has different techniques for scanning. But before explaining them we r
 
 Below is a very simplified diagram of the TCP 3-way handshake process. Have a look at the diagram on the right as you examine the list of events on the left.
 
-| Event | Diagram |
-| :--- | :---: |
+| Event                                          |                  Diagram                 |
+| ---------------------------------------------- | :--------------------------------------: |
 | ![](.gitbook/assets/3way-handshake-events.jpg) | ![](.gitbook/assets/3-way-handshake.gif) |
 
 after this small review we can talk about nmap different methods of scanning:
 
-* **TCP SYN Scan \(-sS\)**
+* **TCP SYN Scan (-sS)**
 
 It is a basic scan, and it is also called half-open scanning because this technique allows Nmap to get information from the remote host without the complete TCP handshake process, Nmap sends SYN packets to the destination, but it does not create any sessions, As a result, the target computer can’t create any log of the interaction because no session was initiated, making this feature an advantage of the TCP SYN scan.`nmap -sT 192.168.10.151`
 
-* **TCP connect\(\) scan \(-sT\)**
+* **TCP connect() scan (-sT)**
 
-This the default scanning technique used, if and only if the SYN scan is not an option, because the SYN scan requires root privilege. Unlike the TCP SYN scan, it completes the normal TCP three way handshake process and requires the system to call connect\(\), which is a part of the operating system. Keep in mind that this technique is only applicable to find out the TCP ports, not the UDP ports. `nmap -sT 192.168.10.151`
+This the default scanning technique used, if and only if the SYN scan is not an option, because the SYN scan requires root privilege. Unlike the TCP SYN scan, it completes the normal TCP three way handshake process and requires the system to call connect(), which is a part of the operating system. Keep in mind that this technique is only applicable to find out the TCP ports, not the UDP ports. `nmap -sT 192.168.10.151`
 
-* **UDP Scan \(-sU\)**
+* **UDP Scan (-sU)**
 
 As the name suggests, this technique is used to find an open UDP port of the target machine. It does not require any SYN packet to be sent because it is targeting the UDP ports. But we can make the scanning more effective by using -sS along with –sU. UDP scans send the UDP packets to the target machine, and waits for a response—if an error message arrives saying the ICMP is unreachable, then it means that the port is closed; but if it gets an appropriate response, then it means that the port is open.
 
 `nmap -sU 192.168.10.151`
 
-* **FIN Scan \(-sF\)**
+* **FIN Scan (-sF)**
 
 Sometimes a normal TCP SYN scan is not the best solution because of the firewall. IDS and IPS scans might be deployed on the target machine, but a firewall will usually block the SYN packets. A FIN scan sends the packet only set with a FIN flag, so it is not required to complete the TCP handshaking.
 
-The target computer is not able to create a log of this scan \(again, an advantage of FIN\). Just like a FIN scan, we can perform an xmas scan \(-sX\) and Null scan \(-sN\). The idea is same but there is a difference between each type of scan.
+The target computer is not able to create a log of this scan (again, an advantage of FIN). Just like a FIN scan, we can perform an xmas scan (-sX) and Null scan (-sN). The idea is same but there is a difference between each type of scan.
 
-* **Ping Scan \(-sP\)**
+* **Ping Scan (-sP)**
 
-Ping scanning is unlike the other scan techniques because it is only used to find out whether the host is alive or not, it is not used to discover open ports. Ping scans require root access s ICMP packets can be sent, but if the user does not have administrator privilege, then the ping scan uses connect\(\) call. `nmap -sP 192.168.10.151`
+Ping scanning is unlike the other scan techniques because it is only used to find out whether the host is alive or not, it is not used to discover open ports. Ping scans require root access s ICMP packets can be sent, but if the user does not have administrator privilege, then the ping scan uses connect() call. `nmap -sP 192.168.10.151`
 
-* **Version Detection \(-sV\)**
+* **Version Detection (-sV)**
 
-Version detection is the right technique that is used to find out what software version is running on the target computer and on the respective ports. It is unlike the other scanning techniques because it is not used to detect the open ports, but it requires the information from open ports to detect the software version. In the first step of this scan technique, version detection uses the TCP SYN scan to find out which ports are open. ****`nmap -sV 192.168.10.151`
+Version detection is the right technique that is used to find out what software version is running on the target computer and on the respective ports. It is unlike the other scanning techniques because it is not used to detect the open ports, but it requires the information from open ports to detect the software version. In the first step of this scan technique, version detection uses the TCP SYN scan to find out which ports are open.** **`nmap -sV 192.168.10.151`
 
-* **Idle Scan \(-sI\)**
+* **Idle Scan (-sI)**
 
-Idle scan is one of my favorite techniques, and it is an advance scan that provides complete anonymity while scanning. In idle scan, Nmap doesn’t send the packets from your real IP address—instead of generating the packets from the attacker machine, Nmap uses another host from the target network to send the packets. ex: ****`nmap -sI 192.168.1.6 192.168.1.1`
+Idle scan is one of my favorite techniques, and it is an advance scan that provides complete anonymity while scanning. In idle scan, Nmap doesn’t send the packets from your real IP address—instead of generating the packets from the attacker machine, Nmap uses another host from the target network to send the packets. ex:** **`nmap -sI 192.168.1.6 192.168.1.1`
 
-The idle scan technique \(as mentioned above\) is used to discover the open ports on 192.168.1.1 while it uses the zombie\_host \(192.168.1.6\) to communicate with the target host. So this is an ideal technique to scan a target computer anonymously.
+The idle scan technique (as mentioned above) is used to discover the open ports on 192.168.1.1 while it uses the zombie_host (192.168.1.6) to communicate with the target host. So this is an ideal technique to scan a target computer anonymously.
 
 There are many other scanning techniques are available like FTP bounce, fragmentation scan, ... but that is enough for LPIC exam.
-

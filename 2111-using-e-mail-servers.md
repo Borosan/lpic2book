@@ -24,7 +24,7 @@
 
 ## What is e-mail ?
 
-Electronic mail \(email or e-mail\) is a method of exchanging messages \("mail"\) between people using electronic devices. Email first entered limited use in the 1960s and by the mid-1970s had taken the form now recognized as email. Email operates across computer networks, which today is primarily the Internet. As its obvious e-mail is pretty old method of communication and some times it is said that the e-mail is as old as the internet itself! But nowadays no successfull bussiness can live with out that.
+Electronic mail (email or e-mail) is a method of exchanging messages ("mail") between people using electronic devices. Email first entered limited use in the 1960s and by the mid-1970s had taken the form now recognized as email. Email operates across computer networks, which today is primarily the Internet. As its obvious e-mail is pretty old method of communication and some times it is said that the e-mail is as old as the internet itself! But nowadays no successfull bussiness can live with out that.
 
 ## How e-mail Works?
 
@@ -32,30 +32,30 @@ Email is based around the use of electronic mailboxes. When an email is sent, th
 
 ![](.gitbook/assets/mail-postfix-transfermodel.jpg)
 
-1.First the User open its mail box using using one of many mail client applications \(Like Thunderbolt, Evolution, SquirrelMail, ...\) \(which is Called MUA, Mail user Agent\) and send an e-mail.
+1.First the User open its mail box using using one of many mail client applications (Like Thunderbolt, Evolution, SquirrelMail, ...) (which is Called MUA, Mail user Agent) and send an e-mail.
 
-2.Then Mail Submission Agent\(MSA\) receives electronic mail messages from a mail user agent \(MUA\) and cooperates with a mail transfer agent \(MTA\) for delivery of the mail.
+2.Then Mail Submission Agent(MSA) receives electronic mail messages from a mail user agent (MUA) and cooperates with a mail transfer agent (MTA) for delivery of the mail.
 
-3.The message is sent to the mail server tasked with transporting emails \(called the MTA, for Mail Transport Agent\) to the recipient's MTA. On the Internet, MTAs communicate with one another using the protocol SMTP, and so are logically called SMTP servers \(or sometimes outgoing mail servers\).
+3.The message is sent to the mail server tasked with transporting emails (called the MTA, for Mail Transport Agent) to the recipient's MTA. On the Internet, MTAs communicate with one another using the protocol SMTP, and so are logically called SMTP servers (or sometimes outgoing mail servers).
 
-* **SMTP**  \(Simple Mail Transfer Protocol\). It is a protocol that really defines how e-mail is transfered and saved and is a part of the TCP/IP application layer as well as settings rules that e-mail applications follow.
+* **SMTP ** (Simple Mail Transfer Protocol). It is a protocol that really defines how e-mail is transfered and saved and is a part of the TCP/IP application layer as well as settings rules that e-mail applications follow.
 
-4.The recipient's MTA then delivers the email to the incoming mail server \(called the MDA, for Mail Delivery Agent\), which stores the email as it waits for the user to accept it.\(Sometimes MTA can also function as an MDA\)But often \(procmail for example\) , They are independent applications that can also filter mail\(like spam\).
+4.The recipient's MTA then delivers the email to the incoming mail server (called the MDA, for Mail Delivery Agent), which stores the email as it waits for the user to accept it.(Sometimes MTA can also function as an MDA)But often (procmail for example) , They are independent applications that can also filter mail(like spam).
 
 There are two main protocols used for retrieving email on an MDA:
 
-* **POP3** \(Post Office Protocol\), which is used by MUAs, for retrieving email and, in certain cases, leaving a copy of it on the server.
-* **IMAP** \(Internet Message Access Protocol\), which is used by MUAs,for coordinating the status of emails \(read, deleted, moved\) across multiple email clients. With IMAP, a copy of every message is saved on the server, so that this synchronization task can be completed.
+* **POP3 **(Post Office Protocol), which is used by MUAs, for retrieving email and, in certain cases, leaving a copy of it on the server.
+*   **IMAP **(Internet Message Access Protocol), which is used by MUAs,for coordinating the status of emails (read, deleted, moved) across multiple email clients. With IMAP, a copy of every message is saved on the server, so that this synchronization task can be completed.
 
-  Both of those can be secured with TLS or SSL Certificates, so it is encrypted at some levels between the server and end user client \(MUA\).
+    Both of those can be secured with TLS or SSL Certificates, so it is encrypted at some levels between the server and end user client (MUA).
 
 ### MX Record
 
-MX records are the mail DNS record \(we discussed about earlier in DNS Course\). These records are used by MTAs to determine the authorative mail server for any particular e-mail message.
+MX records are the mail DNS record (we discussed about earlier in DNS Course). These records are used by MTAs to determine the authorative mail server for any particular e-mail message.
 
 ### MUA
 
-Mail User Agent. This is whatever application we use to create and send e-mail \(Like Thunderbolt, Evolution, SquirrelMail, etc\).
+Mail User Agent. This is whatever application we use to create and send e-mail (Like Thunderbolt, Evolution, SquirrelMail, etc).
 
 ### MSA
 
@@ -63,15 +63,15 @@ Mail Submission Agen. Acts as an intermediary or gateway between the MUA and an 
 
 ### MTA
 
-Mail Transfer Agent. Accepts e-mail from the MUA and sends it \(if needed\) to the receiving mail address \(could be another MTA if this is not the destination.
+Mail Transfer Agent. Accepts e-mail from the MUA and sends it (if needed) to the receiving mail address (could be another MTA if this is not the destination.
 
-## Mail Transfer Agents\(MTAs\) for Linux
+## Mail Transfer Agents(MTAs) for Linux
 
 Lets look at a round up of the best and most used MTA’s on Linux mail servers:
 
 #### 1.Send Mail
 
-Sendmail now known as proofpoint \(after Proofpoint, Inc acquired Sendmail, Inc\) is by far the most popular and one of the oldest MTA on the Linux server platform. Sendmail has a lot of limitations though, in comparison to modern MTAs.
+Sendmail now known as proofpoint (after Proofpoint, Inc acquired Sendmail, Inc) is by far the most popular and one of the oldest MTA on the Linux server platform. Sendmail has a lot of limitations though, in comparison to modern MTAs.
 
 Because of its complicated configuration steps and demands, and weak security mechanisms, many new MTAs have come up as alternatives to Sendmail, but importantly, it offers everything to do with mail on a network.
 
@@ -82,7 +82,7 @@ Exim is a free MTA developed for Unix-like operating systems such as Linux, Mac 
 Its notable features include among others:
 
 * No support for POP and IMAP protocols
-* Supports protocols such as RFC 2821 SMTP and RFC 2033 LMTP email message transport\(LMTP is an alternative to normal SMTP for situations where the receiving side does not have a mail queue \)
+* Supports protocols such as RFC 2821 SMTP and RFC 2033 LMTP email message transport(LMTP is an alternative to normal SMTP for situations where the receiving side does not have a mail queue )
 * Configurations include access control lists, content scanning, encryption, routing controls among others
 * Excellent documentation
 * It has utilities such as Lemonade which is an assortment of SMTP and IMAP extensions to enable mobile messaging plus many more.
@@ -100,7 +100,7 @@ It is relatively small but feature-rich and some of its features include:
 * Full support for address groups
 * Lets each user manage their own mail lists
 * Supports an easy way to set up mailing list
-* Supports VERPs \(variable envelope return path addresses on request\) undeliverable mail can reveal the undeliverable recipient address without requiring the list owner to parse bounce messages.
+* Supports VERPs (variable envelope return path addresses on request) undeliverable mail can reveal the undeliverable recipient address without requiring the list owner to parse bounce messages.
 * Supports automatic prevention of mailing list loops
 * Supports ezmlm mailing list manager
 * No random lists supported and many more
@@ -123,9 +123,9 @@ For LPIC2 exam we are just expected to know about Postfix and its configuration 
 
 ### Postfix Configuration
 
-Lets Install post fix and mail ustils \(We will use CentOS7\):
+Lets Install post fix and mail ustils (We will use CentOS7):
 
-```text
+```
 [root@localhost ~]# yum install postfix
 .....
 ...
@@ -136,7 +136,7 @@ Nothing to do
 
 as Postfix in our distrobution is used as local mail delivary service it is already installed.
 
-```text
+```
 [root@localhost ~]# systemctl status postfix.service 
 ● postfix.service - Postfix Mail Transport Agent
    Loaded: loaded (/usr/lib/systemd/system/postfix.service; enabled; vendor preset: disabled)
@@ -160,7 +160,7 @@ Hint: Some lines were ellipsized, use -l to show in full.
 
 Lets see configurations to find out how its configured.
 
-```text
+```
 [root@localhost ~]# cd /etc/postfix/
 [root@localhost postfix]# ls -la
 total 160
@@ -179,9 +179,9 @@ drwxr-xr-x. 138 root root  8192 May 20 02:23 ..
 
 ### main.cf
 
-The Postfix main configuration file is main.cf \(please note that there is a master.cf also\). The main.cf file has tones of Documentations and settiing are in key value pairs \(Something = Value\). try `cat main.cf` to see.
+The Postfix main configuration file is main.cf (please note that there is a master.cf also). The main.cf file has tones of Documentations and settiing are in key value pairs (Something = Value). try `cat main.cf` to see.
 
-```text
+```
 [root@localhost postfix]# cat main.cf 
 # Global Postfix configuration file. This file lists only a subset
 # of all parameters. For the syntax, and for a complete parameter
@@ -866,7 +866,7 @@ readme_directory = /usr/share/doc/postfix-2.10.1/README_FILES
 
 To see just customized settings in post fix configuration we use `postconf -n` command:
 
-```text
+```
 [root@localhost postfix]# postconf -n
 alias_database = hash:/etc/aliases
 alias_maps = hash:/etc/aliases
@@ -896,9 +896,9 @@ And if we use postconf without -n then it shows all settings ,even defaults. So 
 
 Lets take a look at most impotant setting of postfix in main.cf file:
 
-myhostname : By default specifies the internet name host name of this mail system, For none public Postfix mail servers\(Like what we have here \) by defualt it uses`get hostname` if it is not set! How ever if we are going to have a publicly available email server or even internally , as long as we have a DNS entry for our Server, we should certainly set what our hostname is with Full Domain:
+myhostname : By default specifies the internet name host name of this mail system, For none public Postfix mail servers(Like what we have here ) by defualt it uses`get hostname` if it is not set! How ever if we are going to have a publicly available email server or even internally , as long as we have a DNS entry for our Server, we should certainly set what our hostname is with Full Domain:
 
-```text
+```
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
 myhostname = centos7.example.com
@@ -908,23 +908,23 @@ One of the benefits of setting myhostname and mydomain is that from now on we ca
 
 mydomain : Set domain name for our email server, The default is to use `$myhostname` minus the first component:
 
-```text
+```
 #mydomain = domain.tld
 mydomain = example.com
 ```
 
-disable-vrfy-command \(might not exist in configurations\) It avoid e-mail address mining by doing some things behinde the scenes, that make scanning for e-mail addresses more deficault for thoese systems which are designed to do exactly that. if we are going to configure a publicly available mail server then we should set it to "yes". The default value, even if dose not exist, is "no",\( no matter where we put that in configuration file\):
+disable-vrfy-command (might not exist in configurations) It avoid e-mail address mining by doing some things behinde the scenes, that make scanning for e-mail addresses more deficault for thoese systems which are designed to do exactly that. if we are going to configure a publicly available mail server then we should set it to "yes". The default value, even if dose not exist, is "no",( no matter where we put that in configuration file):
 
-```text
+```
 disable_vrfy_command = no
 # The default value is "no", no changes was necessary
 ```
 
-inet\_interfaces it determines what interfaces on our server that the postfix process will listen for connections on. by default it is set for "only local host"
+inet_interfaces it determines what interfaces on our server that the postfix process will listen for connections on. by default it is set for "only local host"
 
 But for configuring an internl mail server which provides connectivity for other clients, or if we are going to offer connectivity for internal and external clients, we should set it to "all":
 
-```text
+```
 # Note: you need to stop/start Postfix when this parameter changes.
 #
 #inet_interfaces = all
@@ -938,7 +938,7 @@ mydestination it is set to "myhostname" by default, and it is a list of all the 
 
 We should also make sure that if we are accepting mail from domains outside of localhost, then we should have mx records for our mail server in our DNS, because many mail servers won't deliver e-mail to the host which dosen't have appropriate mx record for the host that is the authorative responsibilty for a paricular doman.
 
-```text
+```
 mydestination = $myhostname, localhost.$mydomain, localhost
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
@@ -948,14 +948,14 @@ mydestination = $myhostname, localhost.$mydomain, localhost
 
 relay-domains : it canhave multiple values that depends on what we are going to allow ourself to e-mail relay for, we can use `$mydestination` which previously defined or we ca use full host and domain name that we are going to accept e-mail and then relay e-mail to another domain:
 
-```text
+```
 #relay_domains = $mydestination
 #no changes is made
 ```
 
 relayhost : defines the next connection that we have for SMTP:
 
-```text
+```
 #relayhost = $mydomain
 #relayhost = [gateway.my.domain]
 #relayhost = [mailserver.isp.tld]
@@ -966,7 +966,7 @@ relayhost : defines the next connection that we have for SMTP:
 
 These were settings that we need to know at minimum to setup our postfix configuration for a local host based distribution system for SMTP email.Lets go a head. Unfortunately there isn't any tools for configuration test so we use ordinary things:
 
-```text
+```
 [root@localhost postfix]# systemctl restart postfix
 [root@localhost postfix]# systemctl status postfix
 ● postfix.service - Postfix Mail Transport Agent
@@ -1003,7 +1003,7 @@ Connection closed by foreign host.
 
 As we said Sendmail is the oldest MTA, thus any other MTA which has come after SendMail, has tried to keep itself backward compatible with sendmail by providing a sendmail emulation layer. So we can use sendmail commands on the command line regardless of what MTA has been installed in our distrobiution. Two examples of that are `mailq`and `sendmail`. mailq is available on most systems to check the mail queue. It is equivalent to sendmail -bp, which works with Postfix too.
 
-```text
+```
 [root@localhost ~]# sendmail -bp
 -Queue ID- --Size-- ----Arrival Time---- -Sender/Recipient-------
 5A0F861A6DDD      524 Mon May 21 03:45:15  user1@centos7.example.com
@@ -1021,18 +1021,18 @@ As we said Sendmail is the oldest MTA, thus any other MTA which has come after S
 
 Lets send a local e-mail from one user to another:
 
-```text
+```
 [root@localhost ~]# mail
 No mail for root
 ```
 
-```text
+```
 [user1@localhost ~]$ mail -s "hello root!" root@localhost
 Hi there! I am user1
 EOT
 ```
 
-```text
+```
 [root@localhost ~]# mail
 Heirloom Mail version 12.5 7/5/10.  Type ? for help.
 "/var/spool/mail/root": 1 message 1 new
@@ -1071,7 +1071,7 @@ You have mail in /var/spool/mail/root
 
 some of mail command hot keys are:
 
-```text
+```
 Mail Command               Description
 -------------------------  --------------------------------------------
 t [message list]           type message(s).
@@ -1103,7 +1103,7 @@ set variable[=value]       set Mail variable.
 
 In this directory postfix does its stuf. Any queued messagesare stored here:
 
-```text
+```
 [root@localhost ~]# cd /var/spool/postfix/
 You have new mail in /var/spool/mail/root
 [root@localhost postfix]# ls -l
@@ -1124,13 +1124,13 @@ drwx------. 2 postfix root       6 Jun  9  2014 saved
 drwx------. 2 postfix root       6 Jun  9  2014 trace
 ```
 
-You can see large number of directories here. Most of these directories will only have information if postfix configuration is holding e-mail for some reason or if it is waiting to deliver it, otherwise most of these directories\(except pid or corrupt\) should always remain empty.
+You can see large number of directories here. Most of these directories will only have information if postfix configuration is holding e-mail for some reason or if it is waiting to deliver it, otherwise most of these directories(except pid or corrupt) should always remain empty.
 
 ## /var/spool/mail
 
-Specifies the default mail drop directory. By default all mail is delivered to the /var/spool/mail/&lt;username&gt; file.
+Specifies the default mail drop directory. By default all mail is delivered to the /var/spool/mail/\<username> file.
 
-```text
+```
 [root@localhost postfix]# cd ..
 [root@localhost spool]# cd mail/
 [root@localhost mail]# pwd
@@ -1144,13 +1144,13 @@ total 20
 -rw-rw----. 1 user2  mail 2563 May 21 04:38 user2
 ```
 
-when postfix recieve a message, if its going localy then it goes to /var/spool/mail directory on the local system, if it is going to be send it some where else , \( it will exist in /var/spool/postfix directory long enough to send the e-mail out and then it wiil flush and clear the directory once it has been successfully sent.
+when postfix recieve a message, if its going localy then it goes to /var/spool/mail directory on the local system, if it is going to be send it some where else , ( it will exist in /var/spool/postfix directory long enough to send the e-mail out and then it wiil flush and clear the directory once it has been successfully sent.
 
 ### Logging
 
 Postfix uses the syslog daemon for its logging. When`/etc/syslog.conf`is configured.Lets take a closer look at look at postfix activities :
 
-```text
+```
 [root@localhost mail]#  cd /var/log
 [root@localhost log]# ls
 anaconda           firewalld           pluto              tallylog
@@ -1186,7 +1186,7 @@ email aliases are desgined for e-mail system to take an e-mail that is for one d
 
 Used to redirect mail for local recepients.
 
-```text
+```
 [root@localhost log]# cat /etc/aliases
 #
 #  Aliases in this file will NOT be expanded in the header from
@@ -1289,13 +1289,13 @@ decode:        root
 user3:    root
 ```
 
-Each line of /etc/aliases has the format of alias: user. Two system aliases must always be present: mailer\_daemon: postmaster and postmaster: root. We can use aliases for all kind of daemons, for example use ntp: root. Now we can add a line to redirect all mail to root to a specific user or group of administrators, for example user3: root. So although we dont have any "user3" in our system, but if an e-mail is sent to user3 it would not be rejected.
+Each line of /etc/aliases has the format of alias: user. Two system aliases must always be present: mailer_daemon: postmaster and postmaster: root. We can use aliases for all kind of daemons, for example use ntp: root. Now we can add a line to redirect all mail to root to a specific user or group of administrators, for example user3: root. So although we dont have any "user3" in our system, but if an e-mail is sent to user3 it would not be rejected.
 
 ### newaliases
 
 After any changes in /etc/aliases we need to re-create binary file aliases.db . For that we stop postfix service, use newaliases command to re-create aliases.db and then start the postfix service again:
 
-```text
+```
 [root@localhost ~]# cat /etc/passwd | grep user3
 [root@localhost ~]# systemctl stop postfix.service 
 [root@localhost ~]# ls -la /etc/aliases.db
@@ -1308,14 +1308,14 @@ After any changes in /etc/aliases we need to re-create binary file aliases.db . 
 
 Now lets send an e-mail to user3:
 
-```text
+```
 [user1@localhost ~]$ mail -s "From user1 to user3" user3@localhost
 Hi my dear friend are you there? 
 .
 EOT
 ```
 
-```text
+```
 [root@localhost ~]# whoami
 root
 You have mail in /var/spool/mail/root
@@ -1332,7 +1332,7 @@ user1@centos7.example.com wrote:
 > Hi my dear friend are you there?
 ```
 
-```text
+```
 [user1@localhost ~]$ mail
 Heirloom Mail version 12.5 7/5/10.  Type ? for help.
 "/var/spool/mail/user1": 11 messages 11 new
@@ -1368,22 +1368,22 @@ For demonstration we just show how it would be:
 
 Try `cat /etc/postfix/virtual` . It has all kinds of rules that we can apply .
 
-For example we can add these two items at the bottom of /etc/postfix/virtual file\(stop postfix service before that\):
+For example we can add these two items at the bottom of /etc/postfix/virtual file(stop postfix service before that):
 
-```text
+```
 abc@xyz.com        user1
 efg@lmnop.com        user2
 ```
 
 Like aliases we would need to convert it to binary files using postmap command:
 
-```text
+```
 [root@localhost ~]# postmap /etc/postfix/virtual
 ```
 
-Next we need to set  __`aliasvirtualmaps` in main.cf configuration file:
+Next we need to set _ _`aliasvirtualmaps` in main.cf configuration file:
 
-```text
+```
   ### if have plan to use virtual feature add:
   #virtual_alias_map = unix:hash:/etc/postfix/virtual
 ```
@@ -1391,4 +1391,3 @@ Next we need to set  __`aliasvirtualmaps` in main.cf configuration file:
 and do not forget to start postfix service . try tail /var/log/maillog to find out what is going on after setting up virtuals.
 
 That was some of most important postfix files and configurations!
-
