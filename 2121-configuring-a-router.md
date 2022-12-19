@@ -29,7 +29,7 @@ Like any other moder operating system, liunx has firewall. First lets see how li
 
 There is a firewalling functionality which is implemented in linux kernel with netfilter. netfilter is a kernel module and any network traffic which kernel forward to any interface(s), is pass through netfilter. This way netfilter can make decision wether incoming or out going traffic is allowed or not. The major interface to the netfilter module is iptables. iptables has been around for a long time and it let us to do any advanced configuration on linux firewalls.
 
-While being able to do any advanced firewall configuration is count as iptables advantage, the biggest disadvantage of iptables is its complexity. This disadvantage has been caused other solutions have been invented like ufw , firewalld . They both work with iptables behind the sence and make firewall configuration easier for us. For lpic2 exam we just talk about iptables.
+While being able to do any advanced firewall configuration is count as iptables advantage, the biggest disadvantage of iptables is its complexity. This disadvantage has been caused other solutions have been invented like ufw , firewalld . They both work with iptables behind the scenes and make firewall configuration easier for us. For lpic2 exam we just talk about iptables.
 
 ## iptables
 
