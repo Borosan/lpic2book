@@ -27,7 +27,7 @@ Like any other moder operating system, liunx has firewall. First lets see how li
 
 ![](.gitbook/assets/route-netfilter.jpg)
 
-There is a firewalling functionality which is implemented in linux kernel with netfilter. netfilter is a kernel module and any network traffic which kernel forward to any interface(s), is pass through netfilter. This way netfilter can make decision wether incomming or out going traffic is allowed or not. The major interface to the netfilter module is iptables. iptables has been around for a long time and it let us to do any advanced configuration on linux firewalls.
+There is a firewalling functionality which is implemented in linux kernel with netfilter. netfilter is a kernel module and any network traffic which kernel forward to any interface(s), is pass through netfilter. This way netfilter can make decision wether incoming or out going traffic is allowed or not. The major interface to the netfilter module is iptables. iptables has been around for a long time and it let us to do any advanced configuration on linux firewalls.
 
 While being able to do any advanced firewall configuration is count as iptables advantage, the biggest disadvantage of iptables is its complexity. This disadvantage has been caused other solutions have been invented like ufw , firewalld . They both work with iptables behind the sence and make firewall configuration easier for us. For lpic2 exam we just talk about iptables.
 
@@ -35,8 +35,8 @@ While being able to do any advanced firewall configuration is count as iptables 
 
 iptables works with tables! There are at present three tables:
 
-* **Filter : ** The filter table is used for packet filtering.
-* **NAT : ** The nat table is used for address translation.
+* **Filter :** The filter table is used for packet filtering.
+* **NAT :** The nat table is used for address translation.
 * **Mangle :** The mangle table can be used for special-purpose processing of packets.
 
 Within tables there are chains.chains are used to define what kind of packet follow shoud be filtered exactly.
@@ -47,17 +47,17 @@ Within tables there are chains.chains are used to define what kind of packet fol
 * INPUT: Configured to be blocked, logged or sent to the local system to be handled by the appropriate client, application or service.
 * OUTPUT:  packet is sent from the firewall out to the network to its final destination.(Rules usually are not applied at this chain)
 * FORWARD : Configured to block, logged or sent to the POSTROUTING chain.
-* **POSTROUTING:  **make changes to the packet as it exits the firewall, commonly used to do masquerading. 
+* **POSTROUTING:**  make changes to the packet as it exits the firewall, commonly used to do masquerading.&#x20;
 
 How tables and chain are related so ? All three tree tables (FILTER, NAT, MANGLE) can be present in chains(filter points) but not every chain has all three table represented:
 
 ![](.gitbook/assets/route-iptables-tchains.jpg)
 
-* **PREROUTING ( **_**NAT**_** , **MANGLE**)**
+* **PREROUTING ( **_**NAT**_** ,** MANGLE**)**
 * INPUT (**FILTER** , MANGLE )
 * FORWARD (**FILTER** , MANGLE )
-* OUTPUT (**FILTER ** ,  _**NAT**_ , MANGLE)
-* **POSTROUTING (**_**NAT**_** , **MANGLE**)**
+* OUTPUT (**FILTER** ,  _**NAT**_ , MANGLE)
+* **POSTROUTING (**_**NAT**_** ,** MANGLE**)**
 
 How rules are broken down within the firewall system? chains are filtering points that we can create rules, and rules are apllied to the packet passing trough. The rules define what exactly should happen to a packet.
 
@@ -68,8 +68,8 @@ In every rule there us target, The typical target is ACCEPT:
 * **ACCEPT** : the package is allowed
 * **DROP** : The package is not allowed, the package will be sileintly dropped and the sender of package doesn't know anything.
 * **REJECT** :  Do not allow package, the sender of package will get an ICMP warnnig message.
-* **LOG : **just LOGs
-* **MASQUARATE : **used for NAT.
+* **LOG :** just LOGs
+* **MASQUARATE :** used for NAT.
 
 the target indicated with -j option. we will talk about that.
 
@@ -89,7 +89,7 @@ iptables commands can be pretty long, and sometimes hard to understand so lets d
 iptables -A chain [-i/-o interface] [-s/-d address] -p udp --sport/--dport 80  -j TARGET
 ```
 
-`-A` appends to the end gollowed by the name of the chain, `[-i/-o interface]` incomming or outgoing interface,`[ -s/-d ]` source address or destination address,`-p` defines the protocol like tcp or udp, `[--sport/--dport]`for setting source or destination port number, `-j TARGET` which define what will happend to the packet that match this rule.
+`-A` appends to the end glowed by the name of the chain, `[-i/-o interface]` incoming or outgoing interface,`[ -s/-d ]` source address or destination address,`-p` defines the protocol like tcp or udp, `[--sport/--dport]`for setting source or destination port number, `-j TARGET` which define what will happend to the packet that match this rule.
 
 iptables command options outside of adding rules to chain:
 
@@ -237,7 +237,7 @@ it seems okey hah? but it doesn't work, check it from another computer(centos7-2
 ^C
 ```
 
-The point is that do not forget to set reverse rules inorder to let incomming traffic to our server(centos7-1), can come back:
+The point is that do not forget to set reverse rules inorder to let incoming traffic to our server(centos7-1), can come back:
 
 ```
 [root@centos7-1 ~]# iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
@@ -272,7 +272,7 @@ Managed by ansible
 
 #### Saving iptables rules
 
-iptables rules are not persisyent and they are vanished after reboot. rules are stored in /etc/sysconfig/iptables . for saving rules we use iptables-save command,
+iptables rules are not persistent and they are vanished after reboot. rules are stored in /etc/sysconfig/iptables . for saving rules we use iptables-save command,
 
 ```
 [root@centos7-1 ~]# iptables-save > /etc/sysconfig/iptables.$(date +%d-%m-%y)
@@ -383,7 +383,7 @@ Block TCP traffic from Specific IP Address:
 iptables -A INPUT -p tcp -s xxx.xxx.xxx.xxx -j DROP
 ```
 
-Allow All tcp xxx incomming port:
+Allow All tcp xxx incoming port:
 
 ```
 iptables -A INPUT -p tcp --dport xxx -j ACCEPT
@@ -492,7 +492,7 @@ In other words, connection initiated by the internal hosts to the internet will 
 
 #### Static SNAT vs DynamicSNAT
 
-Even SNAT can be classified into different types based on the translation it does. For example if many internal private IP addresses gets translated to one public ip address assigned to the Linux router, then its called as a**Static SNAT**.If many internal private IP addresses gets translated to many different public IP addresses assigned to the Linux router, then its called as a**Dynamic SNAT. **Please note that If we are using masquerading instead of SNAT, then we will be unable to specify the outgoing ip address. It will use the default IP address assigned to the outgoing interface.
+Even SNAT can be classified into different types based on the translation it does. For example if many internal private IP addresses gets translated to one public ip address assigned to the Linux router, then its called as a**Static SNAT**.If many internal private IP addresses gets translated to many different public IP addresses assigned to the Linux router, then its called as a**Dynamic SNAT.** Please note that If we are using masquerading instead of SNAT, then we will be unable to specify the outgoing ip address. It will use the default IP address assigned to the outgoing interface.
 
 ### What is DNAT?
 
