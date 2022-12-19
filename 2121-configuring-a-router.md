@@ -59,9 +59,9 @@ How tables and chain are related so ? All three tree tables (FILTER, NAT, MANGLE
 * OUTPUT (**FILTER** ,  _**NAT**_ , MANGLE)
 * **POSTROUTING (**_**NAT**_** ,** MANGLE**)**
 
-How rules are broken down within the firewall system? chains are filtering points that we can create rules, and rules are apllied to the packet passing trough. The rules define what exactly should happen to a packet.
+How rules are broken down within the firewall system? chains are filtering points that we can create rules, and rules are applied to the packet passing trough. The rules define what exactly should happen to a packet.
 
-When packets are filterd trough the iptables firewall it will go tough the rules one by one, and the idea is "exit on match". So if a packet matches specific rule , the rule will be applied and nothing else will be applied in that chain any more. So ordering in iptables is very important.
+When packets are filtered trough the iptables firewall it will go tough the rules one by one, and the idea is "exit on match". So if a packet matches specific rule , the rule will be applied and nothing else will be applied in that chain any more. So ordering in iptables is very important.
 
 In every rule there us target, The typical target is ACCEPT:
 
