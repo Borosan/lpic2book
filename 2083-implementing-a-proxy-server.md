@@ -17,7 +17,7 @@
 
 * squid.conf
 * acl
-* http_access
+* http\_access
 
 In this light weight lesson we talk about squid proxy server. Squid has a giant configuration file and covering all aspect of that needs spending more time, but for this course we just discuss about items which are important for LPIC2 exam.
 
@@ -36,9 +36,9 @@ Clearly some of the above reasons are perfectly fitting for a business and some 
 
 ## What is squid ?
 
-**Squid **is a free and open-source full featured web proxy cache server released under GPL 3, which can be used in many other ways like a web server caching daemon to speed up websites loading, cache DNS lookups, filter the traffic and many other network protocols, right now, Squid server supports HTTP and FTP protocols, there is a limited support to other protocols like TLS and SSL, it was first released in 1996.
+**Squid** is a free and open-source full featured web proxy cache server released under GPL 3, which can be used in many other ways like a web server caching daemon to speed up websites loading, cache DNS lookups, filter the traffic and many other network protocols, right now, Squid server supports HTTP and FTP protocols, there is a limited support to other protocols like TLS and SSL, it was first released in 1996.
 
-![](.gitbook/assets/squid_logo.png)
+![](.gitbook/assets/squid\_logo.png)
 
 ### Installing Squid
 
@@ -169,23 +169,23 @@ The file in Ubuntu is so huge cause of its rich documents.Lets take a look at im
 
 This is the default port for the HTTP proxy server, by default it is 3128
 
-**cache_mem \[bytes]**
+**cache\_mem \[bytes]**
 
 Defines the amount of memory Squid can use for cache. The default is 256 MB and it is commented out. This does not specify the memory usage of Squid and may be exceeded.
 
-**maximum_object_size_in_memory \[bytes]**
+**maximum\_object\_size\_in\_memory \[bytes]**
 
-Objects greater than this size will not be attempted to kept in the memory cache. This should be set high enough to keep objects accessed frequently in memory to improve performance whilst low enough to keep larger objects from hoarding cache_mem. And the default size is 512 KB.
+Objects greater than this size will not be attempted to kept in the memory cache. This should be set high enough to keep objects accessed frequently in memory to improve performance whilst low enough to keep larger objects from hoarding cache\_mem. And the default size is 512 KB.
 
-**cache_dir aufs Directory-Name Mbytes L1 L2 \[options]**
+**cache\_dir aufs Directory-Name Mbytes L1 L2 \[options]**
 
-The entry cache_dir defines the directory where all the objects are stored on disk. The numbers at the end indicate the maximum disk space in MB to use and the number of directories in the first and second level. "ufs" is the old well-known Squid storage format that has always been there. By default disk caching is not turned on and we can enable it by commenting it out.
+The entry cache\_dir defines the directory where all the objects are stored on disk. The numbers at the end indicate the maximum disk space in MB to use and the number of directories in the first and second level. "ufs" is the old well-known Squid storage format that has always been there. By default disk caching is not turned on and we can enable it by commenting it out.
 
 `cache_dir ufs /var/cache/squid/ 100 16 256` : The default is 100 MB occupied disk space in the /var/cache/squid directory and creation of 16 subdirectories inside it, each containing 256 more subdirectories.
 
-**maximum_object_size \[bytes]**
+**maximum\_object\_size \[bytes]**
 
-Set the default value for max-size parameter on any cache_dir. The value is specified in bytes, and the default is 4 MB.
+Set the default value for max-size parameter on any cache\_dir. The value is specified in bytes, and the default is 4 MB.
 
 And after doing some configurations (as en example here we have turned on disk cache) we need to restart squid service :
 
@@ -260,7 +260,7 @@ The lines above for squid.conf represent a basic example of the usage of ACL ele
 
 The first word, acl, indicates that this is a ACL element directive line.
 
-The second word, localhost or Safe_ports, specify a name for the directive.
+The second word, localhost or Safe\_ports, specify a name for the directive.
 
 The third word, port in this case, is an ACL element type that is used to represent a TCP port. It can be a client IP address or range of addresses. Also it is possible to use hostname, if we have some sort of DNS resolution implemented.
 
@@ -394,15 +394,15 @@ and finally do not forget to restart thr service:
 
 ## Squid Authentication
 
-One another option of squid is adding user authentication . For that we need to use auth_param ACL element.
+One another option of squid is adding user authentication . For that we need to use auth\_param ACL element.
 
-### auth_param
+### auth\_param
 
-The auth_param directive controls almost every aspect of Squid's external user authentication interface. Squid currently supports three authentication schemes: Basic, Digest, and NTLM. Basic authentication support is compiled by default (For the others, you must use the enable-auth option with ./configure.).
+The auth\_param directive controls almost every aspect of Squid's external user authentication interface. Squid currently supports three authentication schemes: Basic, Digest, and NTLM. Basic authentication support is compiled by default (For the others, you must use the enable-auth option with ./configure.).
 
-The auth_param directive is very complex, what we are presenting here for LPIC2 exam is HTTP Basic authentication helper, and the syntax would be:
+The auth\_param directive is very complex, what we are presenting here for LPIC2 exam is HTTP Basic authentication helper, and the syntax would be:
 
-**auth_param basic program command ...**
+**auth\_param basic program command ...**
 
 example:`auth_param basic program /opt/squid/ncsa /etc/squid/passwd`
 
@@ -427,7 +427,7 @@ some others are:
 
 And the last argument for ncsa is where the user password file is stored.
 
-Start implementing basic user authentication in squid and as first step locate nsa_auth place in our distribution
+Start implementing basic user authentication in squid and as first step locate nsa\_auth place in our distribution
 
 (In ubuntu use `dpkg -L squid | grep ncsa_auth` ) :
 
@@ -460,7 +460,7 @@ Start implementing basic user authentication in squid and as first step locate n
 -rwxr-xr-x. 1 root root 63088 Apr 10  2018 ntlm_smb_lm_auth
 ```
 
-Next we configure squid.conf file and search for auth_param . There are some documentations and examples :
+Next we configure squid.conf file and search for auth\_param . There are some documentations and examples :
 
 ```
 #    === Example Configuration ===
@@ -586,8 +586,8 @@ lets restart the service and see the results:
 That is squid log file directory. The logs give us information about Squid workloads and performance. The logs record not only access information, but also system configuration errors and resource consumption (eg, memory, disk space). There are several log file maintained by Squid. Some have to be explicitely activated during compile time, others can safely be deactivated during.
 
 * **/var/log/squid/access.log** : Most log file analysis program are based on the entries in access.log. We can use this file to find out who is using squid server and what they are doing etc
-* **/var/log/squid/cache.log **: The cache.log file contains the debug and error messages that Squid generates. 
-* **/var/log/squid/store.log** : The store.log file covers the objects currently kept on disk or removed ones. As a kind of transaction log it is ususally used for debugging purposes. 
+* **/var/log/squid/cache.log** : The cache.log file contains the debug and error messages that Squid generates.&#x20;
+* **/var/log/squid/store.log** : The store.log file covers the objects currently kept on disk or removed ones. As a kind of transaction log it is ususally used for debugging purposes.&#x20;
 
 To display log files in real time use tail command:
 
@@ -603,6 +603,6 @@ Links: [http://www.comfsm.fm/computing/squid/FAQ-10.html](http://www.comfsm.fm/c
 
 [https://wiki.squid-cache.org/SquidFaq/SquidAcl](https://wiki.squid-cache.org/SquidFaq/SquidAcl)
 
-[http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth_param/](http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth_param/)
+[http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth\_param/](http://etutorials.org/Server+Administration/Squid.+The+definitive+guide/Appendix+A.+Config+File+Reference/auth\_param/)
 
 [https://hostpresto.com/community/tutorials/how-to-install-and-configure-squid-proxy-on-centos-7/](https://hostpresto.com/community/tutorials/how-to-install-and-configure-squid-proxy-on-centos-7/)

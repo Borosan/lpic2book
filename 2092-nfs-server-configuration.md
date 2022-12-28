@@ -69,7 +69,7 @@ Probably the greatest disadvantage is the issue of security. Because NFS v3 is b
 
 #### NFS v4
 
-* In NFSv4 , there is no more rpcbind and portmapper. 
+* In NFSv4 , there is no more rpcbind and portmapper.&#x20;
 * In NFSv3 there is a nfslock service which that starts the appropriate RPC processes to allow NFS clients to lock files on the server but NFSv4 has native file locking mechanisem.
 * In NFSv3 rpc.mountd  service is responsible for mounting and unmounting of file systems, In NFSv4 there no rpc.mound.
 * While NFSv3 Works with TCP/UDP ports, NFSv4 just works with TCP
@@ -140,8 +140,8 @@ Some other options we can use in /etc/exports file for file sharing is as follow
 * **ro**: With the help of this option we can provide read only access to the shared files i.e client will only be able to read.
 * **rw**: This option allows the client server to both read and write access within the shared directory.
 * **sync**: Syncronize nfs file system to the disk immediatly, so this way we reduce the chance of ifle system corruption.
-* **no_subtree_check**: This option prevents the subtree checking. When a shared directory is the subdirectory of a larger file system, nfs performs scans of every directory above it, in order to verify its permissions and details. Disabling the subtree check may increase the reliability of NFS, but reduce security.
-* **no_root_squash**: This phrase allows root to connect to the designated directory. \[it needs more explanation:]
+* **no\_subtree\_check**: This option prevents the subtree checking. When a shared directory is the subdirectory of a larger file system, nfs performs scans of every directory above it, in order to verify its permissions and details. Disabling the subtree check may increase the reliability of NFS, but reduce security.
+* **no\_root\_squash**: This phrase allows root to connect to the designated directory. \[it needs more explanation:]
 
 #### Mapping user's ides and group ides, What NFS does?
 
@@ -153,8 +153,8 @@ So we have problem in syncronizing user's permissions becaused they are handled 
 
 But the option that we are talking about , whould be different from root user perspective. the root user is going to have thae same id on the both client and server. so lets explain it again :
 
-* **root_squash** : says do not map root client account to the server root account, it prevents remote root user to have the same access to the file system as the server root user.
-* **no_root_squash**: says hey go and map users root client acount to the server root account. It depends on you and security profile of your organization.
+* **root\_squash** : says do not map root client account to the server root account, it prevents remote root user to have the same access to the file system as the server root user.
+* **no\_root\_squash**: says hey go and map users root client acount to the server root account. It depends on you and security profile of your organization.
 
 Now that we know about more options, lets complete our configuration:
 
@@ -288,7 +288,7 @@ If one of the NFS services does not start up correctly,`rpcbind`will be unable t
 
 ### TCP Wrappers
 
-The`rpcbind`service uses TCP wrappers for access control, and access control rules for`rpcbind`affect all_ _ RPC-based services. Alternatively, it is possible to specify access control rules using /etc/host.allow and etc/host.deny files.
+The`rpcbind`service uses TCP wrappers for access control, and access control rules for`rpcbind`affect all __ RPC-based services. Alternatively, it is possible to specify access control rules using /etc/host.allow and etc/host.deny files.
 
 By default both of hosts.allow and hosts.deny files are blank. So the access will be granted to any client.
 

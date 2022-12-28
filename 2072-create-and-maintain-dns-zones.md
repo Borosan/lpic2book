@@ -2,7 +2,7 @@
 
 ## **207.2 Create and maintain DNS zones**
 
-**Weight: **3
+**Weight:** 3
 
 **Description:** Candidates should be able to create a zone file for a forward or reverse zone and hints for root level servers. This objective includes setting appropriate values for records, adding hosts in zones and adding zones to the DNS. A candidate should also be able to delegate zones to another DNS server.
 
@@ -102,7 +102,7 @@ Some syntax explanation:
 
 One important thing to understand here is the $ORIGIN entry, which is used to make all other entires in the zone file a FQDN. FQDN stands for Fully Qualified Domain Name, and it always ends with a dot (.). FQDN stands for Fully Qualified Domain Name, and it always ends with a dot (.)
 
-**@** shown in the above line is the NAME value for this SOA record. Using @ at this place will replace it with example.com (as we have mentioned it in **$ORIGIN **).
+**@** shown in the above line is the NAME value for this SOA record. Using @ at this place will replace it with example.com (as we have mentioned it in **$ORIGIN** ).
 
 The ‘;’ character in the example above indicates that the rest of the line is a comment that should be ignored by the nameserver.
 
@@ -196,7 +196,7 @@ Every domain can have one (or more) name servers.They are defined as a NS (name 
 
 and the fileds are:
 
-* domain. name :The name of the domain to which the NS belongs. Instead of writing out the full domain, we can also use ‘@’ in the file to let the nameserver fill this out automatically. 
+* domain. name :The name of the domain to which the NS belongs. Instead of writing out the full domain, we can also use ‘@’ in the file to let the nameserver fill this out automatically.&#x20;
 * IN : The class of the DNS record. ‘IN’ is an abbreviated form of ‘Internet’.
 * NS: The type of DNS record, which in this case is ‘Name Server’.
 *   hostname.domain.name: The hostname of an authoritative server.

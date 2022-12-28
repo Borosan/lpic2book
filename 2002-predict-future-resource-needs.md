@@ -328,7 +328,7 @@ AUTHORS  CHANGELOG      COPYING  index.html  media       runserver.py
 cgi-bin  check_deps.sh  docs     iphone      README.rst
 ```
 
-We use **Collectd-web CGI **scripts which interprets and generates the graphical html page statistics. First we need to make it executable for further use :
+We use **Collectd-web CGI** scripts which interprets and generates the graphical html page statistics. First we need to make it executable for further use :
 
 ```
 [root@centos7-2 collectd-web]# chmod +x cgi-bin/graphdefs.cgi
@@ -513,7 +513,7 @@ Nagios has been available from late 90s, early 2000. It is really a collection o
 * Nagios XI : Full enterprise package.
 * nagios Log Server
 * Nagios Network analyzer
-* Nagiod Fusion 
+* Nagiod Fusion&#x20;
 * ...
 
 web site: [https://www.nagios.com](https://www.nagios.com)
@@ -532,7 +532,7 @@ MRTG monitors network traffic loads, reads that traffic and create the statistic
 
 ![](.gitbook/assets/mrtg-replicator-logo.png)
 
-web site: [https://www.mrtg.com/](https://www.mrtg.com)
+web site: [https://www.mrtg.com/](https://www.mrtg.com/)
 
 ## Cacti
 
@@ -542,7 +542,7 @@ Cacti is a complete network graphing solution designed to harness the power of R
 
 Cacti can be used in conjunction with collectd due to the fact both use rrdTools.
 
-web site: [https://www.cacti.net/](https://www.cacti.net)
+web site: [https://www.cacti.net/](https://www.cacti.net/)
 
 and to summarize, take a look at comparison chart below:
 

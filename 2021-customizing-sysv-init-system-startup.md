@@ -2,7 +2,7 @@
 
 ## **202.1 Customizing SysV-init system startup**
 
-**Weight: **3
+**Weight:** 3
 
 **Description:** Candidates should be able to query and modify the behaviour of system services at various targets / run levels. A thorough understanding of the systemd, SysV Init and the Linux boot process is required. This objective includes interacting with systemd targets and SysV init run levels.
 
@@ -427,11 +427,11 @@ In Systemd world we have tragets and unit files, targets is like our goal which 
 
 * service : unit file to start a service considering its dependencies
 * mount : replace the mount in /etc/fstab
-* timer : replacement for cron 
+* timer : replacement for cron&#x20;
 * automount : mount a directory when needed
 * target : as we said a bunch of unit files :), target is an end point, tragets can be used as runlevel .
 * path :observ activities on a path and start a service associated with that
-* ... 
+* ...&#x20;
 
 ### /usr/lib/systemd/system and /etc/systemd/system
 

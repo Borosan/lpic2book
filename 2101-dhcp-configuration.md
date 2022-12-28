@@ -33,7 +33,7 @@ The following steps show how DHCP actually works:
 ![](.gitbook/assets/DHCP-How.jpg)
 
 1. Once a client (that is configured to use DHCP) and connected to a network boots up, it broadcats a DHCPDISCOVER packet to all the network. and attempts to find a DHCP server on the wire.
-2. Router/ Switch forwards the DHCPDISCOVER to the proper DHCP Server(as configured).When the DHCP server receives the DHCPDISCOVER request packet, it replies with a DHCPOFFER packet.Based on the configuration of available addresses, the client hardware address and/or host name and the configuration of DHCP server software determines the appropriate address to assign to the machine which originated the request. The the address temprorary reserved for the client.  
+2. Router/ Switch forwards the DHCPDISCOVER to the proper DHCP Server(as configured).When the DHCP server receives the DHCPDISCOVER request packet, it replies with a DHCPOFFER packet.Based on the configuration of available addresses, the client hardware address and/or host name and the configuration of DHCP server software determines the appropriate address to assign to the machine which originated the request. The the address temprorary reserved for the client. &#x20;
 3. Then the client gets the DHCPOFFER packet, and it sends a DHCPREQUEST packet to the server showing it is ready to receive the network configuration information provided in the DHCPOFFER packet.
 4. Finally, after the DHCP server receives the DHCPREQUEST packet from the client, it sends the DHCPACK packet showing that the client is now permitted to use the IP address assigned to it for (configured) period of time.
 
@@ -366,8 +366,8 @@ log-facility local7;
 
 there are two types of statements defined in the DHCP configuration file, these are:
 
-* **parameters **state how to carry out a task, whether to perform a task, or what network configuration options to send to the DHCP client.
-* **declarations ** specify the network topology, define the clients, offer addresses for the clients, or apply a group of parameters to a group of declarations.
+* **parameters** state how to carry out a task, whether to perform a task, or what network configuration options to send to the DHCP client.
+* **declarations** specify the network topology, define the clients, offer addresses for the clients, or apply a group of parameters to a group of declarations.
 
 The parameters that start with the keyword option are referred to as _options_. These options control DHCP options; whereas, parameters configure values that are not optional or control how the DHCP server behaves.
 
@@ -614,7 +614,7 @@ lease 192.168.1.101 {
 
 Some times we need to assign a specific IP address to a specific client, this way that client would get the same IP address even if it leaves our network and return.This way we can configure firewall rules in our network easily and add one level of security.
 
-For accomplish our goal we need to simply define the section below in `/etc/dhcp/dhcpd.conf`** **file, where we must explicitly specify client’s MAC addresses and the fixed IP to be assigned.
+For accomplish our goal we need to simply define the section below in `/etc/dhcp/dhcpd.conf` **** file, where we must explicitly specify client’s MAC addresses and the fixed IP to be assigned.
 
 #### host \[name] { \[static network information] }
 
@@ -943,7 +943,7 @@ the DHCPv6 service is named "dhcpd6" which should be started and stopped as root
 DHCPv6 can be configured two modes to work in:
 
 * **statefull :** Stateless configuration (also known as SLAAC-StateLess AutoConfiguration) The stateful version of DHCPv6 is pretty much the same as for IPv4. Our DHCPv6 server will assign IPv6 addresses to all DHCPv6 clients and it will keep track of the bindings. In short, the DHCPv6 servers knows exactly what IPv6 address has been assigned to what host.
-* **stateless : **Stateless works a bit different. The DHCPv6 server does not assign IPv6 addresses to the DHCPv6 clients, this is done through "autoconfiguration." The DHCPv6 server is only used to assign information that autoconfiguration doesn’t….stuff like a domain-name, multiple DNS servers and all the other options that DHCP has to offer.
+* **stateless :** Stateless works a bit different. The DHCPv6 server does not assign IPv6 addresses to the DHCPv6 clients, this is done through "autoconfiguration." The DHCPv6 server is only used to assign information that autoconfiguration doesn’t….stuff like a domain-name, multiple DNS servers and all the other options that DHCP has to offer.
 
 ## radvd
 

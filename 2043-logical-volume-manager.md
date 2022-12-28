@@ -4,7 +4,7 @@
 
 **Weight:** 3
 
-**Description: **Candidates should be able to create and remove logical volumes, volume groups, and physical volumes. This objective includes snapshots and resizing logical volumes.
+**Description:** Candidates should be able to create and remove logical volumes, volume groups, and physical volumes. This objective includes snapshots and resizing logical volumes.
 
 **Key Knowledge Areas:**
 

@@ -2,9 +2,9 @@
 
 ## **211.3 Managing Remote E-Mail Delivery**
 
-**Weight: **2
+**Weight:** 2
 
-**Description: **Candidates should be able to install and configure POP and IMAP daemons.
+**Description:** Candidates should be able to install and configure POP and IMAP daemons.
 
 **Key Knowledge Areas:**
 
@@ -45,7 +45,7 @@ Courier is one of the oldest MTAs in the open source world and consequently it i
 
 Parts of Courier, such as the maildrop filtering system, the webmail and IMAP server, can also be installed as independent packages which can be used with other mail servers. It is best known for its IMAP server component.
 
-Courier-IMAP is a particularly popular combination with Qmail, Exim, and Postfix servers that are configured to use** maildirs**.
+Courier-IMAP is a particularly popular combination with Qmail, Exim, and Postfix servers that are configured to use **maildirs**.
 
 Here we use Ubuntu to have a quick look at courier, (Unfortunately there are no rpm packages for Courier-IMAP, Courier-Authlib, and Maildrop, therefore we have to build them ) :
 
@@ -636,7 +636,7 @@ Primary purpose of dovecot is to act as mail storage server. Mail is delivered t
 
 According to Openemailsurvey Dovecot has an installed base of more than 3 million email servers and a global market share of 68% of all IMAP servers. While Dovecot software can be used commercially without any license fees, a commercial version is also available as Dovecot Pro. The commercial version is provided by Dovecot Oy along with support and enterprise add-ons such as the object storage and full-text search plugins. Since March 2015, Dovecot Oy has been part of the Open-Xchange Family.
 
-good news about **dovecot **is that it supports both mail store formats, **mbox** and **maildir**.
+good news about **dovecot** is that it supports both mail store formats, **mbox** and **maildir**.
 
 ```
 root@server1:~# apt-cache search dovecot | grep dovecot
@@ -871,7 +871,7 @@ mail_location = mbox:~/mail:INBOX=/var/mail/%u
   # mail_location, which is also the default for it.
 ```
 
-set mail_location value to `mail_location = maildir:~/mail/inbox` .
+set mail\_location value to `mail_location = maildir:~/mail/inbox` .
 
 dovecot does not have seperate services for imap and pop3, it has just one deamon and we need tor restart that inorder to our changes take effect:
 

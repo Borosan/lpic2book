@@ -4,7 +4,7 @@
 
 **Weight:** 3
 
-**Description: **The candidate should be able to configure PAM to support authentication using various available methods. This includes basic SSSD functionality.
+**Description:** The candidate should be able to configure PAM to support authentication using various available methods. This includes basic SSSD functionality.
 
 **Key Knowledge Areas:**
 
@@ -17,7 +17,7 @@
 * /etc/pam.d/
 * pam.conf
 * nsswitch.conf
-* pam_unix, pam_cracklib, pam_limits, pam_listfile, pam_sss
+* pam\_unix, pam\_cracklib, pam\_limits, pam\_listfile, pam\_sss
 * sssd.conf
 
 Having Control over users and Authenticatios and auditing is so important. But there is not just one Authentication source which alway we use. There are different authentication sources like traditionamunix shadow file, LDAP servers, old Nis.
@@ -34,7 +34,7 @@ This way developers do not need to find out how to design their programs to deal
 
 ![](.gitbook/assets/PAM-Arch.jpg)
 
-Any program like passwd, or su which deal with username and password use pam. To do that, the program should work with pam library file pam_lib . PAM by itself is using configuration files /etc/pam.d. PAM is modular and uses differnt modules which are placed in /lib/security .
+Any program like passwd, or su which deal with username and password use pam. To do that, the program should work with pam library file pam\_lib . PAM by itself is using configuration files /etc/pam.d. PAM is modular and uses differnt modules which are placed in /lib/security .
 
 For example lets check login tool to findout if it uses pam or not(CentOS 7) :
 
@@ -226,15 +226,15 @@ If new way of authentication has been invented(Like finger print reader), there 
 
 For lPIC2 exam we are required to know some of these modules:
 
-* pam_unix
-* pam_cracklib
-* pam_limits
-* pam_listfile
-* pam_sss
+* pam\_unix
+* pam\_cracklib
+* pam\_limits
+* pam\_listfile
+* pam\_sss
 
-**pam_unix:** This module configures authentication via /etc/passwd and /etc/shadow.
+**pam\_unix:** This module configures authentication via /etc/passwd and /etc/shadow.
 
-The pam_unix.so module supports the following management groups:
+The pam\_unix.so module supports the following management groups:
 
 ```
 account
@@ -314,7 +314,7 @@ session
     The “session” type does not support any options.
 ```
 
-Most of services which need authentication include pam_unix.so . As an example we can add options to that inorder to remember last 3 user's password and dose not let user to set them again.
+Most of services which need authentication include pam\_unix.so . As an example we can add options to that inorder to remember last 3 user's password and dose not let user to set them again.
 
 ```
 [root@centos7-1 ~]# cd /etc/pam.d/
@@ -349,7 +349,7 @@ session     required      pam_unix.so
 
 And fortunatley there is no need to do any thing else. Test it by creating a user and set different passwords for that 3 times and on forth effort try to set the first password which you have used, it won't let you.
 
-**pam_cracklib :** This plugin provides strength-checking for passwords. This is done by performing a number of checks to ensure passwords are not too weak. It checks the password against dictonaries, the previous password(s) and rules about the use of numbers, upper and lowercase and other characters. Based on your distro `pam_cracklib` name might be name different.
+**pam\_cracklib :** This plugin provides strength-checking for passwords. This is done by performing a number of checks to ensure passwords are not too weak. It checks the password against dictonaries, the previous password(s) and rules about the use of numbers, upper and lowercase and other characters. Based on your distro `pam_cracklib` name might be name different.
 
 ```
 Options
@@ -400,7 +400,7 @@ dictpath=/path/to/dict
     Path to the cracklib dictionaries.
 ```
 
-For example we can set minimum charachters wich are required for a password, by the way you can see the name of`` `_ ``pam**cracklib.so\`**_** has been changed here in CentOS7 and that is**_** pam\\**\_pwquality.so :
+For example we can set minimum charachters wich are required for a password, by the way you can see the name of`` `_ ``pam**cracklib.so\` **_**has been changed here in CentOS7 and that is**_** pam\\**\_pwquality.so :
 
 ```
 [root@centos7-1 pam.d]# vim system-auth
@@ -431,7 +431,7 @@ session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet 
 session     required      pam_unix.so
 ```
 
-**pam_limits** : The pam_limits PAM module sets limits on the system resources that can be obtained in a user-session. Users of uid=0 are affected by this limits, too. By default limits are taken from the `/etc/security/limits.conf`config file. Then ndividual files from the`/etc/security/limits.d/`directory are read.
+**pam\_limits** : The pam\_limits PAM module sets limits on the system resources that can be obtained in a user-session. Users of uid=0 are affected by this limits, too. By default limits are taken from the `/etc/security/limits.conf`config file. Then ndividual files from the`/etc/security/limits.d/`directory are read.
 
 ```
 [root@centos7-1 pam.d]# grep pam_limits *
@@ -536,14 +536,14 @@ For example, adding line below at the end of `/etc/security/limits.conf` can avo
 
 For testing, create pooruser and try to ssh to the system more than once, see the results.
 
-**pam_listfile :** This module allows or denies an action based on the presence of the item in a listfile. A listfile is a textfile containing a list of usernames, one username per line. The type of item can be set via the configuration parameter item and can have the value of user, tty, rhost, ruser, group, or shell. The _sense _ configuration parameter determines whether the entries in the list are allowed. Possible values are allow and deny.
+**pam\_listfile :** This module allows or denies an action based on the presence of the item in a listfile. A listfile is a textfile containing a list of usernames, one username per line. The type of item can be set via the configuration parameter item and can have the value of user, tty, rhost, ruser, group, or shell. The _sense_ configuration parameter determines whether the entries in the list are allowed. Possible values are allow and deny.
 
 ```
 [root@centos7-1 security]# cd /etc/pam.d/
 [root@centos7-1 pam.d]# grep pam_listfile.so *
 ```
 
-Right now no package or service is currently using pam_list file, for testing lets install a FTP server:
+Right now no package or service is currently using pam\_list file, for testing lets install a FTP server:
 
 ```
 [root@centos7-1 pam.d]# yum install vsftpd
@@ -587,7 +587,7 @@ For testing , start vsftp service, create a pooruser and add it to this list, th
 
 #### sssd
 
-sssd is a centeral service in the authentication process, that determines how exactly the authentication is going to happen. sssd can authenticate us against LDAP, ActiveDirectory, Nis , ... . sssd is especialy developed to do that. Lets just take a look at it inorder to have a better understanding of pam_sss. Here we just chek the service and read sample configuration file:
+sssd is a centeral service in the authentication process, that determines how exactly the authentication is going to happen. sssd can authenticate us against LDAP, ActiveDirectory, Nis , ... . sssd is especialy developed to do that. Lets just take a look at it inorder to have a better understanding of pam\_sss. Here we just chek the service and read sample configuration file:
 
 ```
 root@centos7-1 ~]# systemctl status sssd
@@ -655,7 +655,7 @@ services = nss, pam
 
 We need to configure and start sssd serviceif have a plan to use it but leave it for now.
 
-**pam_sss.so : ** is the PAM interface to the System Security Services daemon (SSSD). Errors and results are logged through syslog.
+**pam\_sss.so :** is the PAM interface to the System Security Services daemon (SSSD). Errors and results are logged through syslog.
 
 ## nsswitch.conf
 

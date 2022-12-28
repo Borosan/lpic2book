@@ -4,7 +4,7 @@
 
 **Weight:** 3
 
-**Description: **Candidates should be able to configure a network device to be able to connect to a local, wired or wireless, and a wide-area network. This objective includes being able to communicate between various subnets within a single network including both IPv4 and IPv6 networks.
+**Description:** Candidates should be able to configure a network device to be able to connect to a local, wired or wireless, and a wide-area network. This objective includes being able to communicate between various subnets within a single network including both IPv4 and IPv6 networks.
 
 **Key Knowledge Areas:**
 

@@ -255,17 +255,17 @@ In Linux ping command keep executing until we interrupt.
 | -------------------- | ---------------------------------------------------------------------------------------------------------- |
 | -v                   | verbose mode                                                                                               |
 | -V                   | Show version and exit                                                                                      |
-| -c 5                 | Stop after sending 5 ECHO_REQUEST packets.                                                                 |
+| -c 5                 | Stop after sending 5 ECHO\_REQUEST packets.                                                                |
 | -i 0.9               | Increase / decrease pint time interval                                                                     |
 | -O                   | Report outstanding ECHO REPLAY before sending next packet                                                  |
 | - w 10               | Specify a timeout, in seconds, before ping exits regardless of how many packets have been sent or received |
 | -s 100               | Change the default packet size from 56 to 100                                                              |
-| -R                   | Record and print route of how ECHO_REQUEST sent and ECHO_REPLY received                                    |
+| -R                   | Record and print route of how ECHO\_REQUEST sent and ECHO\_REPLY received                                  |
 | -a                   | Audible ping: Give beep when the peer is reachable                                                         |
 
 ## ping6
 
-Regular ping command only works with IPv4 address. Use ping6 command to send ICMPv6 ECHO_REQUEST packets to network hosts from a host or gateway. Try to set IPv6 gateway and test:
+Regular ping command only works with IPv4 address. Use ping6 command to send ICMPv6 ECHO\_REQUEST packets to network hosts from a host or gateway. Try to set IPv6 gateway and test:
 
 ```
 ping6 ipv6.google.com
@@ -534,12 +534,12 @@ Ping scanning is unlike the other scan techniques because it is only used to fin
 
 * **Version Detection (-sV)**
 
-Version detection is the right technique that is used to find out what software version is running on the target computer and on the respective ports. It is unlike the other scanning techniques because it is not used to detect the open ports, but it requires the information from open ports to detect the software version. In the first step of this scan technique, version detection uses the TCP SYN scan to find out which ports are open.** **`nmap -sV 192.168.10.151`
+Version detection is the right technique that is used to find out what software version is running on the target computer and on the respective ports. It is unlike the other scanning techniques because it is not used to detect the open ports, but it requires the information from open ports to detect the software version. In the first step of this scan technique, version detection uses the TCP SYN scan to find out which ports are open. **** `nmap -sV 192.168.10.151`
 
 * **Idle Scan (-sI)**
 
-Idle scan is one of my favorite techniques, and it is an advance scan that provides complete anonymity while scanning. In idle scan, Nmap doesn’t send the packets from your real IP address—instead of generating the packets from the attacker machine, Nmap uses another host from the target network to send the packets. ex:** **`nmap -sI 192.168.1.6 192.168.1.1`
+Idle scan is one of my favorite techniques, and it is an advance scan that provides complete anonymity while scanning. In idle scan, Nmap doesn’t send the packets from your real IP address—instead of generating the packets from the attacker machine, Nmap uses another host from the target network to send the packets. ex: **** `nmap -sI 192.168.1.6 192.168.1.1`
 
-The idle scan technique (as mentioned above) is used to discover the open ports on 192.168.1.1 while it uses the zombie_host (192.168.1.6) to communicate with the target host. So this is an ideal technique to scan a target computer anonymously.
+The idle scan technique (as mentioned above) is used to discover the open ports on 192.168.1.1 while it uses the zombie\_host (192.168.1.6) to communicate with the target host. So this is an ideal technique to scan a target computer anonymously.
 
 There are many other scanning techniques are available like FTP bounce, fragmentation scan, ... but that is enough for LPIC exam.

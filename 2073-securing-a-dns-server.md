@@ -530,7 +530,7 @@ Trusting a large number of CAs might be a problem because any breached CA could 
 
 Additionally DANE allows a domain owner to specify which CA is allowed to issue certificates for a particular resource, which solves the problem of any CA being able to issue certificates for any domain.
 
-#### **TLSA **Resource **Record**
+#### **TLSA** Resource **Record**
 
 The TLSA DNS resource record (RR) is used to associate a TLS server certificate or public key with the domain name where the record is found, thus forming a "TLSA certificate association". In conjunction with DNSSEC signatures, this will permit better and more secure ways for applications to authenticate certificates. Here's an example for the HTTPS service (port 443, TCP) at www.example.com:
 

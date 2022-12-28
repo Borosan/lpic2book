@@ -2,9 +2,9 @@
 
 ## **208.4 Implementing Nginx as a web server and a reverse proxy**
 
-**Weight: **2
+**Weight:** 2
 
-**Description: **Candidates should be able to install and configure a reverse proxy server, Nginx. Basic configuration of Nginx as a HTTP server is included.
+**Description:** Candidates should be able to install and configure a reverse proxy server, Nginx. Basic configuration of Nginx as a HTTP server is included.
 
 **Key Knowledge Areas:**
 
@@ -19,7 +19,7 @@
 
 ### Whats is nginx ?![](.gitbook/assets/nginx-logo.png)
 
-** NGINX ** (short for**Engine X**) is a free, open-source and powerful HTTP web server and reverse proxy with an event-driven (asynchronous) architecture. It is written using ** C ** programming language and runs on Unix-like operating systems as well as Windows OS.
+&#x20;**NGINX** (short for**Engine X**) is a free, open-source and powerful HTTP web server and reverse proxy with an event-driven (asynchronous) architecture. It is written using **C** programming language and runs on Unix-like operating systems as well as Windows OS.
 
 It also works as a reverse proxy, standard mail and TCP/UDP proxy server, and can additionally be configured as a load balancer. It is powering many sites on the web. well known for its high-performance, stability and feature-rich set.
 
@@ -291,12 +291,12 @@ Configuration options in NGINX are called directives. Directives are organized i
 
 Lines preceded by a # character are comments and not interpreted by NGINX. Lines containing directives must end with a ; or NGINX will fail to load the configuration and report an error.
 
-The file starts with 5 irectives:`user`,`worker_processes`,`error_log`, and`pid`. These are outside any specific block or context, so they’re said to exist in the`main`context. See [the NGINX docs](https://nginx.org/en/docs/ngx_core_module.html) for explanations of these directives and others available in the `main`context.
+The file starts with 5 irectives:`user`,`worker_processes`,`error_log`, and`pid`. These are outside any specific block or context, so they’re said to exist in the`main`context. See [the NGINX docs](https://nginx.org/en/docs/ngx\_core\_module.html) for explanations of these directives and others available in the `main`context.
 
 The`events`and`http`blocks are areas for additional directives, and they also exist in the`main`context.
 
-* **The http Block :**The http block contains directives for handling web traffic. These directives are often referred to as universal because they are passed on to to all website configurations NGINX serves.See [the NGINX docs](https://nginx.org/en/docs/ngx_core_module.html) for a list of available directives for the http block.
-* **Server Blocks : **The`http`block above contains an`include`directive which tells NGINX where website Configuration files are located.
+* **The http Block :**The http block contains directives for handling web traffic. These directives are often referred to as universal because they are passed on to to all website configurations NGINX serves.See [the NGINX docs](https://nginx.org/en/docs/ngx\_core\_module.html) for a list of available directives for the http block.
+* **Server Blocks :** The`http`block above contains an`include`directive which tells NGINX where website Configuration files are located.
 
 If we installed from the official NGINX repository, or RedHat, this line will say`include /etc/nginx/conf.d/*.conf;`as it does in the`http`block above. Each website we host with NGINX should have its own configuration file in`etc/nginx/conf.d/`, with the name formatted as`example.com.conf`. Sites which are disabled (not being served by NGINX) should be named `xample.com.conf.disabled`.
 
@@ -404,8 +404,8 @@ server {
 
 Regardless of the installation source, server configuration files will contain as`server`block (or blocks) for a website.
 
-* **Listening ports : **The `listen`directive tells NGINX the hostname/IP and the TCP port where it should listen for HTTP connections. The argument `default_server` means this virtual host will answer requests on port 80 that don’t specifically match another virtual host’s listen statement. The second statement listens over IPv6 and behaves similarly.
-* **Name-based virtual Hosting : **The `server_name` directive allows multiple domains to be served from a single IP address. The server decides which domain to serve based on the request header it receives.
+* **Listening ports :** The `listen`directive tells NGINX the hostname/IP and the TCP port where it should listen for HTTP connections. The argument `default_server` means this virtual host will answer requests on port 80 that don’t specifically match another virtual host’s listen statement. The second statement listens over IPv6 and behaves similarly.
+* **Name-based virtual Hosting :** The `server_name` directive allows multiple domains to be served from a single IP address. The server decides which domain to serve based on the request header it receives.
 
 ```
      #examples: 
@@ -422,7 +422,7 @@ NGINX allows us to specify server names that are not valid domain names. NGINX u
 
 Using non-domain hostnames is useful if our server is on a LAN, or if we already know all of the clients that will be making requests of the server.
 
-* **Location Blocks : **The `location`setting lets we configure how NGINX will respond to requests for resources within the server. Just like the `server_name`directive tells NGINX how to process requests for the domain, `location`directives cover requests for specific files and folders, such as `http://example.com/blog/`.  `location`also supports regular expressions:
+* **Location Blocks :** The `location`setting lets we configure how NGINX will respond to requests for resources within the server. Just like the `server_name`directive tells NGINX how to process requests for the domain, `location`directives cover requests for specific files and folders, such as `http://example.com/blog/`.  `location`also supports regular expressions:
 
 ```
     ~* : matches to be case-insensitive
@@ -430,7 +430,7 @@ Using non-domain hostnames is useful if our server is on a LAN, or if we already
     =  : this forces an exact match with the path requested and then stops searching for more specific matches.
 ```
 
-*   **Location Root and Index: **The`location`setting is another variable that has its own block of arguments.
+*   **Location Root and Index:** The`location`setting is another variable that has its own block of arguments.
 
     Once NGINX has determined which`location`directive best matches a given request, the response to this request is determined by the contents of the associated`location`directive block. Here’s an example:
 

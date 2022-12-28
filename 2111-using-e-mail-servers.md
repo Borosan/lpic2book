@@ -38,14 +38,14 @@ Email is based around the use of electronic mailboxes. When an email is sent, th
 
 3.The message is sent to the mail server tasked with transporting emails (called the MTA, for Mail Transport Agent) to the recipient's MTA. On the Internet, MTAs communicate with one another using the protocol SMTP, and so are logically called SMTP servers (or sometimes outgoing mail servers).
 
-* **SMTP ** (Simple Mail Transfer Protocol). It is a protocol that really defines how e-mail is transfered and saved and is a part of the TCP/IP application layer as well as settings rules that e-mail applications follow.
+* **SMTP** (Simple Mail Transfer Protocol). It is a protocol that really defines how e-mail is transfered and saved and is a part of the TCP/IP application layer as well as settings rules that e-mail applications follow.
 
 4.The recipient's MTA then delivers the email to the incoming mail server (called the MDA, for Mail Delivery Agent), which stores the email as it waits for the user to accept it.(Sometimes MTA can also function as an MDA)But often (procmail for example) , They are independent applications that can also filter mail(like spam).
 
 There are two main protocols used for retrieving email on an MDA:
 
-* **POP3 **(Post Office Protocol), which is used by MUAs, for retrieving email and, in certain cases, leaving a copy of it on the server.
-*   **IMAP **(Internet Message Access Protocol), which is used by MUAs,for coordinating the status of emails (read, deleted, moved) across multiple email clients. With IMAP, a copy of every message is saved on the server, so that this synchronization task can be completed.
+* **POP3** (Post Office Protocol), which is used by MUAs, for retrieving email and, in certain cases, leaving a copy of it on the server.
+*   **IMAP** (Internet Message Access Protocol), which is used by MUAs,for coordinating the status of emails (read, deleted, moved) across multiple email clients. With IMAP, a copy of every message is saved on the server, so that this synchronization task can be completed.
 
     Both of those can be secured with TLS or SSL Certificates, so it is encrypted at some levels between the server and end user client (MUA).
 
@@ -920,7 +920,7 @@ disable_vrfy_command = no
 # The default value is "no", no changes was necessary
 ```
 
-inet_interfaces it determines what interfaces on our server that the postfix process will listen for connections on. by default it is set for "only local host"
+inet\_interfaces it determines what interfaces on our server that the postfix process will listen for connections on. by default it is set for "only local host"
 
 But for configuring an internl mail server which provides connectivity for other clients, or if we are going to offer connectivity for internal and external clients, we should set it to "all":
 
@@ -1289,7 +1289,7 @@ decode:        root
 user3:    root
 ```
 
-Each line of /etc/aliases has the format of alias: user. Two system aliases must always be present: mailer_daemon: postmaster and postmaster: root. We can use aliases for all kind of daemons, for example use ntp: root. Now we can add a line to redirect all mail to root to a specific user or group of administrators, for example user3: root. So although we dont have any "user3" in our system, but if an e-mail is sent to user3 it would not be rejected.
+Each line of /etc/aliases has the format of alias: user. Two system aliases must always be present: mailer\_daemon: postmaster and postmaster: root. We can use aliases for all kind of daemons, for example use ntp: root. Now we can add a line to redirect all mail to root to a specific user or group of administrators, for example user3: root. So although we dont have any "user3" in our system, but if an e-mail is sent to user3 it would not be rejected.
 
 ### newaliases
 
@@ -1381,7 +1381,7 @@ Like aliases we would need to convert it to binary files using postmap command:
 [root@localhost ~]# postmap /etc/postfix/virtual
 ```
 
-Next we need to set _ _`aliasvirtualmaps` in main.cf configuration file:
+Next we need to set __ `aliasvirtualmaps` in main.cf configuration file:
 
 ```
   ### if have plan to use virtual feature add:

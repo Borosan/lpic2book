@@ -4,7 +4,7 @@
 
 **Weight:** 2
 
-**Description: **Candidates should be able to configure an FTP server for anonymous downloads and uploads. This objective includes precautions to be taken if anonymous uploads are permitted and configuring user access.
+**Description:** Candidates should be able to configure an FTP server for anonymous downloads and uploads. This objective includes precautions to be taken if anonymous uploads are permitted and configuring user access.
 
 **Key Knowledge Areas:**
 
@@ -34,7 +34,7 @@ Data is transferred across a separate data channel, but this port varies dependa
 * Active mode
 * Passive mode (PASV)
 
-**Active Mode : **In active mode FTP the client connects from a random unprivileged port (N > 1023) to the FTP server's command port, port 21. Then, the client starts listening to port N+1 and sends the FTP command`PORT N+1`to the FTP server. The server will then connect back to the client's specified data port from its local data port, which is port 20. This can cause problems if you are behind a firewall / NAT router!
+**Active Mode :** In active mode FTP the client connects from a random unprivileged port (N > 1023) to the FTP server's command port, port 21. Then, the client starts listening to port N+1 and sends the FTP command`PORT N+1`to the FTP server. The server will then connect back to the client's specified data port from its local data port, which is port 20. This can cause problems if you are behind a firewall / NAT router!
 
 ![](.gitbook/assets/ftp-active.gif)
 
@@ -45,7 +45,7 @@ From the server-side firewall's standpoint, to support active mode FTP the follo
 * FTP server's port 20 to ports > 1023 (Server initiates data connection to client's data port)
 * FTP server's port 20 from ports > 1023 (Client sends ACKs to server's data port)
 
-**Passive FTP : **In order to resolve the issue of the server initiating the connection to the client a different method for FTP connections was developed. This was known as passive mode, or PASV, after the command used by the client to tell the server it is in passive mode.
+**Passive FTP :** In order to resolve the issue of the server initiating the connection to the client a different method for FTP connections was developed. This was known as passive mode, or PASV, after the command used by the client to tell the server it is in passive mode.
 
 In passive mode FTP the client initiates both connections to the server, solving the problem of firewalls filtering the incoming data port connection to the client from the server. When opening an FTP connection, the client opens two random unprivileged ports locally (N > 1023 and N+1). The first port contacts the server on port 21, but instead of then issuing a PORT command and allowing the server to connect back to its data port, the client will issue the PASV command. The result of this is that the server then opens a random unprivileged port (P > 1023) and sends P back to the client in response to the PASV command. The client then initiates the connection from port N+1 to port P on the server to transfer data.
 
@@ -117,7 +117,7 @@ total 20
 -rwxr--r--. 1 root root  338 Aug  3  2017 vsftpd_conf_migrate.sh
 ```
 
-* /etc/vsftpd/user_list — This file can be configured to either deny or allow access to the users listed, depending on whether the userlist_deny directive is set to YES (default) or NO in /etc/vsftpd/vsftpd.conf. If /etc/vsftpd.user_list is used to grant access to users, the usernames listed must not appear in /etc/vsftpd/ftpusers.
+* /etc/vsftpd/user\_list — This file can be configured to either deny or allow access to the users listed, depending on whether the userlist\_deny directive is set to YES (default) or NO in /etc/vsftpd/vsftpd.conf. If /etc/vsftpd.user\_list is used to grant access to users, the usernames listed must not appear in /etc/vsftpd/ftpusers.
 
 ```
 [root@centos7-1 vsftpd]# cat user_list
@@ -317,37 +317,37 @@ tcp_wrappers=YES
 
 The most important ones are:
 
-**anonymous_enable **— When enabled, anonymous users are allowed to log in. The usernames anonymous and ftp are accepted.The default value is YES.
+**anonymous\_enable** — When enabled, anonymous users are allowed to log in. The usernames anonymous and ftp are accepted.The default value is YES.
 
-**anon_upload_enable** — When enabled in conjunction with the write_enable directive, anonymous users are allowed to upload files within a parent directory which has write permissions.The default value is NO.
+**anon\_upload\_enable** — When enabled in conjunction with the write\_enable directive, anonymous users are allowed to upload files within a parent directory which has write permissions.The default value is NO.
 
-**local_enable **— When enabled, local users are allowed to log into the system. The default value is YES.
+**local\_enable** — When enabled, local users are allowed to log into the system. The default value is YES.
 
-**write_enable** — When enabled, FTP commands which can change the file system are allowed, such as DELE, RNFR, and STOR. The default value is YES.
+**write\_enable** — When enabled, FTP commands which can change the file system are allowed, such as DELE, RNFR, and STOR. The default value is YES.
 
-**local_umask **— Specifies the umask value for file creation. Note that the default value is in octal form (a numerical system with a base of eight), which includes a "0" prefix. Otherwise the value is treated as a base-10 integer.
+**local\_umask** — Specifies the umask value for file creation. Note that the default value is in octal form (a numerical system with a base of eight), which includes a "0" prefix. Otherwise the value is treated as a base-10 integer.
 
-**anon_mkdir_write_enable **— When enabled in conjunction with the write_enable directive, anonymous users are allowed to create new directories within a parent directory which has write permissions.
+**anon\_mkdir\_write\_enable** — When enabled in conjunction with the write\_enable directive, anonymous users are allowed to create new directories within a parent directory which has write permissions.
 
-**dirmessage_enable **— When enabled, a message is displayed whenever a user enters a directory with a message file. This message resides within the current directory. The name of this file is specified in the message_file directive and is .message by default.
+**dirmessage\_enable** — When enabled, a message is displayed whenever a user enters a directory with a message file. This message resides within the current directory. The name of this file is specified in the message\_file directive and is .message by default.
 
-**connect_from_port\_20** — When enabled, vsftpd runs with enough privileges to open port 20 on the server during active mode data transfers. Disabling this option allows vsftpd to run with less privileges, but may be incompatible with some FTP clients.
+**connect\_from\_port\_20** — When enabled, vsftpd runs with enough privileges to open port 20 on the server during active mode data transfers. Disabling this option allows vsftpd to run with less privileges, but may be incompatible with some FTP clients.
 
-**pam_service_name** — Specifies the PAM service name for vsftpd.The default value is ftp. Note, in Fedora, the value is set to vsftpd.The default value is NO. Note, in Fedora, the value is set to YES.
+**pam\_service\_name** — Specifies the PAM service name for vsftpd.The default value is ftp. Note, in Fedora, the value is set to vsftpd.The default value is NO. Note, in Fedora, the value is set to YES.
 
-**userlist_enable** — When enabled, the users listed in the file specified by the userlist_file directive are denied access. Because access is denied before the client is asked for a password, users are prevented from submitting unencrypted passwords over the network.
+**userlist\_enable** — When enabled, the users listed in the file specified by the userlist\_file directive are denied access. Because access is denied before the client is asked for a password, users are prevented from submitting unencrypted passwords over the network.
 
-**ftpd_banner **— When enabled, the string specified within this directive is displayed when a connection is established to the server. This option can be overridden by the banner_file directive.By default vsftpd displays its standard banner.
+**ftpd\_banner** — When enabled, the string specified within this directive is displayed when a connection is established to the server. This option can be overridden by the banner\_file directive.By default vsftpd displays its standard banner.
 
-**banner_file** — Specifies the file containing text displayed when a connection is established to the server. This option overrides any text specified in the ftpd_banner directive.
+**banner\_file** — Specifies the file containing text displayed when a connection is established to the server. This option overrides any text specified in the ftpd\_banner directive.
 
-**anon_max_rate** — Specifies the maximum data transfer rate for anonymous users in bytes per second.The default value is 0, which does not limit the transfer rate.
+**anon\_max\_rate** — Specifies the maximum data transfer rate for anonymous users in bytes per second.The default value is 0, which does not limit the transfer rate.
 
-**tcp_wrappers** — If enabled, and vsftpd was compiled with tcp_wrappers support, incoming connections will be fed through tcp_wrappers access control. Furthermore, there is a mechanism for per-IP based configuration. If tcp_wrappers sets the VSFTPD_LOAD_CONF environment variable, then the vsftpd session will try and load the vsftpd configuration file specified in this variable. the Default is set to YES.
+**tcp\_wrappers** — If enabled, and vsftpd was compiled with tcp\_wrappers support, incoming connections will be fed through tcp\_wrappers access control. Furthermore, there is a mechanism for per-IP based configuration. If tcp\_wrappers sets the VSFTPD\_LOAD\_CONF environment variable, then the vsftpd session will try and load the vsftpd configuration file specified in this variable. the Default is set to YES.
 
-**local_root** — Specifies the directory vsftpd changes to after a local user logs in.There is no default value for this directive.
+**local\_root** — Specifies the directory vsftpd changes to after a local user logs in.There is no default value for this directive.
 
-**anon_root** — Specifies the directory vsftpd changes to after an anonymous user logs in. There is no default value for this directive. 
+**anon\_root** — Specifies the directory vsftpd changes to after an anonymous user logs in. There is no default value for this directive.&#x20;
 
 ### ftp client commands
 

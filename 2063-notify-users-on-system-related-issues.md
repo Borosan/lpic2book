@@ -4,7 +4,7 @@
 
 **Weight:** 1
 
-**Description: **Candidates should be able to notify the users about current issues related to the system.
+**Description:** Candidates should be able to notify the users about current issues related to the system.
 
 **Key Knowledge Areas:**
 

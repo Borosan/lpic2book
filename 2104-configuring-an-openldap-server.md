@@ -1,6 +1,6 @@
 # 210.4. Configuring an OpenLDAP server
 
-**Weight: **4
+**Weight:** 4
 
 **Description:** Candidates should be able to configure a basic OpenLDAP server including knowledge of LDIF format and essential access controls.
 
@@ -30,7 +30,7 @@ We begin this course by talking about basics of LDAP. What is LDAP? Where it is 
 
 ### LDAP
 
-LDAP is not a program, that is a protocol. LDAP stands for ** Lightweight Directory Access Protocol ** and consists in a set of protocols that allows a client to access centrally stored information (over a network). It can be used in numerous ways such as for authentication, shared directory (for mail clients), address book, etc. As LDAP different usages, it can store any kind of information.
+LDAP is not a program, that is a protocol. LDAP stands for **Lightweight Directory Access Protocol** and consists in a set of protocols that allows a client to access centrally stored information (over a network). It can be used in numerous ways such as for authentication, shared directory (for mail clients), address book, etc. As LDAP different usages, it can store any kind of information.
 
 The standard TCP ports for LDAP are 389 for unencrypted communication and 636 for LDAP over a TLS-encrypted channel, although it’s not uncommon for LDAP servers to listen on alternate ports for a variety of reasons.
 
@@ -54,17 +54,17 @@ There are some defination which we are expected to know about before start worki
 
 **Schema:** This is the structure that is built to define the characteristics (or attributes) of an object. It also defines what can be stored in each attributes.
 
-**Attribute: **This is a part of an object. One or more attributes make up an object, as defined by schema.
+**Attribute:** This is a part of an object. One or more attributes make up an object, as defined by schema.
 
 **LDIF:** Stands for LDAP Interchange Format. It is used to create objects within the LDAP directory. These values are placed into a file and can be loaded into a directory with the slapadd command.
 
-**DC: **Stands for **Domain Component**. And that is one of the domain that is reflected in hierarchy.
+**DC:** Stands for **Domain Component**. And that is one of the domain that is reflected in hierarchy.
 
-**OU:** Stands for** Organizational Unit**.
+**OU:** Stands for **Organizational Unit**.
 
 **CN:** Stands for **Common Name** and is the name of object(often a username, but not always)
 
-**DN:** Stands for** Distinguished Name**. Each object in our directory has to have a unique name in order to provide structure. It is build with a CN and one or more DC (example: cn=user,dc=abc,dc=com)
+**DN:** Stands for **Distinguished Name**. Each object in our directory has to have a unique name in order to provide structure. It is build with a CN and one or more DC (example: cn=user,dc=abc,dc=com)
 
 #### SSSD
 
@@ -186,8 +186,8 @@ SASL_NOCANON    on
 
 Where
 
-* SIZELIMIT \<integer> : Specifies a size limit (number of entries)  to  use  when performing searches.  
-* TIMELIMIT \<integer> : Specifies   a   time  limit  (in  seconds)  to  use  when performing searches.  
+* SIZELIMIT \<integer> : Specifies a size limit (number of entries)  to  use  when performing searches. &#x20;
+* TIMELIMIT \<integer> : Specifies   a   time  limit  (in  seconds)  to  use  when performing searches. &#x20;
 
 By default ldap.conf is world readable and there are no special setting to edit and it is not a part of exam objective.
 
@@ -1033,7 +1033,7 @@ Note that BDB is deprecated and support will be dropped in future OpenLDAP relea
 
 hdb is a variant of the bdb backend that uses a hierarchical database layout which supports subtree renames. It is both more space-efficient and more execution-efficient than the bdb backend. It is otherwise identical to the bdb behavior, and all the same configuration options apply.
 
-Please notice that these options are intended to complement Berkeley DB configuration options set in the environment's DB_CONFIG file. See Berkeley DB documentation for details on DB_CONFIG configuration options. Where there is overlap, settings in DB_CONFIG take precedence.
+Please notice that these options are intended to complement Berkeley DB configuration options set in the environment's DB\_CONFIG file. See Berkeley DB documentation for details on DB\_CONFIG configuration options. Where there is overlap, settings in DB\_CONFIG take precedence.
 
 ### slapindex
 
@@ -1055,7 +1055,7 @@ bdb_db_open: Warning - No DB_CONFIG file found in directory /var/lib/ldap: (2)
 Expect poor performance for suffix dc=example,dc=com.
 ```
 
-As you can see it nags about not founding DB_CONFIG file. Fortunately there is Example DB_CONFIG file for use in conjunction with slapd databases.We can simply copy this file to your LDAP directory's base directory.
+As you can see it nags about not founding DB\_CONFIG file. Fortunately there is Example DB\_CONFIG file for use in conjunction with slapd databases.We can simply copy this file to your LDAP directory's base directory.
 
 ```
 [root@centos5-1 openldap]# locate DB_CONFIG

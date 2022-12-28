@@ -37,7 +37,7 @@ There are some embeded security tool, some of them are free and some others cost
 
 * nmap
 * nc
-* telnet 
+* telnet&#x20;
 * iptables
 * fail2ban
 * snort
@@ -692,9 +692,9 @@ What is difference?
 
 **Firewall**- A device or application that analyzes packet headers and enforces policy based on protocol type, source address, destination address, source port, and/or destination port. Packets that do not match policy are rejected.
 
-**Intrusion Detection System ** **(IDS)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected a log message is generated detailing the event.
+**Intrusion Detection System** **(IDS)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected a log message is generated detailing the event.
 
-**Intrusion Prevention System ** **(IPS)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected the packet is rejected.
+**Intrusion Prevention System** **(IPS)**- A device or application that analyzes whole packets, both header and payload, looking for known events. When a known event is detected the packet is rejected.
 
 Now lets talk about some other security tools, openVAS and snort:
 

@@ -11,7 +11,7 @@
 * Apache 2.4 configuration files, terms and utilities
 * Apache log files configuration and content
 * Access restriction methods and files
-* mod_perl and PHP configuration
+* mod\_perl and PHP configuration
 * Client user authentication files and utilities
 * Configuration of maximum requests, minimum and maximum servers and clients
 * Apache 2.4 virtual host implementation (with and without dedicated IP addresses)
@@ -22,7 +22,7 @@
 * access logs and error logs
 * .htaccess
 * httpd.conf
-* mod_auth_basic, mod_authz_host and mod_access_compat
+* mod\_auth\_basic, mod\_authz\_host and mod\_access\_compat
 * htpasswd
 * AuthUserFile, AuthGroupFile
 * apachectl, apache2ctl
@@ -1345,15 +1345,15 @@ Apache offers three different MPMs to choose from, depending on our needs (Begin
 * **worker**
 * **event**
 
-The **prefork **MPM uses multiple child processes without threading. Each process handles one connection at a time without creating separate threads for each. Without going into too much detail, we can say that you will want to use this MPM only when debugging an application that uses, or if our application needs to deal with, non-thread-safe modules like _**mod_php**_.
+The **prefork** MPM uses multiple child processes without threading. Each process handles one connection at a time without creating separate threads for each. Without going into too much detail, we can say that you will want to use this MPM only when debugging an application that uses, or if our application needs to deal with, non-thread-safe modules like _**mod\_php**_.
 
 ![](.gitbook/assets/apache-preforkmodel.png)
 
-The **worker **MPM uses several threads per child processes, where each thread handles one connection at a time. This is a good choice for high-traffic servers as it allows more concurrent connections to be handled with less RAM than in the previous case.
+The **worker** MPM uses several threads per child processes, where each thread handles one connection at a time. This is a good choice for high-traffic servers as it allows more concurrent connections to be handled with less RAM than in the previous case.
 
 ![](.gitbook/assets/apache-apacheworker.png)
 
-Finally, the **event** MPM is the default MPM in most Apache installations for versions 2.4 and above. It is similar to the worker MPM in that it also creates multiple threads per child process but with an advantage: it causes KeepAlive or idle connections (while they remain in that state) to be handled by a single thread, thus freeing up memory that can be allocated to other threads. This MPM is not suitable for use with non-thread-safe modules like mod_php, for which a replacement such a PHP-FPM must be used instead.
+Finally, the **event** MPM is the default MPM in most Apache installations for versions 2.4 and above. It is similar to the worker MPM in that it also creates multiple threads per child process but with an advantage: it causes KeepAlive or idle connections (while they remain in that state) to be handled by a single thread, thus freeing up memory that can be allocated to other threads. This MPM is not suitable for use with non-thread-safe modules like mod\_php, for which a replacement such a PHP-FPM must be used instead.
 
 To check the MPM used by our Apache installation use httpd -V (CentOS):
 
@@ -1391,7 +1391,7 @@ lrwxrwxrwx 1 root root 34 Apr 29 22:48 mpm_prefork.conf -> ../mods-available/mpm
 lrwxrwxrwx 1 root root 34 Apr 29 22:48 mpm_prefork.load -> ../mods-available/mpm_prefork.load
 ```
 
-as we have installed php module, apache server load prefork mpm. lets take alook at mpm_prefork.conf file:
+as we have installed php module, apache server load prefork mpm. lets take alook at mpm\_prefork.conf file:
 
 ```
 root@server1:/etc/apache2/mods-enabled# cat mpm_prefork.conf 
@@ -1614,11 +1614,11 @@ Redirects are used whenever a site needs people requesting one address to be dir
 
 ### How to Redirect in Apache
 
-Apache can redirect using a few different tools. The simplest ways are accomplished with tools from the "mod_alias" module, but more extensive redirects can be created with "mod_rewrite".
+Apache can redirect using a few different tools. The simplest ways are accomplished with tools from the "mod\_alias" module, but more extensive redirects can be created with "mod\_rewrite".
 
 * **Using the Redirect Directive**
 
-In Apache, we can accomplish simple, single-page redirects using the "Redirect" directive, which is included in the "mod_alias" module. This directive takes at least two arguments: the old URL and the new URL.
+In Apache, we can accomplish simple, single-page redirects using the "Redirect" directive, which is included in the "mod\_alias" module. This directive takes at least two arguments: the old URL and the new URL.
 
 In its simplest form it would be like this:
 
@@ -1653,9 +1653,9 @@ RedirectMatch ^/images/(.*)$ http://images.example.com/$1
 
 RedirectMatch matches patterns in parenthesis and then references the matched text in the redirect using "$1", where 1 is the first group of text. Subsequent groups are given numbers sequentially.
 
-* **Using mod_rewrite to Redirect**
+* **Using mod\_rewrite to Redirect**
 
-The most flexible, but complicated way to create redirect rules is with the module called "mod_rewrite". This is outside of the scope of this article , but you can learn it from [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-mod_rewrite).
+The most flexible, but complicated way to create redirect rules is with the module called "mod\_rewrite". This is outside of the scope of this article , but you can learn it from [here](https://www.digitalocean.com/community/tutorials/how-to-set-up-mod\_rewrite).
 
 ## Apache Virtual Hosting
 

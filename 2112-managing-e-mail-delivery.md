@@ -4,7 +4,7 @@
 
 **Weight:** 2
 
-**Description: **Candidates should be able to implement client e-mail management software to filter, sort and monitor incoming user e-mail.
+**Description:** Candidates should be able to implement client e-mail management software to filter, sort and monitor incoming user e-mail.
 
 **Key Knowledge Areas:**
 
@@ -218,7 +218,7 @@ Procmail recipes take the following form:
         action-to-perform
 ```
 
-The first two characters in a Procmail recipe are a colon and a zero. Various flags can be placed after the zero to control how Procmail processes the recipe. A colon after the `flags`_\_section specifies that a lockfile is created for this message. If a lockfile is created, the name can be specified by replacing _`lockfile-name`\_ .
+The first two characters in a Procmail recipe are a colon and a zero. Various flags can be placed after the zero to control how Procmail processes the recipe. A colon after the `flags`_\_section specifies that a lockfile is created for this message. If a lockfile is created, the name can be specified by replacing_ `lockfile-name`\_ .
 
 A recipe can contain several conditions to match against the message. If it has no conditions, every message matches the recipe. Regular expressions are placed in some conditions to facilitate message matching. If multiple conditions are used, they must all match for the action to be performed. Conditions are checked based on the flags set in the recipe's first line. Optional special characters placed after the asterisk character ( `*`) can further control the condition.
 

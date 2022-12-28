@@ -2,9 +2,9 @@
 
 ## **201.2 Compiling a kernel**
 
-## **Weight: **3
+## **Weight:** 3
 
-**Description: **Candidates should be able to properly configure a kernel to include or disable specific features of the Linux kernel as necessary. This objective includes compiling and recompiling the Linux kernel as needed, updating and noting changes in a new kernel, creating an initrd image and installing new kernels.
+**Description:** Candidates should be able to properly configure a kernel to include or disable specific features of the Linux kernel as necessary. This objective includes compiling and recompiling the Linux kernel as needed, updating and noting changes in a new kernel, creating an initrd image and installing new kernels.
 
 **Key Knowledge Areas:**
 
@@ -24,7 +24,7 @@
 * mkinitrd
 * mkinitramfs
 * make
-* make targets (all, config, xconfig, menuconfig, gconfig, oldconfig, mrproper, zImage, bzImage, modules, modules_install, rpm-pkg, binrpm-pkg, deb-pkg)
+* make targets (all, config, xconfig, menuconfig, gconfig, oldconfig, mrproper, zImage, bzImage, modules, modules\_install, rpm-pkg, binrpm-pkg, deb-pkg)
 * gzip
 * bzip2
 * module tools
@@ -491,7 +491,7 @@ Modules need to be compiled too, so do the same thing for them:
   LD [M]  virt/lib/irqbypass.ko
 ```
 
-### make modules_install
+### make modules\_install
 
 Now that every thing is prepared, its time to put all part to the their right places, First let put compiled modules to /lib/modules/
 

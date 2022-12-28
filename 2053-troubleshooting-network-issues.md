@@ -2,9 +2,9 @@
 
 ## **205.3 Troubleshooting Network Issues**
 
-**Weight: **4
+**Weight:** 4
 
-**Description: **Candidates should be able to identify and correct common network setup issues, to include knowledge of locations for basic configuration files and commands.
+**Description:** Candidates should be able to identify and correct common network setup issues, to include knowledge of locations for basic configuration files and commands.
 
 **Key Knowledge Areas:**
 

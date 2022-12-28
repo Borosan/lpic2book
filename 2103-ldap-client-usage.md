@@ -21,7 +21,7 @@ This course is about LDAP Client utilities and their usage. Obviously we need an
 
 ## We recommend you to study 210.4 course before start reading this course :-o
 
-** note**:LDAP client utilities usage might be different based on OpenLDAP server versions. To get the best results and covering LPIC2 exam objectives, we have used OpenLDAP v2.3.x on CentOS 5 in this course.
+&#x20;**note**:LDAP client utilities usage might be different based on OpenLDAP server versions. To get the best results and covering LPIC2 exam objectives, we have used OpenLDAP v2.3.x on CentOS 5 in this course.
 
 ## ldapsearch
 
